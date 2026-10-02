@@ -1,0 +1,525 @@
+{
+  "version": "1.0",
+  "project": "",
+  "branch": "pre-dev",
+  "rules": {
+    "structureEditableBy": "editor",
+    "enforcedAssignment": false
+  },
+  "roles": [
+    "LLM Security Engineer",
+    "Lead AI Developer",
+    "Security Architect",
+    "Penetration Tester",
+    "Compliance Reviewer"
+  ],
+  "users": [],
+  "fields": [
+    {
+      "id": "level",
+      "label": "LLMSVS Level",
+      "type": "select",
+      "options": [
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "editableBy": "editor",
+      "visibleTo": "observer"
+    },
+    {
+      "id": "verification_method",
+      "label": "Verification Method",
+      "type": "select",
+      "options": [
+        "Adversarial Prompting",
+        "Automated SAST/DAST",
+        "Manual Code Review",
+        "Configuration Audit",
+        "Differential Privacy Analysis"
+      ],
+      "requiredWhen": [
+        "pass",
+        "fail"
+      ],
+      "editableBy": "contributor",
+      "visibleTo": "observer"
+    },
+    {
+      "id": "evidence_url",
+      "label": "Evidence / PR / Benchmark Link",
+      "type": "url",
+      "requiredWhen": [
+        "pass",
+        "fail"
+      ],
+      "editableBy": "contributor",
+      "visibleTo": "observer"
+    },
+    {
+      "id": "finding_notes",
+      "label": "Assessment & Finding Notes",
+      "type": "textarea",
+      "requiredWhen": [
+        "pass",
+        "fail"
+      ],
+      "editableBy": "contributor",
+      "visibleTo": "observer",
+      "maxLength": 1000
+    },
+    {
+      "id": "disposition",
+      "label": "Disposition / Exception",
+      "type": "select",
+      "options": [
+        "Compliant",
+        "Non-Compliant",
+        "Compensating Control",
+        "Accepted Risk",
+        "Not Applicable"
+      ],
+      "requiredWhen": [
+        "na"
+      ],
+      "editableBy": "reviewer",
+      "visibleTo": "observer"
+    }
+  ],
+  "items": [
+    {
+      "id": "LLMSVS-V1.1",
+      "category": "V1: Architecture & Model Lifecycle",
+      "description": "Verify threat modeling has been performed covering LLM trust boundaries, prompt injection vectors, training data ingestion, and fine-tuning pipelines.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Architect"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V1.2",
+      "category": "V1: Architecture & Model Lifecycle",
+      "description": "Verify base model provenance, SHA-256 weight hash verification, and model card documentation for all self-hosted or open-weight models.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V1.3",
+      "category": "V1: Architecture & Model Lifecycle",
+      "description": "Verify an inventory (SBOM) of all AI libraries (tokenizers, transformers, vector DB clients, LangChain/LlamaIndex) is actively scanned for CVEs.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V1.4",
+      "category": "V1: Architecture & Model Lifecycle",
+      "description": "Verify network and compute isolation separating model training and fine-tuning pipelines from runtime production inference nodes.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Architect"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V1.5",
+      "category": "V1: Architecture & Model Lifecycle",
+      "description": "Verify regular adversarial red-teaming against jailbreaks, prompt injection, and extraction attacks prior to each production model release.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Penetration Tester"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V1.6",
+      "category": "V1: Architecture & Model Lifecycle",
+      "description": "Verify cryptographic signing and hardware attestation (e.g. confidential computing) for proprietary base weights and LoRA adapters.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Architect"
+      },
+      "values": {
+        "level": "L3"
+      }
+    },
+    {
+      "id": "LLMSVS-V2.1",
+      "category": "V2: Input & Prompt Guardrails",
+      "description": "Verify input length constraints, character set enforcement, and maximum token budgets on all user prompt endpoints.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V2.2",
+      "category": "V2: Input & Prompt Guardrails",
+      "description": "Verify strict structural demarcation between system instructions and untrusted user input using standardized format roles (e.g. ChatML).",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V2.3",
+      "category": "V2: Input & Prompt Guardrails",
+      "description": "Verify an active prompt guardrail classifier evaluates incoming queries to detect direct prompt injection, jailbreaks, and harmful intent.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V2.4",
+      "category": "V2: Input & Prompt Guardrails",
+      "description": "Verify automated detection and neutralization of indirect prompt injection in retrieved RAG context, web pages, and email bodies.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V2.5",
+      "category": "V2: Input & Prompt Guardrails",
+      "description": "Verify multi-modal input sanitization (hidden prompt text in images, steganography, or adversarial audio payloads).",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L3"
+      }
+    },
+    {
+      "id": "LLMSVS-V3.1",
+      "category": "V3: Output Handling & Tool Safety",
+      "description": "Verify contextual output encoding and sanitization before rendering LLM completions in web browsers or passing into downstream databases.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V3.2",
+      "category": "V3: Output Handling & Tool Safety",
+      "description": "Verify structured outputs (JSON/YAML) are validated against strict JSON Schemas with fail-closed rejection on invalid keys or types.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V3.3",
+      "category": "V3: Output Handling & Tool Safety",
+      "description": "Verify LLM-generated code executes in a sandboxed, ephemeral runtime environment with restricted capabilities and zero host access.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Architect"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V3.4",
+      "category": "V3: Output Handling & Tool Safety",
+      "description": "Verify principle of least privilege is enforced on all external tools and API connectors accessible to the model.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V3.5",
+      "category": "V3: Output Handling & Tool Safety",
+      "description": "Verify mandatory human confirmation for high-consequence tool actions (deployments, asset transfer, data deletion).",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Compliance Reviewer"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V3.6",
+      "category": "V3: Output Handling & Tool Safety",
+      "description": "Verify formal mathematical verification and deterministic safety proofs on tool parameters prior to automated dispatch.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Architect"
+      },
+      "values": {
+        "level": "L3"
+      }
+    },
+    {
+      "id": "LLMSVS-V4.1",
+      "category": "V4: RAG, Vector Search & Data Privacy",
+      "description": "Verify document-level access control lists (ACLs) are strictly enforced during vector retrieval matching the requesting user identity.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V4.2",
+      "category": "V4: RAG, Vector Search & Data Privacy",
+      "description": "Verify sensitive data filtering (PII, credentials, proprietary secrets) is executed before document indexing into the vector store.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Compliance Reviewer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V4.3",
+      "category": "V4: RAG, Vector Search & Data Privacy",
+      "description": "Verify encryption at rest and in transit for vector database indices, embeddings, and raw document chunk stores.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Architect"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V4.4",
+      "category": "V4: RAG, Vector Search & Data Privacy",
+      "description": "Verify protection against vector database poisoning, adversarial document insertion, and distance metric manipulation.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V4.5",
+      "category": "V4: RAG, Vector Search & Data Privacy",
+      "description": "Verify differential privacy guarantees and empirical membership inference mitigation on all training and fine-tuning corpora.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Architect"
+      },
+      "values": {
+        "level": "L3"
+      }
+    },
+    {
+      "id": "LLMSVS-V5.1",
+      "category": "V5: Memory & State Management",
+      "description": "Verify complete session segregation in conversational history, memory caches, and agent scratchpads.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V5.2",
+      "category": "V5: Memory & State Management",
+      "description": "Verify memory retention policies and automatic expiration of temporary conversational state upon session termination.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Compliance Reviewer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V5.3",
+      "category": "V5: Memory & State Management",
+      "description": "Verify sanitization and validation of long-term memory updates to prevent persistent conversational poisoning.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V5.4",
+      "category": "V5: Memory & State Management",
+      "description": "Verify cryptographic signing and tamper-evidence checks on serialized agent state objects before restoration.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Architect"
+      },
+      "values": {
+        "level": "L3"
+      }
+    },
+    {
+      "id": "LLMSVS-V6.1",
+      "category": "V6: Observability & Incident Response",
+      "description": "Verify logging of prompt inputs, completions, token usage, and latency with automated redaction of sensitive credentials and PII.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V6.2",
+      "category": "V6: Observability & Incident Response",
+      "description": "Verify real-time alerting for anomalous prompt injection detection rates, excessive token consumption, or repeated guardrail trips.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L1"
+      }
+    },
+    {
+      "id": "LLMSVS-V6.3",
+      "category": "V6: Observability & Incident Response",
+      "description": "Verify tamper-evident audit logging of all autonomous tool invocations and user authorization decisions.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Compliance Reviewer"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V6.4",
+      "category": "V6: Observability & Incident Response",
+      "description": "Verify an automated circuit-breaker that immediately throttles or disables model endpoints upon detecting runaway reasoning loops.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L2"
+      }
+    },
+    {
+      "id": "LLMSVS-V6.5",
+      "category": "V6: Observability & Incident Response",
+      "description": "Verify an AI incident response playbook exists detailing forensic containment, model rollback, and memory sanitization procedures.",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Architect"
+      },
+      "values": {
+        "level": "L3"
+      }
+    }
+  ]
+}

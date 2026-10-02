@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "project": "",
+  "branch": "pre-dev",
+  "rules": { "structureEditableBy": "editor", "enforcedAssignment": false },
+  "fields": [
+    { "id": "evidence", "label": "Evidence / Reference", "type": "textarea", "requiredWhen": ["fail"], "editableBy": "full", "visibleTo": "observer", "maxLength": 1000 },
+    { "id": "justification", "label": "Justification", "type": "textarea", "requiredWhen": ["fail", "na"], "editableBy": "full", "visibleTo": "observer", "maxLength": 1000 },
+    { "id": "disposition", "label": "Disposition", "type": "select", "options": ["Out of Scope", "Not Applicable", "Deferred", "Risk Accepted"], "requiredWhen": ["na"], "editableBy": "full", "visibleTo": "observer" },
+    { "id": "finding_ref", "label": "Finding Reference / Ticket", "type": "url", "requiredWhen": [], "editableBy": "full", "visibleTo": "observer" },
+    { "id": "remediation_notes", "label": "Remediation Notes", "type": "textarea", "requiredWhen": ["fail"], "editableBy": "full", "visibleTo": "observer", "maxLength": 1000 },
+    { "id": "approval_decision", "label": "Approval Decision", "type": "select", "options": ["Approved", "Conditionally Approved", "Rejected"], "requiredWhen": ["pass", "fail"], "editableBy": "approver", "visibleTo": "full" },
+    { "id": "ticket_ref", "label": "Ticket / Change Request", "type": "url", "requiredWhen": [], "editableBy": "full", "visibleTo": "observer" },
+    { "id": "approver_sign_off", "label": "Approver Sign-off", "type": "text", "requiredWhen": ["pass"], "editableBy": "approver", "visibleTo": "full" },
+    { "id": "comment", "label": "Comment", "type": "textarea", "requiredWhen": [], "editableBy": "full", "visibleTo": "observer", "maxLength": 500 }
+  ],
+  "items": [
+    { "id": "GXP-001", "category": "GxP", "description": "Change control record created, reviewed, and approved before implementation", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "GxP Reviewer" }, "fields": ["evidence", "justification", "disposition", "approval_decision", "comment"] },
+    { "id": "GXP-002", "category": "GxP", "description": "Impact assessment completed and documented for all affected systems", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "GxP Reviewer" }, "fields": ["evidence", "justification", "disposition", "comment"] },
+    { "id": "REG-001", "category": "Regulatory", "description": "Regulatory submission requirements reviewed; applicable filings identified", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Regulatory Affairs" }, "fields": ["evidence", "justification", "disposition", "comment"] },
+    { "id": "QA-001", "category": "Quality", "description": "Validation protocol (IQ/OQ/PQ) executed and all deviations resolved", "status": "pending", "required": true, "statusEditableBy": "approver", "assignedTo": { "role": "QA Approver" }, "fields": ["evidence", "justification", "disposition", "approval_decision", "comment"] },
+    { "id": "QA-002", "category": "Quality", "description": "Training records updated for all personnel affected by the change", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "QA Reviewer" }, "fields": ["evidence", "justification", "disposition", "comment"] },
+    { "id": "SAST-001", "category": "SAST", "description": "SAST scan completed with no critical or high findings unresolved", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Security Lead" }, "fields": ["finding_ref", "evidence", "remediation_notes", "disposition", "comment"] },
+    { "id": "DAST-001", "category": "DAST", "description": "DAST scan completed against staging environment; OWASP Top 10 addressed", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Security Lead" }, "fields": ["finding_ref", "evidence", "remediation_notes", "disposition", "comment"] },
+    { "id": "DEP-001", "category": "Dependency", "description": "Dependency vulnerability scan completed; no critical CVEs in production dependencies", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Security Lead" }, "fields": ["finding_ref", "evidence", "remediation_notes", "disposition", "comment"] },
+    { "id": "INFRA-001", "category": "Infrastructure", "description": "Infrastructure security configuration reviewed (TLS, ports, IAM, secrets)", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Infrastructure Lead" }, "fields": ["evidence", "justification", "disposition", "comment"] },
+    { "id": "IMP-001", "category": "Impact", "description": "Impact analysis completed covering affected systems, users, and downstream dependencies", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Change Manager" }, "fields": ["ticket_ref", "justification", "disposition", "comment"] },
+    { "id": "APR-001", "category": "Approval", "description": "Change Advisory Board (CAB) approval obtained or waiver documented", "status": "pending", "required": true, "statusEditableBy": "approver", "assignedTo": { "role": "Change Approver" }, "fields": ["ticket_ref", "approver_sign_off", "disposition", "comment"] },
+    { "id": "RBK-001", "category": "Rollback", "description": "Rollback plan documented, tested in non-production, and approved", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Technical Lead" }, "fields": ["evidence", "justification", "disposition", "comment"] },
+    { "id": "RBK-002", "category": "Rollback", "description": "Go/No-Go criteria defined with measurable thresholds for automatic rollback trigger", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Technical Lead" }, "fields": ["evidence", "justification", "disposition", "comment"] }
+  ]
+}

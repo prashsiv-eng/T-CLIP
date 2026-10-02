@@ -1,0 +1,119 @@
+{
+  "version": "1.0",
+  "project": "",
+  "branch": "pre-dev",
+  "rules": {
+    "structureEditableBy": "editor",
+    "enforcedAssignment": false
+  },
+  "fields": [
+    {
+      "id": "finding_ref",
+      "label": "Finding Reference / Ticket",
+      "type": "url",
+      "requiredWhen": ["fail"],
+      "editableBy": "full",
+      "visibleTo": "observer"
+    },
+    {
+      "id": "evidence",
+      "label": "Evidence / Report Link",
+      "type": "url",
+      "requiredWhen": ["fail"],
+      "editableBy": "full",
+      "visibleTo": "observer"
+    },
+    {
+      "id": "remediation_notes",
+      "label": "Remediation Notes",
+      "type": "textarea",
+      "requiredWhen": ["fail"],
+      "editableBy": "full",
+      "visibleTo": "observer",
+      "maxLength": 1000
+    },
+    {
+      "id": "disposition",
+      "label": "Disposition",
+      "type": "select",
+      "options": ["Out of Scope", "Not Applicable", "Risk Accepted", "Deferred"],
+      "requiredWhen": ["na"],
+      "editableBy": "full",
+      "visibleTo": "observer"
+    },
+    {
+      "id": "comment",
+      "label": "Comment",
+      "type": "textarea",
+      "requiredWhen": [],
+      "editableBy": "full",
+      "visibleTo": "observer",
+      "maxLength": 500
+    }
+  ],
+  "items": [
+    {
+      "id": "SAST-001",
+      "category": "SAST",
+      "description": "Static Application Security Testing (SAST) completed with no critical or high findings unresolved",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "Security Lead" }
+    },
+    {
+      "id": "SAST-002",
+      "category": "SAST",
+      "description": "All medium-severity SAST findings reviewed and risk-accepted or remediated",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "Security Lead" }
+    },
+    {
+      "id": "DAST-001",
+      "category": "DAST",
+      "description": "Dynamic Application Security Testing (DAST) scan completed against staging environment",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "Security Lead" }
+    },
+    {
+      "id": "DAST-002",
+      "category": "DAST",
+      "description": "OWASP Top 10 vulnerabilities addressed or risk-accepted with documentation",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "Security Lead" }
+    },
+    {
+      "id": "DEP-001",
+      "category": "Dependency",
+      "description": "Dependency vulnerability scan completed; no critical CVEs in production dependencies",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "Security Lead" }
+    },
+    {
+      "id": "INFRA-001",
+      "category": "Infrastructure",
+      "description": "Infrastructure security configuration reviewed (TLS versions, open ports, IAM policies)",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "Infrastructure Lead" }
+    },
+    {
+      "id": "INFRA-002",
+      "category": "Infrastructure",
+      "description": "Secrets and credentials confirmed not stored in source code or logs",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "Security Lead" }
+    }
+  ]
+}

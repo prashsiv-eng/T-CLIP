@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "project": "",
+  "branch": "pre-dev",
+  "rules": { "structureEditableBy": "editor", "enforcedAssignment": false },
+  "fields": [
+    { "id": "ticket_ref", "label": "Ticket / Change Request", "type": "url", "requiredWhen": [], "editableBy": "full", "visibleTo": "observer" },
+    { "id": "impact_assessment", "label": "Impact Assessment", "type": "textarea", "requiredWhen": ["fail"], "editableBy": "full", "visibleTo": "observer", "maxLength": 1000 },
+    { "id": "approver_sign_off", "label": "Approver Sign-off", "type": "text", "requiredWhen": ["pass"], "editableBy": "approver", "visibleTo": "full" },
+    { "id": "disposition", "label": "Disposition", "type": "select", "options": ["Out of Scope", "Not Applicable", "Deferred"], "requiredWhen": ["na"], "editableBy": "full", "visibleTo": "observer" },
+    { "id": "comment", "label": "Comment", "type": "textarea", "requiredWhen": [], "editableBy": "full", "visibleTo": "observer", "maxLength": 500 }
+  ],
+  "items": [
+    { "id": "IMP-001", "category": "Impact", "description": "Impact analysis completed covering affected systems, users, and downstream dependencies", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Change Manager" } },
+    { "id": "IMP-002", "category": "Impact", "description": "Risk assessment completed and mitigation plan documented for high-risk items", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Change Manager" } },
+    { "id": "APR-001", "category": "Approval", "description": "Change Advisory Board (CAB) approval obtained or waiver documented", "status": "pending", "required": true, "statusEditableBy": "approver", "assignedTo": { "role": "Change Approver" } },
+    { "id": "APR-002", "category": "Approval", "description": "Business owner sign-off obtained for user-facing changes", "status": "pending", "required": true, "statusEditableBy": "approver", "assignedTo": { "role": "Change Approver" } },
+    { "id": "COM-001", "category": "Communication", "description": "Stakeholder communication plan completed and notifications sent", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Change Manager" } },
+    { "id": "RBK-001", "category": "Rollback", "description": "Rollback plan documented, tested in non-production, and approved", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Technical Lead" } },
+    { "id": "RBK-002", "category": "Rollback", "description": "Go/No-Go criteria defined with measurable thresholds for automatic rollback trigger", "status": "pending", "required": true, "statusEditableBy": "full", "assignedTo": { "role": "Technical Lead" } }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "version": "1.0",
+  "project": "",
+  "branch": "pre-dev",
+  "rules": {
+    "structureEditableBy": "editor",
+    "enforcedAssignment": false
+  },
+  "fields": [
+    {
+      "id": "evidence",
+      "label": "Evidence / Reference",
+      "type": "textarea",
+      "requiredWhen": ["fail"],
+      "editableBy": "full",
+      "visibleTo": "observer",
+      "maxLength": 1000
+    },
+    {
+      "id": "justification",
+      "label": "Justification",
+      "type": "textarea",
+      "requiredWhen": ["fail", "na"],
+      "editableBy": "full",
+      "visibleTo": "observer",
+      "maxLength": 1000
+    },
+    {
+      "id": "disposition",
+      "label": "Disposition",
+      "type": "select",
+      "options": ["Out of Scope", "Not Applicable", "Deferred", "Risk Accepted"],
+      "requiredWhen": ["na"],
+      "editableBy": "full",
+      "visibleTo": "observer"
+    },
+    {
+      "id": "approval_decision",
+      "label": "Approval Decision",
+      "type": "select",
+      "options": ["Approved", "Conditionally Approved", "Rejected"],
+      "requiredWhen": ["pass", "fail"],
+      "editableBy": "approver",
+      "visibleTo": "full"
+    },
+    {
+      "id": "comment",
+      "label": "Comment",
+      "type": "textarea",
+      "requiredWhen": [],
+      "editableBy": "full",
+      "visibleTo": "observer",
+      "maxLength": 500
+    }
+  ],
+  "items": [
+    {
+      "id": "GXP-001",
+      "category": "GxP",
+      "description": "Change control record created, reviewed, and approved before implementation",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "GxP Reviewer" },
+      "fields": ["evidence", "justification", "disposition", "approval_decision", "comment"]
+    },
+    {
+      "id": "GXP-002",
+      "category": "GxP",
+      "description": "Impact assessment completed and documented for all affected systems",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "GxP Reviewer" },
+      "fields": ["evidence", "justification", "disposition", "comment"]
+    },
+    {
+      "id": "REG-001",
+      "category": "Regulatory",
+      "description": "Regulatory submission requirements reviewed; applicable filings identified",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "Regulatory Affairs" },
+      "fields": ["evidence", "justification", "disposition", "comment"]
+    },
+    {
+      "id": "REG-002",
+      "category": "Regulatory",
+      "description": "21 CFR Part 11 / Annex 11 electronic records requirements met where applicable",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "Regulatory Affairs" },
+      "fields": ["evidence", "justification", "disposition", "comment"]
+    },
+    {
+      "id": "QA-001",
+      "category": "Quality",
+      "description": "Validation protocol (IQ/OQ/PQ) executed and all deviations resolved",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "approver",
+      "assignedTo": { "role": "QA Approver" },
+      "fields": ["evidence", "justification", "disposition", "approval_decision", "comment"]
+    },
+    {
+      "id": "QA-002",
+      "category": "Quality",
+      "description": "Training records updated for all personnel affected by the change",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "QA Reviewer" },
+      "fields": ["evidence", "justification", "disposition", "comment"]
+    },
+    {
+      "id": "QA-003",
+      "category": "Quality",
+      "description": "Audit trail functionality verified and enabled for all GxP-critical operations",
+      "status": "pending",
+      "required": true,
+      "statusEditableBy": "full",
+      "assignedTo": { "role": "QA Reviewer" },
+      "fields": ["evidence", "justification", "disposition", "comment"]
+    }
+  ]
+}

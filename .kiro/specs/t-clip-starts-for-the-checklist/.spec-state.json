@@ -1,0 +1,29 @@
+{
+  "decisions": [
+    {
+      "id": "checklist-file-format",
+      "title": "What format should the checklist file use?",
+      "options": ["YAML", "JSON", "Markdown with checkboxes"],
+      "recommended": "YAML",
+      "answer": "JSON"
+    },
+    {
+      "id": "pr-branch-naming",
+      "title": "What is the target pre-dev branch name convention?",
+      "options": ["pre-dev (fixed)", "Configurable by the user", "Derived from repo settings"],
+      "recommended": "Configurable by the user",
+      "answer": "Configurable by the user"
+    },
+    {
+      "id": "phase1-tech-stack",
+      "title": "What frontend framework should Phase 1 use?",
+      "options": ["React + Vite", "Vue 3 + Vite", "Plain HTML/JS"],
+      "recommended": "React + Vite",
+      "answer": "React + Vite"
+    }
+  ],
+  "blocking": null,
+  "context": {
+    "template": "checklist-compliance-frontend"
+  }
+}
