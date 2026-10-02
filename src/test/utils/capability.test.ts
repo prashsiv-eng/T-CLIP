@@ -1,135 +1,154 @@
 import { describe, expect, it } from 'vitest'
 import {
   DEFAULT_ROLE_CAPABILITY_MAP,
-  canApprove,
-  canEdit,
-  canProvideData,
-  canReview,
+  canConfirm,
+  canEditFields,
+  canManageStructure,
+  canReviewDecision,
+  canSetWorkStatus,
+  canSignoff,
   meetsMinimum,
   resolveCapability,
 } from '../../utils/capability'
 
 describe('resolveCapability', () => {
-  it('resolves "observer" substring to observer', () => {
-    expect(resolveCapability('Auditor Observer', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('observer')
+  it('resolves "observer" substring to read-only', () => {
+    expect(resolveCapability('Auditor Observer', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('read-only')
   })
 
-  it('resolves "read" substring to observer', () => {
-    expect(resolveCapability('Read Only', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('observer')
+  it('resolves "read" substring to read-only', () => {
+    expect(resolveCapability('Read Only', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('read-only')
   })
 
-  it('resolves "dev" substring to contributor', () => {
-    expect(resolveCapability('Frontend Dev', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('contributor')
+  it('resolves "dev" substring to editor', () => {
+    expect(resolveCapability('Frontend Dev', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('editor')
   })
 
-  it('resolves "engineer" substring to contributor', () => {
-    expect(resolveCapability('Software Engineer', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('contributor')
+  it('resolves "engineer" substring to editor', () => {
+    expect(resolveCapability('Software Engineer', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('editor')
   })
 
-  it('resolves "author" substring to contributor', () => {
-    expect(resolveCapability('Change Author', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('contributor')
-  })
-
-  it('resolves "contributor" substring to contributor', () => {
-    expect(resolveCapability('GxP Contributor', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('contributor')
-  })
-
-  it('resolves "reviewer" substring to reviewer', () => {
-    expect(resolveCapability('GxP Reviewer', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('reviewer')
-  })
-
-  it('resolves "auditor" substring to reviewer', () => {
-    expect(resolveCapability('Security Auditor', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('reviewer')
-  })
-
-  it('resolves "lead" substring to reviewer', () => {
-    expect(resolveCapability('Security Lead', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('reviewer')
-  })
-
-  it('resolves "approver" substring to approver', () => {
-    expect(resolveCapability('Release Approver', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('approver')
-  })
-
-  it('resolves "signoff" substring to approver', () => {
-    expect(resolveCapability('QA Signoff', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('approver')
-  })
-
-  it('resolves "owner" substring to editor', () => {
-    expect(resolveCapability('Project Owner', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('editor')
-  })
-
-  it('resolves "admin" substring to editor', () => {
-    expect(resolveCapability('System Admin', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('editor')
+  it('resolves "author" substring to editor', () => {
+    expect(resolveCapability('Change Author', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('editor')
   })
 
   it('resolves "editor" substring to editor', () => {
     expect(resolveCapability('Content Editor', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('editor')
   })
 
-  it('resolves "manager" substring to editor', () => {
-    expect(resolveCapability('Release Manager', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('editor')
+  it('resolves "qa" substring to reviewer', () => {
+    expect(resolveCapability('QA Engineer', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('reviewer')
   })
 
-  it('falls back to reviewer for unrecognised role', () => {
-    expect(resolveCapability('Unknown Role', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('reviewer')
-    expect(resolveCapability('', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('reviewer')
+  it('resolves "tester" substring to reviewer', () => {
+    expect(resolveCapability('Security Tester', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('reviewer')
+  })
+
+  it('resolves "security" substring to reviewer', () => {
+    expect(resolveCapability('Security Reviewer', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('reviewer')
+  })
+
+  it('resolves "reviewer" substring to reviewer', () => {
+    expect(resolveCapability('Code Reviewer', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('reviewer')
+  })
+
+  it('resolves "lead" substring to approver', () => {
+    expect(resolveCapability('Tech Lead', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('approver')
+  })
+
+  it('resolves "approver" substring to approver', () => {
+    expect(resolveCapability('Release Approver', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('approver')
+  })
+
+  it('resolves "signoff" substring to sign-off', () => {
+    expect(resolveCapability('QA Signoff', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('sign-off')
+  })
+
+  it('resolves "ciso" substring to sign-off', () => {
+    expect(resolveCapability('Company CISO', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('sign-off')
+  })
+
+  it('resolves "admin" substring to master', () => {
+    expect(resolveCapability('System Admin', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('master')
+  })
+
+  it('resolves "owner" substring to master', () => {
+    expect(resolveCapability('Product Owner', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('master')
+  })
+
+  it('falls back to default editor for unrecognised role', () => {
+    expect(resolveCapability('Unknown Role', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('editor')
   })
 
   it('is case-insensitive', () => {
     expect(resolveCapability('APPROVER', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('approver')
-    expect(resolveCapability('OBSERVER', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('observer')
-    expect(resolveCapability('ENGINEER', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('contributor')
-  })
-
-  it('first match wins (observer before reviewer)', () => {
-    expect(resolveCapability('reviewer observer', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('observer')
+    expect(resolveCapability('OBSERVER', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('read-only')
+    expect(resolveCapability('ENGINEER', DEFAULT_ROLE_CAPABILITY_MAP)).toBe('editor')
   })
 })
 
 describe('meetsMinimum', () => {
-  it('observer meets observer', () => expect(meetsMinimum('observer', 'observer')).toBe(true))
-  it('contributor meets observer', () => expect(meetsMinimum('contributor', 'observer')).toBe(true))
-  it('reviewer meets contributor', () => expect(meetsMinimum('reviewer', 'contributor')).toBe(true))
+  it('read-only meets read-only', () => expect(meetsMinimum('read-only', 'read-only')).toBe(true))
+  it('editor meets read-only', () => expect(meetsMinimum('editor', 'read-only')).toBe(true))
+  it('reviewer meets editor', () => expect(meetsMinimum('reviewer', 'editor')).toBe(true))
   it('approver meets reviewer', () => expect(meetsMinimum('approver', 'reviewer')).toBe(true))
-  it('editor meets approver', () => expect(meetsMinimum('editor', 'approver')).toBe(true))
-  it('editor meets editor', () => expect(meetsMinimum('editor', 'editor')).toBe(true))
+  it('sign-off meets approver', () => expect(meetsMinimum('sign-off', 'approver')).toBe(true))
+  it('master meets sign-off', () => expect(meetsMinimum('master', 'sign-off')).toBe(true))
+  it('master meets master', () => expect(meetsMinimum('master', 'master')).toBe(true))
 
-  it('observer does not meet contributor', () => expect(meetsMinimum('observer', 'contributor')).toBe(false))
-  it('contributor does not meet reviewer', () => expect(meetsMinimum('contributor', 'reviewer')).toBe(false))
+  it('read-only does not meet editor', () => expect(meetsMinimum('read-only', 'editor')).toBe(false))
+  it('editor does not meet reviewer', () => expect(meetsMinimum('editor', 'reviewer')).toBe(false))
   it('reviewer does not meet approver', () => expect(meetsMinimum('reviewer', 'approver')).toBe(false))
-  it('approver does not meet editor', () => expect(meetsMinimum('approver', 'editor')).toBe(false))
+  it('approver does not meet sign-off', () => expect(meetsMinimum('approver', 'sign-off')).toBe(false))
+  it('sign-off does not meet master', () => expect(meetsMinimum('sign-off', 'master')).toBe(false))
 })
 
 describe('capability helpers', () => {
-  it('canProvideData: contributor and above', () => {
-    expect(canProvideData('observer')).toBe(false)
-    expect(canProvideData('contributor')).toBe(true)
-    expect(canProvideData('reviewer')).toBe(true)
-    expect(canProvideData('approver')).toBe(true)
-    expect(canProvideData('editor')).toBe(true)
+  it('canEditFields & canSetWorkStatus: editor and above', () => {
+    expect(canEditFields('read-only')).toBe(false)
+    expect(canEditFields('editor')).toBe(true)
+    expect(canEditFields('reviewer')).toBe(true)
+    expect(canEditFields('approver')).toBe(true)
+    expect(canEditFields('sign-off')).toBe(true)
+    expect(canEditFields('master')).toBe(true)
+
+    expect(canSetWorkStatus('read-only')).toBe(false)
+    expect(canSetWorkStatus('editor')).toBe(true)
   })
 
-  it('canReview: reviewer and above', () => {
-    expect(canReview('observer')).toBe(false)
-    expect(canReview('contributor')).toBe(false)
-    expect(canReview('reviewer')).toBe(true)
-    expect(canReview('approver')).toBe(true)
-    expect(canReview('editor')).toBe(true)
+  it('canReviewDecision: reviewer and above', () => {
+    expect(canReviewDecision('read-only')).toBe(false)
+    expect(canReviewDecision('editor')).toBe(false)
+    expect(canReviewDecision('reviewer')).toBe(true)
+    expect(canReviewDecision('approver')).toBe(true)
+    expect(canReviewDecision('sign-off')).toBe(true)
+    expect(canReviewDecision('master')).toBe(true)
   })
 
-  it('canApprove: approver and above', () => {
-    expect(canApprove('observer')).toBe(false)
-    expect(canApprove('contributor')).toBe(false)
-    expect(canApprove('reviewer')).toBe(false)
-    expect(canApprove('approver')).toBe(true)
-    expect(canApprove('editor')).toBe(true)
+  it('canConfirm: approver and above', () => {
+    expect(canConfirm('read-only')).toBe(false)
+    expect(canConfirm('editor')).toBe(false)
+    expect(canConfirm('reviewer')).toBe(false)
+    expect(canConfirm('approver')).toBe(true)
+    expect(canConfirm('sign-off')).toBe(true)
+    expect(canConfirm('master')).toBe(true)
   })
 
-  it('canEdit: editor only', () => {
-    expect(canEdit('observer')).toBe(false)
-    expect(canEdit('contributor')).toBe(false)
-    expect(canEdit('reviewer')).toBe(false)
-    expect(canEdit('approver')).toBe(false)
-    expect(canEdit('editor')).toBe(true)
+  it('canSignoff: sign-off and above', () => {
+    expect(canSignoff('read-only')).toBe(false)
+    expect(canSignoff('editor')).toBe(false)
+    expect(canSignoff('reviewer')).toBe(false)
+    expect(canSignoff('approver')).toBe(false)
+    expect(canSignoff('sign-off')).toBe(true)
+    expect(canSignoff('master')).toBe(true)
+  })
+
+  it('canManageStructure: master only', () => {
+    expect(canManageStructure('read-only')).toBe(false)
+    expect(canManageStructure('editor')).toBe(false)
+    expect(canManageStructure('reviewer')).toBe(false)
+    expect(canManageStructure('approver')).toBe(false)
+    expect(canManageStructure('sign-off')).toBe(false)
+    expect(canManageStructure('master')).toBe(true)
   })
 })

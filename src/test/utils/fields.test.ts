@@ -3,8 +3,8 @@ import type { ChecklistItem, FieldSchema, ReviewedItem } from '../../types'
 import { fieldTypeToInputType, getRequiredFieldIds, isItemComplete, resolveItemFields } from '../../utils/fields'
 
 const ALL_FIELDS: FieldSchema[] = [
-  { id: 'evidence', label: 'Evidence', type: 'textarea', requiredWhen: ['fail'] },
-  { id: 'justification', label: 'Justification', type: 'textarea', requiredWhen: ['fail', 'na'] },
+  { id: 'evidence', label: 'Evidence', type: 'textarea', requiredWhen: ['failed'] },
+  { id: 'justification', label: 'Justification', type: 'textarea', requiredWhen: ['failed', 'na'] },
   { id: 'comment', label: 'Comment', type: 'textarea' },
 ]
 
@@ -12,7 +12,7 @@ const BASE_ITEM: ChecklistItem = {
   id: 'SEC-001',
   category: 'Security',
   description: 'Test',
-  status: 'pending',
+  status: 'not-started',
   required: true,
 }
 
@@ -49,8 +49,8 @@ describe('resolveItemFields', () => {
 })
 
 describe('getRequiredFieldIds', () => {
-  it('returns fields required for fail status', () => {
-    expect(getRequiredFieldIds(ALL_FIELDS, 'fail')).toEqual(['evidence', 'justification'])
+  it('returns fields required for failed status', () => {
+    expect(getRequiredFieldIds(ALL_FIELDS, 'failed')).toEqual(['evidence', 'justification'])
   })
 
   it('returns fields required for na status', () => {
@@ -61,14 +61,14 @@ describe('getRequiredFieldIds', () => {
     expect(getRequiredFieldIds(ALL_FIELDS, 'pass')).toEqual([])
   })
 
-  it('returns empty for pending', () => {
-    expect(getRequiredFieldIds(ALL_FIELDS, 'pending')).toEqual([])
+  it('returns empty for not-started', () => {
+    expect(getRequiredFieldIds(ALL_FIELDS, 'not-started')).toEqual([])
   })
 })
 
 describe('isItemComplete', () => {
-  it('returns false when status is pending', () => {
-    const item = makeReviewed({ status: 'pending' })
+  it('returns false when status is not-started', () => {
+    const item = makeReviewed({ status: 'not-started' })
     expect(isItemComplete(item, ALL_FIELDS, 'reviewer')).toBe(false)
   })
 
@@ -80,32 +80,31 @@ describe('isItemComplete', () => {
     expect(isItemComplete(item, ALL_FIELDS, 'reviewer')).toBe(true)
   })
 
-  it('returns false for fail when evidence is missing', () => {
+  it('returns false for failed when evidence is missing', () => {
     const item = makeReviewed({
-      status: 'fail',
-      history: [{ actorName: 'Alice', role: 'Reviewer', status: 'fail', fieldValues: { justification: 'bad' }, timestamp: '' }],
+      status: 'failed',
+      history: [{ actorName: 'Alice', role: 'Reviewer', status: 'failed', fieldValues: { justification: 'bad' }, timestamp: '' }],
     })
     expect(isItemComplete(item, ALL_FIELDS, 'reviewer')).toBe(false)
   })
 
-  it('returns true for fail when all required fields filled', () => {
+  it('returns true for failed when all required fields filled', () => {
     const item = makeReviewed({
-      status: 'fail',
-      history: [{ actorName: 'Alice', role: 'Reviewer', status: 'fail', fieldValues: { evidence: 'scan.pdf', justification: 'critical finding' }, timestamp: '' }],
+      status: 'failed',
+      history: [{ actorName: 'Alice', role: 'Reviewer', status: 'failed', fieldValues: { evidence: 'scan.pdf', justification: 'critical finding' }, timestamp: '' }],
     })
     expect(isItemComplete(item, ALL_FIELDS, 'reviewer')).toBe(true)
   })
 
   it('observer below visibleTo threshold is excluded from required check', () => {
     const restrictedFields: FieldSchema[] = [
-      { id: 'secret', label: 'Secret', type: 'textarea', requiredWhen: ['fail'], visibleTo: 'approver' },
+      { id: 'secret', label: 'Secret', type: 'textarea', requiredWhen: ['failed'], visibleTo: 'approver' },
     ]
     const item = makeReviewed({
-      status: 'fail',
-      history: [{ actorName: 'Alice', role: 'Observer', status: 'fail', fieldValues: {}, timestamp: '' }],
+      status: 'failed',
+      history: [{ actorName: 'Alice', role: 'Auditor', status: 'failed', fieldValues: {}, timestamp: '' }],
     })
-    // observer cannot see 'secret' so it's not required for them
-    expect(isItemComplete(item, restrictedFields, 'observer')).toBe(true)
+    expect(isItemComplete(item, restrictedFields, 'read-only')).toBe(true)
   })
 })
 

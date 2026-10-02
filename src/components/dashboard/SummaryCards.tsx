@@ -2,10 +2,12 @@ import { Box, Card, CardContent, LinearProgress, Typography } from '@mui/materia
 import type { Summary } from '../../utils/dashboardStats'
 
 const CARDS = [
-  { key: 'pass',    label: 'Pass',    color: '#16a34a', bg: '#f0fdf4', border: '#bbf7d0' },
-  { key: 'fail',    label: 'Fail',    color: '#dc2626', bg: '#fef2f2', border: '#fecaca' },
-  { key: 'pending', label: 'Pending', color: '#475569', bg: '#f8fafc', border: '#cbd5e1' },
-  { key: 'na',      label: 'N/A',     color: '#64748b', bg: '#f8fafc', border: '#e2e8f0' },
+  { key: 'pass',       label: 'Pass',        color: '#16a34a', bg: '#f0fdf4', border: '#bbf7d0' },
+  { key: 'failed',     label: 'Failed',      color: '#dc2626', bg: '#fef2f2', border: '#fecaca' },
+  { key: 'inReview',   label: 'In Review',   color: '#9333ea', bg: '#faf5ff', border: '#e9d5ff' },
+  { key: 'inProgress', label: 'In Progress', color: '#0284c7', bg: '#f0f9ff', border: '#bae6fd' },
+  { key: 'notStarted', label: 'Not Started', color: '#64748b', bg: '#f8fafc', border: '#e2e8f0' },
+  { key: 'na',         label: 'N/A',         color: '#64748b', bg: '#f8fafc', border: '#cbd5e1' },
 ] as const
 
 interface Props {
@@ -19,7 +21,7 @@ export function SummaryCards({ summary, totalCount }: Props) {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 1.5 }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)', md: 'repeat(6, 1fr)' }, gap: 1.5 }}>
         {CARDS.map(c => {
           const value = summary[c.key]
           const barPct = summary.total === 0 ? 0 : Math.round((value / summary.total) * 100)

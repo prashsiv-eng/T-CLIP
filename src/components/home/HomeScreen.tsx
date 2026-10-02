@@ -21,7 +21,7 @@ interface Props {
   onOpen: () => void
 }
 
-const GITHUB_REPO_URL = 'https://github.com/thechecklistproject/t-clip'
+const GITHUB_REPO_URL = 'https://github.com/prashsiv-eng/T-CLIP'
 
 export function HomeScreen({ onNew, onOpen }: Props) {
   const [aboutOpen, setAboutOpen] = useState(false)

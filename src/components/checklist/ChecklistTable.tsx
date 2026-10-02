@@ -7,11 +7,11 @@ import {
   GridToolbarFilterButton,
   GridToolbarQuickFilter,
 } from '@mui/x-data-grid'
-import type { GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import type { GridColDef, GridRenderCellParams, GridRowSelectionModel } from '@mui/x-data-grid'
 import { useState } from 'react'
 import type { CapabilityLevel, ChecklistFile, FieldSchema, ItemStatus, ReviewAction, ReviewedItem } from '../../types'
 import { ItemResponseDrawer } from './ItemResponseDrawer'
-
+import { StatusBadge, STATUS_META } from './StatusBadge'
 
 interface Props {
   items: ReviewedItem[]
@@ -19,8 +19,11 @@ interface Props {
   userCapability: CapabilityLevel
   userName: string
   userRole: string
+  selectedIds?: string[]
+  onSelectionChange?: (ids: string[]) => void
   onSaveResponse: (id: string, action: ReviewAction) => void
   onConfirm: (id: string, action: ReviewAction) => void
+  onAssignItem?: (id: string, assignedTo?: { role?: string; name?: string }) => void
   onEditItem?: (id: string) => void
 }
 
@@ -59,8 +62,17 @@ function buildFieldCol(field: FieldSchema, items: ReviewedItem[]): GridColDef {
 }
 
 export function ChecklistTable({
-  items, file, userCapability, userName, userRole,
-  onSaveResponse, onConfirm, onEditItem,
+  items,
+  file,
+  userCapability,
+  userName,
+  userRole,
+  selectedIds = [],
+  onSelectionChange,
+  onSaveResponse,
+  onConfirm,
+  onAssignItem,
+  onEditItem,
 }: Props) {
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
 
@@ -84,36 +96,28 @@ export function ChecklistTable({
       ),
     },
     {
-      field: 'status', headerName: 'Status', width: 110,
-      type: 'singleSelect', valueOptions: ['pending', 'pass', 'fail', 'na'],
-      renderCell: (p: GridRenderCellParams) => {
-        const status = p.value as ItemStatus
-        if (status === 'pass') return <Chip label="pass" color="success" size="small" sx={{ fontWeight: 600, fontSize: 11 }} />
-        if (status === 'fail') return <Chip label="fail" color="error" size="small" sx={{ fontWeight: 600, fontSize: 11 }} />
-        if (status === 'pending') {
-          return (
-            <Chip
-              label="pending"
-              size="small"
-              sx={{
-                bgcolor: '#f1f5f9',
-                color: '#475569',
-                border: '1px solid #cbd5e1',
-                fontWeight: 600,
-                fontSize: 11,
-              }}
-            />
-          )
-        }
-        return (
-          <Chip
-            label="n/a"
-            size="small"
-            variant="outlined"
-            sx={{ color: '#94a3b8', borderColor: '#e2e8f0', fontSize: 11 }}
-          />
-        )
+      field: 'status', headerName: 'Status', width: 140,
+      type: 'singleSelect',
+      valueGetter: (_v: unknown, row: ReviewedItem) => {
+        if (!row.status || (row.status as string) === 'pending') return 'not-started'
+        if ((row.status as string) === 'fail') return 'failed'
+        return row.status
       },
+      valueOptions: [
+        { value: 'not-started', label: 'Not Started' },
+        { value: 'in-progress', label: 'In Progress' },
+        { value: 'blocked', label: 'Blocked' },
+        { value: 'in-review', label: 'In Review' },
+        { value: 'pass', label: 'Pass' },
+        { value: 'failed', label: 'Failed' },
+        { value: 'na', label: 'N/A' },
+      ],
+      valueFormatter: (value: unknown) => {
+        if (!value) return 'Not Started'
+        const s = value as ItemStatus
+        return STATUS_META[s]?.label ?? String(value)
+      },
+      renderCell: (p: GridRenderCellParams) => <StatusBadge status={p.value as ItemStatus} />,
     },
     {
       field: 'required', headerName: 'Required', width: 95, type: 'boolean',
@@ -199,7 +203,7 @@ export function ChecklistTable({
               }}
               sx={{ fontSize: 11, py: 0.25, px: 1, minWidth: 64 }}
             >
-              {userCapability === 'observer' ? 'View' : 'Respond'}
+              {userCapability === 'read-only' ? 'View' : 'Respond'}
             </Button>
             {onEditItem && (
               <Tooltip title="Edit item structure">
@@ -230,7 +234,20 @@ export function ChecklistTable({
           getRowId={r => r.id}
           density="compact"
           autoHeight
+          checkboxSelection
           disableRowSelectionOnClick
+          rowSelectionModel={{
+            type: 'include',
+            ids: new Set(selectedIds),
+          }}
+          onRowSelectionModelChange={(newModel: GridRowSelectionModel) => {
+            if (newModel.type === 'include') {
+              onSelectionChange?.(Array.from(newModel.ids).map(String))
+            } else {
+              const allIds = items.map(i => i.id)
+              onSelectionChange?.(allIds.filter(id => !newModel.ids.has(id)))
+            }
+          }}
           onRowClick={p => setSelectedItemId((p.row as ReviewedItem).id)}
           slots={{ toolbar: Toolbar }}
           getRowClassName={r => {
@@ -263,6 +280,7 @@ export function ChecklistTable({
         userRole={userRole}
         onSaveResponse={onSaveResponse}
         onConfirm={onConfirm}
+        onAssignItem={onAssignItem}
         onClose={() => setSelectedItemId(null)}
       />
     </>

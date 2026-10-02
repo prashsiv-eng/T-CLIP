@@ -6,7 +6,7 @@ const VALID_FILE = {
   project: 'TestApp',
   fields: [{ id: 'evidence', label: 'Evidence', type: 'textarea' }],
   items: [
-    { id: 'SEC-001', category: 'Security', description: 'SAST scan', status: 'pending', required: true },
+    { id: 'SEC-001', category: 'Security', description: 'SAST scan', status: 'not-started', required: true },
   ],
 }
 
@@ -60,7 +60,7 @@ describe('validateChecklistFile', () => {
   it('rejects item missing description', () => {
     const file = {
       ...VALID_FILE,
-      items: [{ id: 'X-001', category: 'X', status: 'pending', required: true }],
+      items: [{ id: 'X-001', category: 'X', status: 'not-started', required: true }],
     }
     const result = validateChecklistFile(file)
     expect(result.valid).toBe(false)
@@ -113,10 +113,10 @@ describe('validateChecklistFile', () => {
     const result = validateChecklistFile(file)
     expect(result.valid).toBe(true)
     expect(result.errors).toHaveLength(0)
-    expect(result.file?.fields[0].editableBy).toBe('editor')
-    expect(result.file?.fields[0].visibleTo).toBe('editor')
-    expect(result.file?.fields[1].editableBy).toBe('observer')
-    expect(result.file?.fields[1].visibleTo).toBe('contributor')
+    expect(result.file?.fields[0].editableBy).toBe('master')
+    expect(result.file?.fields[0].visibleTo).toBe('master')
+    expect(result.file?.fields[1].editableBy).toBe('read-only')
+    expect(result.file?.fields[1].visibleTo).toBe('editor')
   })
 
   it('rejects completely invalid capability string', () => {

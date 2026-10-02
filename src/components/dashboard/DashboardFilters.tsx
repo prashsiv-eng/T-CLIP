@@ -66,9 +66,12 @@ export function DashboardFiltersPanel({ items, filters, filteredCount, onChange 
               onChange={e => onChange({ ...filters, status: e.target.value as typeof filters.status })}
             >
               <MenuItem value="all">All</MenuItem>
-              <MenuItem value="pending">Pending</MenuItem>
+              <MenuItem value="not-started">Not Started</MenuItem>
+              <MenuItem value="in-progress">In Progress</MenuItem>
+              <MenuItem value="blocked">Blocked</MenuItem>
+              <MenuItem value="in-review">In Review</MenuItem>
               <MenuItem value="pass">Pass</MenuItem>
-              <MenuItem value="fail">Fail</MenuItem>
+              <MenuItem value="failed">Failed</MenuItem>
               <MenuItem value="na">N/A</MenuItem>
             </TextField>
           </Box>

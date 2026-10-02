@@ -8,3 +8,9 @@ export async function sha256Hex(buffer: ArrayBuffer): Promise<string> {
     .map(b => b.toString(16).padStart(2, '0'))
     .join('')
 }
+
+export async function sha256String(text: string): Promise<string> {
+  const enc = new TextEncoder()
+  const bytes = enc.encode(text)
+  return sha256Hex(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength))
+}

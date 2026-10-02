@@ -9,7 +9,14 @@ export function getFilePersonasAndRoles(file: ChecklistFile, reviewedItems: Revi
   const usersMap = new Map<string, UserPersona>()
   const rolesSet = new Set<string>()
 
-  // 1. Dedicated users section in the file
+  // 1. Dedicated personas section in the file
+  if (file.personas && Array.isArray(file.personas)) {
+    for (const p of file.personas) {
+      if (p.label) rolesSet.add(p.label.trim())
+    }
+  }
+
+  // 2. Dedicated users section in the file
   if (file.users && Array.isArray(file.users)) {
     for (const u of file.users) {
       if (u.name && u.role) {
@@ -22,7 +29,7 @@ export function getFilePersonasAndRoles(file: ChecklistFile, reviewedItems: Revi
     }
   }
 
-  // 2. Dedicated roles section in the file
+  // 3. Dedicated roles section in the file
   if (file.roles && Array.isArray(file.roles)) {
     for (const r of file.roles) {
       if (r && typeof r === 'string' && r.trim()) {

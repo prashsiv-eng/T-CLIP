@@ -1,7 +1,9 @@
 import type { ChecklistFile, FieldType, ItemStatus } from '../types'
-import { normalizeCapability } from '../utils/capability'
+import { isValidCapability, normalizeCapability } from '../utils/capability'
 
-const VALID_STATUSES: ItemStatus[] = ['pending', 'pass', 'fail', 'na']
+const VALID_STATUSES: ItemStatus[] = [
+  'not-started', 'in-progress', 'blocked', 'in-review', 'pass', 'failed', 'na'
+]
 const VALID_FIELD_TYPES: FieldType[] = ['text', 'textarea', 'select', 'url', 'boolean', 'date']
 
 export interface ValidationResult {
@@ -43,6 +45,19 @@ export function validateChecklistFile(raw: unknown): ValidationResult {
     }
   }
 
+  // Validate personas if present
+  if (raw.personas !== undefined) {
+    if (!Array.isArray(raw.personas)) {
+      errors.push('"personas" must be an array when present')
+    } else {
+      raw.personas.forEach((p: unknown, i: number) => {
+        if (!isObject(p) || typeof p.id !== 'string' || typeof p.label !== 'string' || typeof p.role !== 'string') {
+          errors.push(`personas[${i}] must be an object with "id", "label", and "role" strings`)
+        }
+      })
+    }
+  }
+
   // Validate roles if present
   if (raw.roles !== undefined) {
     if (!Array.isArray(raw.roles) || !raw.roles.every(r => typeof r === 'string')) {
@@ -75,19 +90,17 @@ export function validateChecklistFile(raw: unknown): ValidationResult {
         // Unknown types are allowed (fall back to textarea) — just warn, not error
       }
       if (f.editableBy) {
-        const norm = typeof f.editableBy === 'string' ? normalizeCapability(f.editableBy) : null
-        if (!norm) {
+        if (typeof f.editableBy !== 'string' || !isValidCapability(f.editableBy)) {
           errors.push(`fields[${i}].editableBy has unknown capability "${f.editableBy}"`)
         } else {
-          f.editableBy = norm
+          f.editableBy = normalizeCapability(f.editableBy)
         }
       }
       if (f.visibleTo) {
-        const norm = typeof f.visibleTo === 'string' ? normalizeCapability(f.visibleTo) : null
-        if (!norm) {
+        if (typeof f.visibleTo !== 'string' || !isValidCapability(f.visibleTo)) {
           errors.push(`fields[${i}].visibleTo has unknown capability "${f.visibleTo}"`)
         } else {
-          f.visibleTo = norm
+          f.visibleTo = normalizeCapability(f.visibleTo)
         }
       }
     })
@@ -108,8 +121,13 @@ export function validateChecklistFile(raw: unknown): ValidationResult {
       }
       if (typeof item.required !== 'boolean')
         errors.push(`items[${i}].required must be a boolean`)
+      if (item.status === 'pending' || !item.status) {
+        item.status = 'not-started'
+      } else if (item.status === 'fail') {
+        item.status = 'failed'
+      }
       if (!VALID_STATUSES.includes(item.status as ItemStatus))
-        errors.push(`items[${i}].status "${item.status}" is not valid (must be pending|pass|fail|na)`)
+        errors.push(`items[${i}].status "${item.status}" is not valid (must be ${VALID_STATUSES.join('|')})`)
       if (item.statusEditableBy) {
         const norm = typeof item.statusEditableBy === 'string' ? normalizeCapability(item.statusEditableBy) : null
         if (norm) {

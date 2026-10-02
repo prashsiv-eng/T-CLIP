@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { validateChecklistFile } from '../schema/validate'
-import type { ChecklistFile, ChecklistItem, ChecklistPhase, FieldSchema, FileRules, ReviewAction, ReviewedItem, UserPersona } from '../types'
+import type { ChecklistFile, ChecklistItem, ChecklistPhase, FieldSchema, FileRules, ItemStatus, PersonaDefinition, ReviewAction, ReviewedItem, UserPersona } from '../types'
 import { sha256Hex } from '../utils/hash'
 import { clearActiveSession, restoreActiveSession, restoreSession, saveActiveSession, saveSession } from '../utils/session'
+import { STANDARD_PERSONAS } from '../utils/capability'
 
 export type { ChecklistPhase }
 
@@ -36,17 +37,34 @@ const INITIAL: ChecklistState = {
   hasBeenSaved: false,
 }
 
+function normalizeItemStatus(status?: string): ItemStatus {
+  if (!status || status === 'pending') return 'not-started'
+  if (status === 'fail') return 'failed'
+  return status as ItemStatus
+}
+
+function normalizeReviewedItem(item: ReviewedItem): ReviewedItem {
+  return {
+    ...item,
+    status: normalizeItemStatus(item.status),
+  }
+}
+
 function getInitialChecklistState(): ChecklistState {
   try {
     const active = restoreActiveSession()
     if (active && active.checklistFile && Array.isArray(active.reviewedItems) && active.reviewedItems.length > 0) {
+      const normalizedItems = active.reviewedItems.map(normalizeReviewedItem)
       return {
         phase: active.phase || 'view',
         source: active.source ?? null,
         rawFileBytes: null,
         fileHash: active.fileHash ?? null,
-        checklistFile: active.checklistFile,
-        reviewedItems: active.reviewedItems,
+        checklistFile: {
+          ...active.checklistFile,
+          items: active.checklistFile.items.map(i => ({ ...i, status: normalizeItemStatus(i.status) })),
+        },
+        reviewedItems: normalizedItems,
         isDirty: false,
         validationErrors: [],
         sessionRestored: true,
@@ -111,12 +129,19 @@ export function useChecklist() {
     setState(s => ({ ...s, phase: 'meta-entry', checklistFile: clone }))
   }, [])
 
-  const setMetadata = useCallback((project: string, version: string, branch: string) => {
+  const setMetadata = useCallback((project: string, version: string, branch: string, personas?: PersonaDefinition[]) => {
     setState(s => {
       if (!s.checklistFile) return s
-      const file = { ...s.checklistFile, project, version, branch }
+      const file: ChecklistFile = {
+        ...s.checklistFile,
+        project,
+        version,
+        branch,
+        personas: personas && personas.length > 0 ? personas : (s.checklistFile.personas ?? STANDARD_PERSONAS),
+      }
       const items: ReviewedItem[] = file.items.map(item => ({
         ...item,
+        status: normalizeItemStatus(item.status),
         history: [],
         confirmedBy: null,
       }))
@@ -145,9 +170,10 @@ export function useChecklist() {
     const hash = await sha256Hex(bytes)
     const saved = restoreSession(hash)
     const reviewedItems: ReviewedItem[] = saved
-      ? saved.reviewedItems
+      ? saved.reviewedItems.map(normalizeReviewedItem)
       : result.file.items.map(item => ({
           ...item,
+          status: normalizeItemStatus(item.status),
           history: (item as unknown as ReviewedItem).history ?? [],
           confirmedBy: (item as unknown as ReviewedItem).confirmedBy ?? null,
         }))
@@ -237,6 +263,76 @@ export function useChecklist() {
     }))
   }, [])
 
+  const batchUpdateStatus = useCallback((
+    itemIds: string[],
+    status: ItemStatus,
+    meta: { actorName: string; role: string; notes?: string }
+  ) => {
+    if (itemIds.length === 0) return
+    const timestamp = new Date().toISOString()
+    const idSet = new Set(itemIds)
+    setState(s => ({
+      ...s,
+      isDirty: true,
+      reviewedItems: s.reviewedItems.map(item => {
+        if (!idSet.has(item.id)) return item
+        const action: ReviewAction = {
+          actorName: meta.actorName,
+          role: meta.role,
+          status,
+          notes: meta.notes ?? `Batch update to ${status}`,
+          timestamp,
+        }
+        return {
+          ...item,
+          status,
+          history: [...item.history, action],
+        }
+      }),
+    }))
+  }, [])
+
+  const batchConfirm = useCallback((
+    itemIds: string[],
+    meta: { actorName: string; role: string; notes?: string }
+  ) => {
+    if (itemIds.length === 0) return
+    const timestamp = new Date().toISOString()
+    const idSet = new Set(itemIds)
+    setState(s => ({
+      ...s,
+      isDirty: true,
+      reviewedItems: s.reviewedItems.map(item => {
+        if (!idSet.has(item.id)) return item
+        const action: ReviewAction = {
+          actorName: meta.actorName,
+          role: meta.role,
+          status: item.status,
+          notes: meta.notes ?? 'Batch confirmed review',
+          timestamp,
+        }
+        return {
+          ...item,
+          confirmedBy: action,
+        }
+      }),
+    }))
+  }, [])
+
+  const updatePersonas = useCallback((personas: PersonaDefinition[]) => {
+    setState(s => {
+      if (!s.checklistFile) return s
+      return {
+        ...s,
+        isDirty: true,
+        checklistFile: {
+          ...s.checklistFile,
+          personas,
+        },
+      }
+    })
+  }, [])
+
   const editItem = useCallback((itemId: string, patch: Partial<ChecklistItem>) => {
     setState(s => ({
       ...s,
@@ -245,6 +341,35 @@ export function useChecklist() {
         ? { ...s.checklistFile, items: s.checklistFile.items.map(i => i.id === itemId ? { ...i, ...patch } : i) }
         : s.checklistFile,
       reviewedItems: s.reviewedItems.map(i => i.id === itemId ? { ...i, ...patch } : i),
+    }))
+  }, [])
+
+  const assignItem = useCallback((itemId: string, assignedTo?: { role?: string; name?: string }) => {
+    setState(s => ({
+      ...s,
+      isDirty: true,
+      checklistFile: s.checklistFile
+        ? {
+            ...s.checklistFile,
+            items: s.checklistFile.items.map(i => (i.id === itemId ? { ...i, assignedTo } : i)),
+          }
+        : s.checklistFile,
+      reviewedItems: s.reviewedItems.map(i => (i.id === itemId ? { ...i, assignedTo } : i)),
+    }))
+  }, [])
+
+  const batchAssign = useCallback((itemIds: string[], assignedTo?: { role?: string; name?: string }) => {
+    const idsSet = new Set(itemIds)
+    setState(s => ({
+      ...s,
+      isDirty: true,
+      checklistFile: s.checklistFile
+        ? {
+            ...s.checklistFile,
+            items: s.checklistFile.items.map(i => (idsSet.has(i.id) ? { ...i, assignedTo } : i)),
+          }
+        : s.checklistFile,
+      reviewedItems: s.reviewedItems.map(i => (idsSet.has(i.id) ? { ...i, assignedTo } : i)),
     }))
   }, [])
 
@@ -326,7 +451,12 @@ export function useChecklist() {
     goBack,
     saveItemResponse,
     confirmItem,
+    batchUpdateStatus,
+    batchConfirm,
+    updatePersonas,
     editItem,
+    assignItem,
+    batchAssign,
     addItem,
     deleteItem,
     updateFields,

@@ -1,10 +1,7 @@
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
-import { Box, Chip, Typography } from '@mui/material'
-import type { ItemStatus, ReviewedItem } from '../../types'
-
-const STATUS_COLOR: Record<ItemStatus, 'default' | 'warning' | 'success' | 'error'> = {
-  pending: 'warning', pass: 'success', fail: 'error', na: 'default',
-}
+import { Box, Typography } from '@mui/material'
+import type { ReviewedItem } from '../../types'
+import { StatusBadge } from '../checklist/StatusBadge'
 
 export function PendingReviewList({ items }: { items: ReviewedItem[] }) {
   if (items.length === 0) {
@@ -32,7 +29,7 @@ export function PendingReviewList({ items }: { items: ReviewedItem[] }) {
                 </Typography>
               )}
             </Box>
-            <Chip label={item.status} color={STATUS_COLOR[item.status]} size="small" sx={{ flexShrink: 0 }} />
+            <StatusBadge status={item.status} size="small" />
           </Box>
         )
       })}

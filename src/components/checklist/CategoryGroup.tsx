@@ -6,23 +6,34 @@ import type { CapabilityLevel, ChecklistFile, ReviewAction, ReviewedItem } from 
 import { meetsMinimum } from '../../utils/capability'
 import { ChecklistItem } from './ChecklistItem'
 
-const S_COLORS = { pass: '#16a34a', fail: '#dc2626', na: '#94a3b8', pending: '#64748b' }
+import { isResolvedStatus } from '../../utils/fields'
+
+const S_COLORS = {
+  pass: '#16a34a',
+  failed: '#dc2626',
+  'in-review': '#9333ea',
+  'in-progress': '#0284c7',
+  blocked: '#e11d48',
+  na: '#94a3b8',
+  'not-started': '#64748b',
+}
 
 interface Props {
   category: string; items: ReviewedItem[]; file: ChecklistFile
   userCapability: CapabilityLevel; userName: string; userRole: string
   onSaveResponse: (id: string, action: ReviewAction) => void
   onConfirm: (id: string, action: ReviewAction) => void
+  onAssignItem?: (id: string, assignedTo?: { role?: string; name?: string }) => void
   onEditItem?: (id: string) => void
 }
 
-export function CategoryGroup({ category, items, file, userCapability, userName, userRole, onSaveResponse, onConfirm, onEditItem }: Props) {
+export function CategoryGroup({ category, items, file, userCapability, userName, userRole, onSaveResponse, onConfirm, onAssignItem, onEditItem }: Props) {
   const [expanded, setExpanded] = useState(true)
-  const canEdit = meetsMinimum(userCapability, file.rules?.structureEditableBy ?? 'editor')
+  const canEdit = meetsMinimum(userCapability, file.rules?.structureEditableBy ?? 'master')
   const pass = items.filter(i => i.status === 'pass').length
-  const fail = items.filter(i => i.status === 'fail').length
-  const pending = items.filter(i => i.status === 'pending').length
-  const resolved = items.length - pending
+  const failed = items.filter(i => i.status === 'failed').length
+  const inReview = items.filter(i => i.status === 'in-review').length
+  const resolved = items.filter(i => isResolvedStatus(i.status)).length
   const pct = items.length === 0 ? 0 : Math.round((resolved / items.length) * 100)
 
   return (
@@ -60,15 +71,15 @@ export function CategoryGroup({ category, items, file, userCapability, userName,
           <Typography sx={{ fontWeight: 600, fontSize: 13, whiteSpace: 'nowrap', color: 'text.primary' }}>{category}</Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: 0.5, flexShrink: 0 }}>
             {pass > 0 && <Chip label={`${pass} pass`} color="success" size="small" sx={{ fontSize: 11, fontWeight: 600, height: 22 }} />}
-            {fail > 0 && <Chip label={`${fail} fail`} color="error" size="small" sx={{ fontSize: 11, fontWeight: 600, height: 22 }} />}
-            {pending > 0 && (
+            {failed > 0 && <Chip label={`${failed} failed`} color="error" size="small" sx={{ fontSize: 11, fontWeight: 600, height: 22 }} />}
+            {inReview > 0 && (
               <Chip
-                label={`${pending} pending`}
+                label={`${inReview} in-review`}
                 size="small"
                 sx={{
-                  bgcolor: '#f1f5f9',
-                  color: '#475569',
-                  border: '1px solid #cbd5e1',
+                  bgcolor: 'rgba(147, 51, 234, 0.1)',
+                  color: '#9333ea',
+                  border: '1px solid #d8b4fe',
                   fontWeight: 600,
                   fontSize: 11,
                   height: 22,
@@ -78,7 +89,7 @@ export function CategoryGroup({ category, items, file, userCapability, userName,
           </Box>
           {/* Stacked bar */}
           <Box sx={{ flex: 1, height: 6, borderRadius: 3, overflow: 'hidden', bgcolor: '#e2e8f0', display: 'flex', maxWidth: 130 }}>
-            {(['pass', 'fail', 'na', 'pending'] as const).map(s => {
+            {(['pass', 'failed', 'in-review', 'in-progress', 'blocked', 'na', 'not-started'] as const).map(s => {
               const n = items.filter(i => i.status === s).length
               const w = items.length === 0 ? 0 : (n / items.length) * 100
               return w > 0 ? <Box key={s} sx={{ width: `${w}%`, bgcolor: S_COLORS[s] }} /> : null
@@ -101,7 +112,7 @@ export function CategoryGroup({ category, items, file, userCapability, userName,
           {items.map(item => (
             <ChecklistItem key={item.id} item={item} file={file}
               userCapability={userCapability} userName={userName} userRole={userRole}
-              onSaveResponse={onSaveResponse} onConfirm={onConfirm}
+              onSaveResponse={onSaveResponse} onConfirm={onConfirm} onAssignItem={onAssignItem}
               onEditItem={canEdit && onEditItem ? () => onEditItem(item.id) : undefined} />
           ))}
         </Box>

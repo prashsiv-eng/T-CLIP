@@ -11,9 +11,14 @@ import type { GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { useState } from 'react'
 import type { CapabilityLevel, RoleCapabilityMap } from '../../types'
 
-const CAPS: CapabilityLevel[] = ['observer', 'contributor', 'reviewer', 'approver', 'editor']
-const CAP_COLOR: Record<CapabilityLevel, 'default' | 'secondary' | 'primary' | 'warning' | 'success'> = {
-  observer: 'default', contributor: 'secondary', reviewer: 'primary', approver: 'warning', editor: 'success',
+const CAPS: CapabilityLevel[] = ['read-only', 'editor', 'reviewer', 'approver', 'sign-off', 'master']
+const CAP_COLOR: Record<CapabilityLevel, 'default' | 'info' | 'secondary' | 'warning' | 'success' | 'primary'> = {
+  'read-only': 'default',
+  editor: 'info',
+  reviewer: 'secondary',
+  approver: 'warning',
+  'sign-off': 'success',
+  master: 'primary',
 }
 
 interface Props {

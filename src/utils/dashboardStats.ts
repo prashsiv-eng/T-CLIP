@@ -4,19 +4,29 @@ import { isItemComplete } from './fields'
 export interface Summary {
   total: number
   pass: number
-  fail: number
+  failed: number
   na: number
-  pending: number
+  notStarted: number
+  inProgress: number
+  blocked: number
+  inReview: number
   completionPercent: number
+  fail: number
+  pending: number
 }
 
 export interface CategoryStat {
   category: string
   pass: number
-  fail: number
+  failed: number
   na: number
-  pending: number
+  notStarted: number
+  inProgress: number
+  blocked: number
+  inReview: number
   total: number
+  fail: number
+  pending: number
 }
 
 export interface ActivityPoint {
@@ -38,24 +48,39 @@ export function computeSummary(
 ): Summary {
   const total = items.length
   const pass = items.filter(i => i.status === 'pass').length
-  const fail = items.filter(i => i.status === 'fail').length
+  const failed = items.filter(i => i.status === 'failed' || (i.status as string) === 'fail').length
   const na = items.filter(i => i.status === 'na').length
-  const pending = items.filter(i => i.status === 'pending').length
+  const notStarted = items.filter(i => i.status === 'not-started' || (i.status as string) === 'pending').length
+  const inProgress = items.filter(i => i.status === 'in-progress').length
+  const blocked = items.filter(i => i.status === 'blocked').length
+  const inReview = items.filter(i => i.status === 'in-review').length
 
   const requiredItems = items.filter(i => i.required)
   const resolvedRequired = requiredItems.filter(i => isItemComplete(i, fields, userCapability)).length
   const completionPercent =
     requiredItems.length === 0 ? 100 : Math.round((resolvedRequired / requiredItems.length) * 100)
 
-  return { total, pass, fail, na, pending, completionPercent }
+  return {
+    total,
+    pass,
+    failed,
+    na,
+    notStarted,
+    inProgress,
+    blocked,
+    inReview,
+    completionPercent,
+    fail: failed,
+    pending: notStarted + inProgress + blocked + inReview,
+  }
 }
 
 export function getPendingResponses(items: ReviewedItem[]): ReviewedItem[] {
-  return items.filter(i => i.history.length === 0)
+  return items.filter(i => i.status === 'not-started' || (i.status as string) === 'pending' || i.history.length === 0)
 }
 
 export function getPendingReview(items: ReviewedItem[]): ReviewedItem[] {
-  return items.filter(i => i.history.length > 0 && i.confirmedBy === null)
+  return items.filter(i => i.status === 'in-review')
 }
 
 export function getLeaderboard(items: ReviewedItem[]): LeaderboardEntry[] {
@@ -82,12 +107,21 @@ export function getLeaderboard(items: ReviewedItem[]): LeaderboardEntry[] {
 
 export function applyFilters(items: ReviewedItem[], filters: DashboardFilters): ReviewedItem[] {
   return items.filter(item => {
-    if (filters.status !== 'all' && item.status !== filters.status) return false
+    if (filters.status !== 'all') {
+      if (filters.status === 'failed') {
+        if (item.status !== 'failed' && (item.status as string) !== 'fail') return false
+      } else if (filters.status === 'not-started') {
+        if (item.status && item.status !== 'not-started' && (item.status as string) !== 'pending') return false
+      } else if (item.status !== filters.status) {
+        return false
+      }
+    }
     if (filters.categories.length > 0 && !filters.categories.includes(item.category)) return false
     if (filters.role) {
       const roleLower = filters.role.toLowerCase()
       const allRoles = [
         item.assignedTo?.role ?? '',
+        item.confirmedBy?.role ?? '',
         ...item.history.map(a => a.role),
       ]
       const matches = allRoles.some(r => r.toLowerCase().includes(roleLower))
@@ -102,9 +136,26 @@ export function getCategoryStats(items: ReviewedItem[]): CategoryStat[] {
   const map = new Map<string, CategoryStat>()
   for (const item of items) {
     const existing = map.get(item.category) ?? {
-      category: item.category, pass: 0, fail: 0, na: 0, pending: 0, total: 0,
+      category: item.category,
+      pass: 0,
+      failed: 0,
+      na: 0,
+      notStarted: 0,
+      inProgress: 0,
+      blocked: 0,
+      inReview: 0,
+      total: 0,
+      fail: 0,
+      pending: 0,
     }
-    existing[item.status]++
+    const st = item.status as string
+    if (st === 'pass') existing.pass++
+    else if (st === 'failed' || st === 'fail') { existing.failed++; existing.fail++ }
+    else if (st === 'na') existing.na++
+    else if (st === 'not-started' || st === 'pending') { existing.notStarted++; existing.pending++ }
+    else if (st === 'in-progress') { existing.inProgress++; existing.pending++ }
+    else if (st === 'blocked') { existing.blocked++; existing.pending++ }
+    else if (st === 'in-review') { existing.inReview++; existing.pending++ }
     existing.total++
     map.set(item.category, existing)
   }

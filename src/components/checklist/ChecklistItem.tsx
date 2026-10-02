@@ -11,8 +11,16 @@ import { getRequiredFieldIds, resolveItemFields } from '../../utils/fields'
 import { FieldRenderer } from './FieldRenderer'
 
 
+import { StatusBadge } from './StatusBadge'
+
 const STATUS_BORDER: Record<ItemStatus, string> = {
-  pending: '#cbd5e1', pass: '#16a34a', fail: '#dc2626', na: '#e2e8f0',
+  'not-started': '#cbd5e1',
+  'in-progress': '#0284c7',
+  blocked: '#e11d48',
+  'in-review': '#9333ea',
+  pass: '#16a34a',
+  failed: '#dc2626',
+  na: '#cbd5e1',
 }
 
 interface Props {
@@ -20,10 +28,11 @@ interface Props {
   userName: string; userRole: string
   onSaveResponse: (id: string, action: ReviewAction) => void
   onConfirm: (id: string, action: ReviewAction) => void
+  onAssignItem?: (id: string, assignedTo?: { role?: string; name?: string }) => void
   onEditItem?: () => void
 }
 
-export function ChecklistItem({ item, file, userCapability, userName, userRole, onSaveResponse, onConfirm, onEditItem }: Props) {
+export function ChecklistItem({ item, file, userCapability, userName, userRole, onSaveResponse, onConfirm, onAssignItem, onEditItem }: Props) {
   const [status, setStatus] = useState<ItemStatus>(item.status)
   const [fieldValues, setFieldValues] = useState<Record<string, string>>(item.values ?? {})
   const [override, setOverride] = useState('')
@@ -31,10 +40,10 @@ export function ChecklistItem({ item, file, userCapability, userName, userRole, 
 
   const canEdit = meetsMinimum(userCapability, item.statusEditableBy ?? 'reviewer')
   const canApprove = meetsMinimum(userCapability, 'approver')
-  const isObserver = userCapability === 'observer'
+  const isReadOnly = userCapability === 'read-only'
 
   const resolvedFields = resolveItemFields(item, file.fields)
-    .filter(f => meetsMinimum(userCapability, f.visibleTo ?? 'observer'))
+    .filter(f => meetsMinimum(userCapability, f.visibleTo ?? 'read-only'))
   const requiredIds = getRequiredFieldIds(resolvedFields, status)
 
   const isAssigned =
@@ -84,9 +93,9 @@ export function ChecklistItem({ item, file, userCapability, userName, userRole, 
               }}
             />
           )}
-          {item.assignedTo && (
+          {item.assignedTo ? (
             <Chip
-              label={item.assignedTo.name ?? item.assignedTo.role}
+              label={item.assignedTo.name ? `${item.assignedTo.name} (${item.assignedTo.role})` : item.assignedTo.role}
               size="small"
               variant="outlined"
               sx={{
@@ -98,36 +107,25 @@ export function ChecklistItem({ item, file, userCapability, userName, userRole, 
                 height: 20,
               }}
             />
-          )}
-          {item.confirmedBy && <Chip label="✓" size="small" color="success" sx={{ height: 20, fontSize: 11 }} />}
-          {item.status === 'pending' && (
+          ) : !isReadOnly && onAssignItem ? (
             <Chip
-              label="pending"
-              size="small"
-              sx={{
-                bgcolor: '#f1f5f9',
-                color: '#475569',
-                border: '1px solid #cbd5e1',
-                fontWeight: 600,
-                fontSize: 11,
-                height: 22,
-              }}
-            />
-          )}
-          {item.status === 'pass' && (
-            <Chip label="pass" size="small" color="success" sx={{ fontSize: 11, fontWeight: 600, height: 22 }} />
-          )}
-          {item.status === 'fail' && (
-            <Chip label="fail" size="small" color="error" sx={{ fontSize: 11, fontWeight: 600, height: 22 }} />
-          )}
-          {item.status === 'na' && (
-            <Chip
-              label="n/a"
+              label="+ Assign to me"
               size="small"
               variant="outlined"
-              sx={{ color: '#94a3b8', borderColor: '#e2e8f0', fontSize: 11, height: 22 }}
+              onClick={() => onAssignItem(item.id, { name: userName, role: userRole })}
+              sx={{
+                color: '#64748b',
+                borderColor: '#cbd5e1',
+                borderStyle: 'dashed',
+                fontSize: 10,
+                height: 20,
+                cursor: 'pointer',
+                '&:hover': { color: '#2563eb', borderColor: '#2563eb' },
+              }}
             />
-          )}
+          ) : null}
+          {item.confirmedBy && <Chip label="✓" size="small" color="success" sx={{ height: 20, fontSize: 11 }} />}
+          <StatusBadge status={item.status} size="small" />
           {onEditItem && (
             <Box component="span" sx={{ fontSize: 13, cursor: 'pointer', color: 'text.secondary', px: 0.5 }} onClick={onEditItem}>✎</Box>
           )}
@@ -141,7 +139,7 @@ export function ChecklistItem({ item, file, userCapability, userName, userRole, 
       )}
 
       {/* Respond */}
-      {!isObserver && (
+      {!isReadOnly && (
         <Accordion disableGutters elevation={0}
           sx={{ '&:before': { display: 'none' }, border: 'none', borderTop: '1px solid #f1f5f9', borderRadius: '0 !important' }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ fontSize: 16 }} />}
@@ -159,7 +157,7 @@ export function ChecklistItem({ item, file, userCapability, userName, userRole, 
                 )}
               </FormLabel>
               <RadioGroup row value={status} onChange={e => canEdit && setStatus(e.target.value as ItemStatus)}>
-                {(['pass', 'fail', 'na'] as ItemStatus[]).map(s => (
+                {(['not-started', 'in-progress', 'blocked', 'in-review', 'pass', 'failed', 'na'] as ItemStatus[]).map(s => (
                   <FormControlLabel key={s} value={s}
                     control={<Radio size="small" disabled={!canEdit} />}
                     label={<Typography sx={{ fontSize: 12, fontWeight: status === s ? 600 : 400, textTransform: 'capitalize' }}>{s}</Typography>}
@@ -240,15 +238,7 @@ export function ChecklistItem({ item, file, userCapability, userName, userRole, 
                 <Box key={i} sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
                   <Typography sx={{ fontSize: 11, color: 'text.disabled', whiteSpace: 'nowrap' }}>{new Date(a.timestamp).toLocaleString()}</Typography>
                   <Typography sx={{ fontSize: 11 }}><strong>{a.actorName}</strong> · {a.role}</Typography>
-                  {a.status === 'pending' ? (
-                    <Chip label="pending" size="small" sx={{ bgcolor: '#f1f5f9', color: '#475569', border: '1px solid #cbd5e1', fontSize: 10, height: 20 }} />
-                  ) : a.status === 'pass' ? (
-                    <Chip label="pass" size="small" color="success" sx={{ fontSize: 10, height: 20 }} />
-                  ) : a.status === 'fail' ? (
-                    <Chip label="fail" size="small" color="error" sx={{ fontSize: 10, height: 20 }} />
-                  ) : (
-                    <Chip label="n/a" size="small" variant="outlined" sx={{ color: '#94a3b8', borderColor: '#e2e8f0', fontSize: 10, height: 20 }} />
-                  )}
+                  <StatusBadge status={a.status} size="small" />
                 </Box>
               ))}
             </Box>

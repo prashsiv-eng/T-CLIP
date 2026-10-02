@@ -11,9 +11,9 @@ import { useState } from 'react'
 import type { CapabilityLevel, FieldSchema, FieldType, ItemStatus } from '../../types'
 
 const TYPES: FieldType[] = ['text', 'textarea', 'select', 'url', 'boolean', 'date']
-const STATUSES: ItemStatus[] = ['pass', 'fail', 'na']
-const CAPS: CapabilityLevel[] = ['observer', 'contributor', 'reviewer', 'approver', 'editor']
-const BLANK: FieldSchema = { id: '', label: '', type: 'text', requiredWhen: [], editableBy: 'reviewer', visibleTo: 'observer' }
+const STATUSES: ItemStatus[] = ['not-started', 'in-progress', 'blocked', 'in-review', 'pass', 'failed', 'na']
+const CAPS: CapabilityLevel[] = ['read-only', 'editor', 'reviewer', 'approver', 'sign-off', 'master']
+const BLANK: FieldSchema = { id: '', label: '', type: 'text', requiredWhen: [], editableBy: 'editor', visibleTo: 'read-only' }
 
 interface Props { fields: FieldSchema[]; onChange: (fields: FieldSchema[]) => void }
 
@@ -128,11 +128,11 @@ export function FieldSchemaEditor({ fields, onChange }: Props) {
               </FormGroup>
             </Box>
             <TextField select label="Editable by (min)" size="small"
-              value={form.editableBy ?? 'reviewer'} onChange={e => set('editableBy', e.target.value as CapabilityLevel)}>
+              value={form.editableBy ?? 'editor'} onChange={e => set('editableBy', e.target.value as CapabilityLevel)}>
               {CAPS.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)}
             </TextField>
             <TextField select label="Visible to (min)" size="small"
-              value={form.visibleTo ?? 'observer'} onChange={e => set('visibleTo', e.target.value as CapabilityLevel)}>
+              value={form.visibleTo ?? 'read-only'} onChange={e => set('visibleTo', e.target.value as CapabilityLevel)}>
               {CAPS.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)}
             </TextField>
           </Box>

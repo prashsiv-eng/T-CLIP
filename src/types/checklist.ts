@@ -1,16 +1,39 @@
-// ── Status & Capability enums ─────────────────────────────────────────────────
+// ── Status & Role enums ───────────────────────────────────────────────────
 
-export type ItemStatus = 'pending' | 'pass' | 'fail' | 'na'
+export type ItemStatus =
+  | 'not-started'
+  | 'in-progress'
+  | 'blocked'
+  | 'in-review'
+  | 'pass'
+  | 'failed'
+  | 'na'
 
-export type CapabilityLevel = 'observer' | 'contributor' | 'reviewer' | 'approver' | 'editor'
+export type RoleType =
+  | 'read-only'
+  | 'editor'
+  | 'reviewer'
+  | 'approver'
+  | 'sign-off'
+  | 'master'
+
+/** Synonym for RoleType for capability checks */
+export type CapabilityLevel = RoleType
 
 export type FieldType = 'text' | 'textarea' | 'select' | 'url' | 'boolean' | 'date'
 
 // ── Schema types (live in checklist.json) ────────────────────────────────────
 
+export interface PersonaDefinition {
+  id: string
+  label: string
+  role: RoleType
+  description?: string
+}
+
 export interface FileRules {
-  /** Minimum capability to edit checklist structure. Default: 'editor' */
-  structureEditableBy?: CapabilityLevel
+  /** Minimum role to edit checklist structure. Default: 'master' */
+  structureEditableBy?: RoleType
   /** If true, only the assigned role/name can respond to an item. Default: false */
   enforcedAssignment?: boolean
 }
@@ -23,10 +46,10 @@ export interface FieldSchema {
   options?: string[]
   /** Statuses that make this field mandatory. Absent or [] = always optional */
   requiredWhen?: ItemStatus[]
-  /** Minimum capability to fill/edit this field. Default: 'reviewer' */
-  editableBy?: CapabilityLevel
-  /** Minimum capability to see this field. Default: 'observer' */
-  visibleTo?: CapabilityLevel
+  /** Minimum role to fill/edit this field. Default: 'editor' */
+  editableBy?: RoleType
+  /** Minimum role to see this field. Default: 'read-only' */
+  visibleTo?: RoleType
   /** Character limit for text/textarea */
   maxLength?: number
 }
@@ -37,8 +60,8 @@ export interface ChecklistItem {
   description: string
   status: ItemStatus
   required: boolean
-  /** Minimum capability to change this item's status. Default: 'reviewer' */
-  statusEditableBy?: CapabilityLevel
+  /** Minimum role to change this item's review status. Default: 'reviewer' */
+  statusEditableBy?: RoleType
   assignedTo?: { role?: string; name?: string }
   /** Subset of top-level field ids to show for this item. Absent = all */
   fields?: string[]
@@ -57,9 +80,11 @@ export interface ChecklistFile {
   branch?: string
   rules?: FileRules
   roles?: string[]
+  personas?: PersonaDefinition[]
   users?: UserPersona[]
   fields: FieldSchema[]
   items: ChecklistItem[]
+  attestation?: Attestation
 }
 
 // ── Review types (app state + attestation) ───────────────────────────────────
@@ -69,7 +94,9 @@ export interface ReviewAction {
   role: string
   status: ItemStatus
   /** All field values filled during this action, keyed by FieldSchema.id */
-  fieldValues: Record<string, string>
+  fieldValues?: Record<string, string>
+  /** Optional review note or reasoning */
+  notes?: string
   /** ISO 8601 UTC */
   timestamp: string
 }
@@ -81,6 +108,14 @@ export interface ReviewedItem extends ChecklistItem {
   confirmedBy: ReviewAction | null
 }
 
+export interface SignoffRecord {
+  signerName: string
+  role: string
+  statement: string
+  timestamp: string
+  hash: string
+}
+
 export interface Attestation {
   schemaVersion: '1.0'
   project: string
@@ -90,6 +125,7 @@ export interface Attestation {
   sourceFileHash: string
   /** ISO 8601 UTC */
   exportedAt: string
+  signoff?: SignoffRecord
   items: ReviewedItem[]
 }
 

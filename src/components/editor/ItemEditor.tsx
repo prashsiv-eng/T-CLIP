@@ -11,10 +11,10 @@ interface Props {
   onSave: (item: ChecklistItem) => void; onDelete?: (id: string) => void; onClose: () => void
 }
 
-const CAPS: CapabilityLevel[] = ['observer', 'contributor', 'reviewer', 'approver', 'editor']
+const CAPS: CapabilityLevel[] = ['read-only', 'editor', 'reviewer', 'approver', 'sign-off', 'master']
 
 const BLANK: Omit<ChecklistItem, 'id'> = {
-  category: '', description: '', required: true, status: 'pending',
+  category: '', description: '', required: true, status: 'not-started',
   statusEditableBy: 'reviewer', assignedTo: { role: '', name: '' }, values: {},
 }
 

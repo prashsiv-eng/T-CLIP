@@ -1,9 +1,10 @@
-import type { Attestation, ChecklistFile, ReviewedItem } from '../types'
+import type { Attestation, ChecklistFile, ReviewedItem, SignoffRecord } from '../types'
 
 export function buildAttestation(
   file: ChecklistFile,
   reviewedItems: ReviewedItem[],
   fileHash: string,
+  signoff?: SignoffRecord,
 ): Attestation {
   return {
     schemaVersion: '1.0',
@@ -12,6 +13,7 @@ export function buildAttestation(
     checklistVersion: file.version,
     sourceFileHash: fileHash,
     exportedAt: new Date().toISOString(),
+    signoff,
     items: reviewedItems,
   }
 }
@@ -33,8 +35,9 @@ export function exportAttestation(
   file: ChecklistFile,
   reviewedItems: ReviewedItem[],
   fileHash: string,
+  signoff?: SignoffRecord,
 ): void {
-  const attestation = buildAttestation(file, reviewedItems, fileHash)
+  const attestation = buildAttestation(file, reviewedItems, fileHash, signoff)
   downloadJSON(attestation, 'checklist-attestation.json')
 }
 

@@ -18,13 +18,21 @@ export function resolveItemFields(item: ChecklistItem, allFields: FieldSchema[])
  */
 export function getRequiredFieldIds(fields: FieldSchema[], status: ItemStatus): string[] {
   return fields
-    .filter(f => f.requiredWhen && f.requiredWhen.includes(status))
+    .filter(f => {
+      if (!f.requiredWhen) return false
+      const list = f.requiredWhen as string[]
+      return list.includes(status) || (status === 'failed' && list.includes('fail'))
+    })
     .map(f => f.id)
+}
+
+export function isResolvedStatus(status: ItemStatus | string): boolean {
+  return status === 'pass' || status === 'failed' || status === 'fail' || status === 'na'
 }
 
 /**
  * Returns true if the item is complete:
- *   - status is not 'pending'
+ *   - status is resolved ('pass', 'failed', 'na')
  *   - all fields visible to the user and required for the current status have a non-empty value
  */
 export function isItemComplete(
@@ -32,12 +40,12 @@ export function isItemComplete(
   fields: FieldSchema[],
   userCapability: CapabilityLevel,
 ): boolean {
-  if (item.status === 'pending') return false
+  if (!isResolvedStatus(item.status)) return false
 
   const lastAction = item.history[item.history.length - 1]
   const fieldValues = lastAction?.fieldValues ?? {}
 
-  const visibleFields = fields.filter(f => meetsMinimum(userCapability, f.visibleTo ?? 'observer'))
+  const visibleFields = fields.filter(f => meetsMinimum(userCapability, f.visibleTo ?? 'read-only'))
   const requiredIds = getRequiredFieldIds(visibleFields, item.status)
 
   return requiredIds.every(id => {

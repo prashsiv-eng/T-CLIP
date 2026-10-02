@@ -78,7 +78,7 @@
       "id": "CAIQ-AAC-01",
       "category": "Audit Assurance & Compliance",
       "description": "Are independent third-party audits and compliance assessments (e.g. SOC 2 Type II, ISO/IEC 27001) conducted at least annually?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -92,7 +92,7 @@
       "id": "CAIQ-AAC-02",
       "category": "Audit Assurance & Compliance",
       "description": "Are audit logs generated for all administrative and privileged user actions, and protected against unauthorized modification or deletion?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -106,7 +106,7 @@
       "id": "CAIQ-AAC-03",
       "category": "Audit Assurance & Compliance",
       "description": "Is an independent audit trail maintained for all changes to access control policies and permission assignments?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -120,7 +120,7 @@
       "id": "CAIQ-AIS-01",
       "category": "Application & Interface Security",
       "description": "Do APIs enforce mutual TLS (mTLS), OAuth 2.0 / OIDC authentication, and strict request rate-limiting?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -134,7 +134,7 @@
       "id": "CAIQ-AIS-02",
       "category": "Application & Interface Security",
       "description": "Is automated static (SAST) and dynamic (DAST) security testing integrated into the automated continuous deployment pipeline?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -148,7 +148,7 @@
       "id": "CAIQ-AIS-03",
       "category": "Application & Interface Security",
       "description": "Are production APIs protected against OWASP Top 10 web and API threats via a Web Application and API Protection (WAAP) solution?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -162,7 +162,7 @@
       "id": "CAIQ-AIS-04",
       "category": "Application & Interface Security",
       "description": "Are all external endpoints subjected to automated TLS certificate lifecycle management and minimum TLS 1.3 enforcement?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -176,7 +176,7 @@
       "id": "CAIQ-BCR-01",
       "category": "Business Continuity & Operational Resilience",
       "description": "Are disaster recovery and business continuity plans tested annually with documented Recovery Time (RTO) and Point (RPO) Objectives?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -190,7 +190,7 @@
       "id": "CAIQ-BCR-02",
       "category": "Business Continuity & Operational Resilience",
       "description": "Are automated backups replicated cross-region with immutable / object-lock retention policies preventing ransomware deletion?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -204,7 +204,7 @@
       "id": "CAIQ-BCR-03",
       "category": "Business Continuity & Operational Resilience",
       "description": "Is critical cloud infrastructure deployed across multiple availability zones with automated failover and health checks?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -218,7 +218,7 @@
       "id": "CAIQ-CCC-01",
       "category": "Change Control & Configuration Management",
       "description": "Is all cloud infrastructure provisioned declaratively via Infrastructure as Code (IaC) with automated drift detection?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -232,7 +232,7 @@
       "id": "CAIQ-CCC-02",
       "category": "Change Control & Configuration Management",
       "description": "Are all production code and infrastructure changes peer-reviewed and signed off through pull requests with branch protection?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -246,7 +246,7 @@
       "id": "CAIQ-CCC-03",
       "category": "Change Control & Configuration Management",
       "description": "Are baseline configuration standards (e.g. CIS Benchmarks) continuously audited with automated remediation of misconfigurations?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -260,7 +260,7 @@
       "id": "CAIQ-CEK-01",
       "category": "Cryptography, Encryption & Key Management",
       "description": "Is customer and sensitive data encrypted at rest using AES-256 or ChaCha20 with keys managed in a FIPS 140-2 Level 3 HSM?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -274,7 +274,7 @@
       "id": "CAIQ-CEK-02",
       "category": "Cryptography, Encryption & Key Management",
       "description": "Are cryptographic keys rotated automatically at least annually or upon role change or suspected compromise?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -288,7 +288,7 @@
       "id": "CAIQ-CEK-03",
       "category": "Cryptography, Encryption & Key Management",
       "description": "Are data encryption keys separated from master key encryption keys (envelope encryption) with access restricted by IAM policy?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -302,7 +302,7 @@
       "id": "CAIQ-DSP-01",
       "category": "Data Security & Privacy Lifecycle Management",
       "description": "Is a formal data classification scheme (Public, Internal, Confidential, Restricted/PII) enforced across cloud storage repositories?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -316,7 +316,7 @@
       "id": "CAIQ-DSP-02",
       "category": "Data Security & Privacy Lifecycle Management",
       "description": "Are data retention, sanitization, and secure cryptographic erasure policies implemented in compliance with GDPR, CCPA, and HIPAA?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -330,7 +330,7 @@
       "id": "CAIQ-DSP-03",
       "category": "Data Security & Privacy Lifecycle Management",
       "description": "Is production customer data strictly prohibited and masked/anonymized before use in staging, development, or testing environments?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -344,7 +344,7 @@
       "id": "CAIQ-DSP-04",
       "category": "Data Security & Privacy Lifecycle Management",
       "description": "Are automated Data Loss Prevention (DLP) controls active on cloud storage buckets, egress pipelines, and APIs?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -358,7 +358,7 @@
       "id": "CAIQ-GRC-01",
       "category": "Governance, Risk and Compliance",
       "description": "Does the organization maintain a formal Information Security Management System (ISMS) approved by executive management?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -372,7 +372,7 @@
       "id": "CAIQ-GRC-02",
       "category": "Governance, Risk and Compliance",
       "description": "Are comprehensive risk assessments conducted on all cloud services prior to deployment and at least annually thereafter?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -386,7 +386,7 @@
       "id": "CAIQ-GRC-03",
       "category": "Governance, Risk and Compliance",
       "description": "Is a formal third-party vendor risk assessment program implemented for all SaaS and cloud sub-processors?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -400,7 +400,7 @@
       "id": "CAIQ-IAM-01",
       "category": "Identity & Access Management",
       "description": "Is phishing-resistant Multi-Factor Authentication (MFA/FIDO2) strictly enforced for all administrative and user logins?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -414,7 +414,7 @@
       "id": "CAIQ-IAM-02",
       "category": "Identity & Access Management",
       "description": "Are privileged cloud access credentials provisioned just-in-time (JIT) with automated expiration and session recording?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -428,7 +428,7 @@
       "id": "CAIQ-IAM-03",
       "category": "Identity & Access Management",
       "description": "Are user access privileges reviewed and recertified quarterly, with immediate offboarding revocation upon employment termination?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -442,7 +442,7 @@
       "id": "CAIQ-IAM-04",
       "category": "Identity & Access Management",
       "description": "Are long-lived service account keys and API secrets prohibited in favor of workload identity federation (OIDC / IAM Roles)?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -456,7 +456,7 @@
       "id": "CAIQ-IVS-01",
       "category": "Infrastructure & Virtualization Security",
       "description": "Are cloud workloads isolated in private VPCs with strict network security groups, firewalls, and micro-segmentation?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -470,7 +470,7 @@
       "id": "CAIQ-IVS-02",
       "category": "Infrastructure & Virtualization Security",
       "description": "Are container images scanned for vulnerabilities in registries, signed with Sigstore/Cosign, and verified by admission controllers?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -484,7 +484,7 @@
       "id": "CAIQ-IVS-03",
       "category": "Infrastructure & Virtualization Security",
       "description": "Is direct SSH / RDP access to production cloud hosts disabled and replaced with session-monitored bastion/systems managers?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -498,7 +498,7 @@
       "id": "CAIQ-SEF-01",
       "category": "Incident Management & Forensics",
       "description": "Is a 24/7 Security Operations Center (SOC) or managed detection and response (MDR) provider actively monitoring cloud telemetry?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -512,7 +512,7 @@
       "id": "CAIQ-SEF-02",
       "category": "Incident Management & Forensics",
       "description": "Are cloud security incident response procedures tested annually via simulated breach scenarios (tabletop / purple team)?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -526,7 +526,7 @@
       "id": "CAIQ-SEF-03",
       "category": "Incident Management & Forensics",
       "description": "Is forensic capture capability enabled to acquire volatile memory, disk snapshots, and VPC flow logs without modifying system state?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -540,7 +540,7 @@
       "id": "CAIQ-TVM-01",
       "category": "Threat & Vulnerability Management",
       "description": "Are automated vulnerability scans conducted weekly across all cloud infrastructure, containers, and operating systems?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -554,7 +554,7 @@
       "id": "CAIQ-TVM-02",
       "category": "Threat & Vulnerability Management",
       "description": "Are critical vulnerabilities remediated within 14 days and high vulnerabilities within 30 days of discovery?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -568,7 +568,7 @@
       "id": "CAIQ-TVM-03",
       "category": "Threat & Vulnerability Management",
       "description": "Is an external penetration test performed at least annually by an independent CREST/OSCP accredited offensive security firm?",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -577,6 +577,38 @@
       "values": {
         "control_id": "TVM-03"
       }
+    }
+  ],
+  "personas": [
+    {
+      "id": "cloud-arch",
+      "label": "Cloud Security Architect",
+      "role": "approver"
+    },
+    {
+      "id": "compliance",
+      "label": "Compliance Officer",
+      "role": "reviewer"
+    },
+    {
+      "id": "devsecops",
+      "label": "DevSecOps Engineer",
+      "role": "editor"
+    },
+    {
+      "id": "infra-lead",
+      "label": "Infrastructure Lead",
+      "role": "editor"
+    },
+    {
+      "id": "ciso",
+      "label": "CISO / Auditor",
+      "role": "sign-off"
+    },
+    {
+      "id": "auditor",
+      "label": "Auditor",
+      "role": "read-only"
     }
   ]
 }

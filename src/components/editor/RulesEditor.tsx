@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel, MenuItem, TextField, Typography , Box } from '@mui/material'
 import type { CapabilityLevel, FileRules } from '../../types'
 
-const CAPS: CapabilityLevel[] = ['observer', 'contributor', 'reviewer', 'approver', 'editor']
+const CAPS: CapabilityLevel[] = ['read-only', 'editor', 'reviewer', 'approver', 'sign-off', 'master']
 
 export function RulesEditor({ rules, onChange }: { rules: FileRules; onChange: (r: FileRules) => void }) {
   return (

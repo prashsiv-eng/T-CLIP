@@ -2,13 +2,18 @@ import { Autocomplete, Chip, TextField , Box } from '@mui/material'
 import type { CapabilityLevel } from '../../types'
 
 export const ROLE_OPTIONS = [
-  'Observer', 'Contributor', 'Reviewer', 'Approver', 'Editor',
-  'Security Lead', 'QA Engineer', 'Release Manager', 'Product Owner', 'Developer',
+  'Developer', 'DevOps Engineer', 'QA Engineer', 'Security Reviewer',
+  'Tech Lead', 'Release Manager', 'Project Admin', 'Auditor',
+  'editor', 'reviewer', 'approver', 'sign-off', 'master', 'read-only',
 ]
 
-const CAP_COLOR: Record<CapabilityLevel, 'default' | 'primary' | 'secondary' | 'warning' | 'success'> = {
-  observer: 'default', contributor: 'secondary', reviewer: 'primary',
-  approver: 'warning', editor: 'success',
+const CAP_COLOR: Record<CapabilityLevel, 'default' | 'primary' | 'secondary' | 'warning' | 'success' | 'info'> = {
+  'read-only': 'default',
+  editor: 'info',
+  reviewer: 'secondary',
+  approver: 'warning',
+  'sign-off': 'success',
+  master: 'primary',
 }
 
 interface Props {

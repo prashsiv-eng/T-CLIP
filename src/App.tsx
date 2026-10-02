@@ -68,7 +68,8 @@ export default function App() {
   if (checklist.phase === 'meta-entry') {
     return (
       <MetaEntryForm
-        onSubmit={(p, v, b) => checklist.setMetadata(p, v, b)}
+        initialPersonas={checklist.checklistFile?.personas}
+        onSubmit={(p, v, b, personas) => checklist.setMetadata(p, v, b, personas)}
         onBack={checklist.goBack}
       />
     )
@@ -192,17 +193,32 @@ export default function App() {
         {activeTab === 'checklist' ? (
           <Box sx={{ width: '100%', minWidth: 0 }}>
             <ChecklistView
-              file={file} reviewedItems={checklist.reviewedItems}
+              file={file}
+              reviewedItems={checklist.reviewedItems}
               userCapability={settings.currentCapability}
-              userName={settings.currentUser} userRole={settings.currentRole}
+              userName={settings.currentUser}
+              userRole={settings.currentRole}
               onSaveResponse={(id: string, action: ReviewAction) => checklist.saveItemResponse(id, action)}
               onConfirm={(id: string, action: ReviewAction) => checklist.confirmItem(id, action)}
+              onBatchUpdateStatus={checklist.batchUpdateStatus}
+              onBatchConfirm={checklist.batchConfirm}
+              onAssignItem={checklist.assignItem}
+              onBatchAssign={checklist.batchAssign}
+              onNavigateToAttestation={() => {
+                const el = document.getElementById('attestation-section')
+                if (el) el.scrollIntoView({ behavior: 'smooth' })
+              }}
               onEditItem={canEdit ? (id: string) => setEditingItemId(id) : undefined}
             />
             {allRequiredComplete && (
               <Box sx={{ maxWidth: 860, mx: 'auto', px: 2.5, pb: 8 }}>
                 <AttestationSummary
-                  file={file} items={checklist.reviewedItems} fileHash={checklist.fileHash ?? ''} />
+                  file={file}
+                  items={checklist.reviewedItems}
+                  fileHash={checklist.fileHash ?? ''}
+                  userName={settings.currentUser}
+                  userRole={settings.currentRole}
+                />
               </Box>
             )}
           </Box>

@@ -22,9 +22,13 @@ import { resolveCapability } from '../../utils/capability'
 import { getFilePersonasAndRoles } from '../../utils/persona'
 import { RoleAutoComplete } from '../shared/IdentityForm'
 
-const CAP_COLOR: Record<CapabilityLevel, 'default' | 'primary' | 'secondary' | 'warning' | 'success'> = {
-  observer: 'default', contributor: 'secondary', reviewer: 'primary',
-  approver: 'warning', editor: 'success',
+const CAP_COLOR: Record<CapabilityLevel, 'default' | 'primary' | 'secondary' | 'warning' | 'success' | 'info'> = {
+  'read-only': 'default',
+  editor: 'info',
+  reviewer: 'secondary',
+  approver: 'warning',
+  'sign-off': 'success',
+  master: 'primary',
 }
 
 interface Props {

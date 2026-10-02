@@ -1,56 +1,120 @@
-import type { CapabilityLevel, RoleCapabilityMap } from '../types'
+import type { PersonaDefinition, RoleCapabilityMap, RoleType } from '../types'
 
 /** Ordered from least to most privileged */
-const CAPABILITY_ORDER: CapabilityLevel[] = ['observer', 'contributor', 'reviewer', 'approver', 'editor']
+export const ROLE_ORDER: RoleType[] = [
+  'read-only',
+  'editor',
+  'reviewer',
+  'approver',
+  'sign-off',
+  'master',
+]
 
-/** Default capability map shipped with the app */
+/** Standard canonical personas for product teams */
+export const STANDARD_PERSONAS: PersonaDefinition[] = [
+  { id: 'developer', label: 'Developer', role: 'editor', description: 'Implements requirements, gathers evidence & PR links' },
+  { id: 'devops', label: 'DevOps Engineer', role: 'editor', description: 'Maintains infrastructure, CI/CD, and deployment evidence' },
+  { id: 'security-reviewer', label: 'Security Reviewer', role: 'reviewer', description: 'Verifies technical security controls and sets Pass/Failed/N/A' },
+  { id: 'qa-engineer', label: 'QA Engineer', role: 'reviewer', description: 'Tests requirements, validates quality, sets review status' },
+  { id: 'tech-lead', label: 'Tech Lead', role: 'approver', description: 'Architectural oversight, approves overrides, confirms items' },
+  { id: 'release-manager', label: 'Release Manager', role: 'sign-off', description: 'Authorizes overall signoff, generates SHA-256 attestation' },
+  { id: 'project-admin', label: 'Project Admin', role: 'master', description: 'Full structural authority over checklist schema & personas' },
+  { id: 'auditor', label: 'Auditor', role: 'read-only', description: 'Read-only visibility into items, evidence, and audit logs' },
+]
+
+/** Default capability/role map for string pattern matching */
 export const DEFAULT_ROLE_CAPABILITY_MAP: RoleCapabilityMap = {
   rules: [
-    { pattern: 'observer',    capability: 'observer' },
-    { pattern: 'read',        capability: 'observer' },
-    { pattern: 'dev',         capability: 'contributor' },
-    { pattern: 'engineer',    capability: 'contributor' },
-    { pattern: 'author',      capability: 'contributor' },
-    { pattern: 'contributor', capability: 'contributor' },
-    { pattern: 'reviewer',    capability: 'reviewer' },
-    { pattern: 'auditor',     capability: 'reviewer' },
-    { pattern: 'lead',        capability: 'reviewer' },
+    { pattern: 'observer',    capability: 'read-only' },
+    { pattern: 'read',        capability: 'read-only' },
+    { pattern: 'auditor',     capability: 'read-only' },
+    { pattern: 'sign-off',    capability: 'sign-off' },
+    { pattern: 'signoff',     capability: 'sign-off' },
+    { pattern: 'ciso',        capability: 'sign-off' },
+    { pattern: 'admin',       capability: 'master' },
+    { pattern: 'owner',       capability: 'master' },
+    { pattern: 'master',      capability: 'master' },
     { pattern: 'approver',    capability: 'approver' },
-    { pattern: 'signoff',     capability: 'approver' },
-    { pattern: 'sign-off',    capability: 'approver' },
-    { pattern: 'owner',       capability: 'editor' },
-    { pattern: 'admin',       capability: 'editor' },
-    { pattern: 'full',        capability: 'editor' },
+    { pattern: 'lead',        capability: 'approver' },
+    { pattern: 'architect',   capability: 'approver' },
+    { pattern: 'security',    capability: 'reviewer' },
+    { pattern: 'tester',      capability: 'reviewer' },
+    { pattern: 'qa',          capability: 'reviewer' },
+    { pattern: 'reviewer',    capability: 'reviewer' },
+    { pattern: 'dev',         capability: 'editor' },
+    { pattern: 'engineer',    capability: 'editor' },
+    { pattern: 'sre',         capability: 'editor' },
+    { pattern: 'ops',         capability: 'editor' },
+    { pattern: 'author',      capability: 'editor' },
     { pattern: 'editor',      capability: 'editor' },
-    { pattern: 'manager',     capability: 'editor' },
+    { pattern: 'contributor', capability: 'editor' },
+    { pattern: 'pm',          capability: 'sign-off' },
   ],
-  defaultCapability: 'reviewer',
+  defaultCapability: 'editor',
 }
 
 /**
- * Normalizes free-form capability names or aliases to a canonical CapabilityLevel.
- * Maps 'full', 'admin', 'owner' -> 'editor'
- * Maps 'approve', 'signoff' -> 'approver'
- * Maps 'review', 'auditor' -> 'reviewer'
- * Maps 'write', 'dev' -> 'contributor'
- * Maps 'read', 'view', 'all', 'any' -> 'observer'
+ * Normalizes free-form role strings or aliases to a canonical RoleType.
  */
-export function normalizeCapability(cap: string | undefined | null): CapabilityLevel | null {
-  if (!cap) return null
-  const lower = cap.toLowerCase().trim()
-  if (lower === 'observer' || lower === 'read' || lower === 'view' || lower === 'all' || lower === 'any') return 'observer'
-  if (lower === 'contributor' || lower === 'write' || lower === 'dev') return 'contributor'
-  if (lower === 'reviewer' || lower === 'review' || lower === 'auditor') return 'reviewer'
-  if (lower === 'approver' || lower === 'approve' || lower === 'signoff' || lower === 'sign-off') return 'approver'
-  if (lower === 'editor' || lower === 'full' || lower === 'admin' || lower === 'owner') return 'editor'
-  return null
+export function normalizeRole(role: string | undefined | null): RoleType {
+  if (!role) return 'read-only'
+  const lower = role.toLowerCase().trim()
+  if (lower === 'read-only' || lower === 'read' || lower === 'observer' || lower === 'auditor') return 'read-only'
+  if (lower === 'editor' || lower === 'contributor' || lower === 'write' || lower === 'dev') return 'editor'
+  if (lower === 'reviewer' || lower === 'review' || lower === 'qa') return 'reviewer'
+  if (lower === 'approver' || lower === 'approve' || lower === 'lead') return 'approver'
+  if (lower === 'sign-off' || lower === 'signoff' || lower === 'ciso' || lower === 'pm') return 'sign-off'
+  if (lower === 'master' || lower === 'admin' || lower === 'owner' || lower === 'full') return 'master'
+  return 'editor'
 }
 
+export function isValidRole(role: string | undefined | null): boolean {
+  if (!role) return false
+  const lower = role.toLowerCase().trim()
+  return (
+    lower === 'read-only' || lower === 'read' || lower === 'observer' || lower === 'auditor' ||
+    lower === 'editor' || lower === 'contributor' || lower === 'write' || lower === 'dev' ||
+    lower === 'reviewer' || lower === 'review' || lower === 'qa' ||
+    lower === 'approver' || lower === 'approve' || lower === 'lead' ||
+    lower === 'sign-off' || lower === 'signoff' || lower === 'ciso' || lower === 'pm' ||
+    lower === 'master' || lower === 'admin' || lower === 'owner' || lower === 'full'
+  )
+}
+
+export const isValidCapability = isValidRole
+
+/** Alias for normalizeRole */
+export const normalizeCapability = normalizeRole
+
 /**
- * Resolve a capability level from a free-form role string.
- * Rules are evaluated top-to-bottom; first match wins.
+ * Resolves the RoleType for a given persona or role string.
  */
-export function resolveCapability(role: string, map: RoleCapabilityMap): CapabilityLevel {
+export function getRoleForPersona(persona: string, customPersonas?: PersonaDefinition[]): RoleType {
+  if (!persona) return 'read-only'
+  const lower = persona.toLowerCase().trim()
+
+  // 1. Check custom personas
+  if (customPersonas && customPersonas.length > 0) {
+    const found = customPersonas.find(p => p.id.toLowerCase() === lower || p.label.toLowerCase() === lower)
+    if (found) return found.role
+  }
+
+  // 2. Check standard personas
+  const std = STANDARD_PERSONAS.find(p => p.id.toLowerCase() === lower || p.label.toLowerCase() === lower)
+  if (std) return std.role
+
+  // 3. Pattern match using DEFAULT_ROLE_CAPABILITY_MAP
+  for (const rule of DEFAULT_ROLE_CAPABILITY_MAP.rules) {
+    if (lower.includes(rule.pattern.toLowerCase())) {
+      return rule.capability
+    }
+  }
+
+  return DEFAULT_ROLE_CAPABILITY_MAP.defaultCapability
+}
+
+/** Resolves role using the settings capability map */
+export function resolveCapability(role: string, map: RoleCapabilityMap = DEFAULT_ROLE_CAPABILITY_MAP): RoleType {
   const lower = role.toLowerCase()
   for (const rule of map.rules) {
     if (lower.includes(rule.pattern.toLowerCase())) {
@@ -61,39 +125,48 @@ export function resolveCapability(role: string, map: RoleCapabilityMap): Capabil
 }
 
 /**
- * Returns true if `actual` is at least as privileged as `required`.
+ * Returns true if `actual` has at least the privilege of `required`.
  */
-export function meetsMinimum(actual: CapabilityLevel, required: CapabilityLevel): boolean {
-  const a = normalizeCapability(actual) ?? actual
-  const r = normalizeCapability(required) ?? required
-  return CAPABILITY_ORDER.indexOf(a) >= CAPABILITY_ORDER.indexOf(r)
+export function meetsMinimum(actual: string, required: RoleType): boolean {
+  const actualRole = normalizeRole(actual)
+  return ROLE_ORDER.indexOf(actualRole) >= ROLE_ORDER.indexOf(required)
 }
 
 /**
- * Returns true if the capability can fill field values on items.
- * contributor can fill fields but cannot set review status.
+ * Permission checks based on role or persona
  */
-export function canProvideData(capability: CapabilityLevel): boolean {
-  return meetsMinimum(capability, 'contributor')
+export function canEditFields(personaOrRole: string, customPersonas?: PersonaDefinition[]): boolean {
+  const role = getRoleForPersona(personaOrRole, customPersonas)
+  return meetsMinimum(role, 'editor')
 }
 
-/**
- * Returns true if the capability can set item review status (pass/fail/na).
- */
-export function canReview(capability: CapabilityLevel): boolean {
-  return meetsMinimum(capability, 'reviewer')
+export function canSetWorkStatus(personaOrRole: string, customPersonas?: PersonaDefinition[]): boolean {
+  const role = getRoleForPersona(personaOrRole, customPersonas)
+  return meetsMinimum(role, 'editor')
 }
 
-/**
- * Returns true if the capability can confirm/override reviewer decisions.
- */
-export function canApprove(capability: CapabilityLevel): boolean {
-  return meetsMinimum(capability, 'approver')
+export function canReviewDecision(personaOrRole: string, customPersonas?: PersonaDefinition[]): boolean {
+  const role = getRoleForPersona(personaOrRole, customPersonas)
+  return meetsMinimum(role, 'reviewer')
 }
 
-/**
- * Returns true if the capability can edit checklist structure, items, and schema.
- */
-export function canEdit(capability: CapabilityLevel): boolean {
-  return meetsMinimum(capability, 'editor')
+export function canConfirm(personaOrRole: string, customPersonas?: PersonaDefinition[]): boolean {
+  const role = getRoleForPersona(personaOrRole, customPersonas)
+  return meetsMinimum(role, 'approver')
 }
+
+export function canSignoff(personaOrRole: string, customPersonas?: PersonaDefinition[]): boolean {
+  const role = getRoleForPersona(personaOrRole, customPersonas)
+  return meetsMinimum(role, 'sign-off')
+}
+
+export function canManageStructure(personaOrRole: string, customPersonas?: PersonaDefinition[]): boolean {
+  const role = getRoleForPersona(personaOrRole, customPersonas)
+  return meetsMinimum(role, 'master')
+}
+
+// Backward-compatible capability wrappers
+export const canProvideData = canEditFields
+export const canReview = canReviewDecision
+export const canApprove = canConfirm
+export const canEdit = canManageStructure

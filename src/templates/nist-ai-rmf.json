@@ -88,7 +88,7 @@
       "id": "NIST-GV-1.1",
       "category": "GOVERN: Culture & Accountability",
       "description": "Legal, regulatory, and ethical principles for AI design, deployment, and monitoring are formally documented and communicated.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -102,7 +102,7 @@
       "id": "NIST-GV-1.2",
       "category": "GOVERN: Culture & Accountability",
       "description": "Roles and organizational accountabilities for AI safety, compliance, and incident response are clearly established across teams.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -116,7 +116,7 @@
       "id": "NIST-GV-1.3",
       "category": "GOVERN: Culture & Accountability",
       "description": "AI development teams include multidisciplinary perspectives, safety training, and diverse stakeholder representation.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -130,7 +130,7 @@
       "id": "NIST-GV-1.4",
       "category": "GOVERN: Culture & Accountability",
       "description": "Organizational risk tolerances, safety thresholds, and red-lines for unacceptable AI use cases are formally enacted.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -144,7 +144,7 @@
       "id": "NIST-GV-2.1",
       "category": "GOVERN: Inventory & Policies",
       "description": "A comprehensive inventory of all internal, fine-tuned, and third-party AI models, tools, and foundation APIs is maintained.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -158,7 +158,7 @@
       "id": "NIST-GV-2.2",
       "category": "GOVERN: Inventory & Policies",
       "description": "Third-party AI providers, foundation models, and commercial APIs undergo formal risk and privacy due diligence.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -172,7 +172,7 @@
       "id": "NIST-GV-3.1",
       "category": "GOVERN: Stakeholder Engagement",
       "description": "Mechanisms exist for capturing internal and external stakeholder feedback, reports of hallucinations, and algorithmic bias complaints.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -186,7 +186,7 @@
       "id": "NIST-GV-4.1",
       "category": "GOVERN: Human Oversight",
       "description": "Clear escalation and human-in-the-loop (HITL) intervention protocols are established for high-impact or automated agentic workflows.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -200,7 +200,7 @@
       "id": "NIST-MP-1.1",
       "category": "MAP: System Characterization",
       "description": "Intended context of use, operational scope, end-user personas, and business objectives of the AI system are formally documented.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -214,7 +214,7 @@
       "id": "NIST-MP-1.2",
       "category": "MAP: System Characterization",
       "description": "Expected benefits, potential downstream harms, unintended uses, and societal impacts of the system are identified.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -228,7 +228,7 @@
       "id": "NIST-MP-2.1",
       "category": "MAP: Data & Model Mapping",
       "description": "Model architectures, foundation base models, weights versions, and deployment topologies are thoroughly cataloged.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -242,7 +242,7 @@
       "id": "NIST-MP-2.2",
       "category": "MAP: Data & Model Mapping",
       "description": "Data provenance, quality, integrity, license compliance, and demographic representation of training/RAG datasets are verified.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -256,7 +256,7 @@
       "id": "NIST-MP-2.3",
       "category": "MAP: Data & Model Mapping",
       "description": "Privacy risks, PII exposure pathways, and copyright/IP liabilities in training and prompt contexts are mapped.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -270,7 +270,7 @@
       "id": "NIST-MP-3.1",
       "category": "MAP: Boundaries & Dependencies",
       "description": "Dependencies on external APIs, vector embeddings, third-party retrieval engines, and tokenizer libraries are mapped.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -284,7 +284,7 @@
       "id": "NIST-MP-4.1",
       "category": "MAP: Mission Failure Modes",
       "description": "Critical failure modes, adversarial threat vectors, jailbreak pathways, and edge cases under distribution drift are mapped.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -298,7 +298,7 @@
       "id": "NIST-MS-1.1",
       "category": "MEASURE: Quantitative & Qualitative Metrics",
       "description": "Quantitative metrics for model accuracy, hallucination rates, latency, precision, and recall are established and baselined.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -312,7 +312,7 @@
       "id": "NIST-MS-1.2",
       "category": "MEASURE: Quantitative & Qualitative Metrics",
       "description": "Independent adversarial red-teaming is conducted against prompt injection, jailbreaks, data extraction, and evasion.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -326,7 +326,7 @@
       "id": "NIST-MS-2.1",
       "category": "MEASURE: Trust Characteristics",
       "description": "Algorithmic bias, disparate impact, and toxicity are measured across demographic groups using standardized benchmarks.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -340,7 +340,7 @@
       "id": "NIST-MS-2.2",
       "category": "MEASURE: Trust Characteristics",
       "description": "Explainability and interpretability indicators are evaluated to ensure model decisions can be audited and understood.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -354,7 +354,7 @@
       "id": "NIST-MS-2.3",
       "category": "MEASURE: Trust Characteristics",
       "description": "Robustness against data poisoning, membership inference, and model inversion attacks is rigorously measured.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -368,7 +368,7 @@
       "id": "NIST-MS-3.1",
       "category": "MEASURE: Tracking & Verification",
       "description": "Model output drift, confidence score distributions, and performance degradations are continuously tracked in staging and production.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -382,7 +382,7 @@
       "id": "NIST-MS-4.1",
       "category": "MEASURE: Tracking & Verification",
       "description": "Periodic independent audits are conducted to verify compliance of measured performance against enterprise risk tolerances.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -396,7 +396,7 @@
       "id": "NIST-MN-1.1",
       "category": "MANAGE: Risk Treatment",
       "description": "Risk treatment plans (mitigate, transfer, accept, or avoid) are formally documented and implemented for all mapped AI hazards.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -410,7 +410,7 @@
       "id": "NIST-MN-1.2",
       "category": "MANAGE: Risk Treatment",
       "description": "Deterministic guardrails, content filtering, and prompt sanitizers are deployed to intercept unaligned inputs and outputs.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -424,7 +424,7 @@
       "id": "NIST-MN-2.1",
       "category": "MANAGE: Fallback & Resiliency",
       "description": "Automated fallback systems, graceful degradation modes, and emergency kill-switches are implemented for anomalous behaviors.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -438,7 +438,7 @@
       "id": "NIST-MN-2.2",
       "category": "MANAGE: Fallback & Resiliency",
       "description": "An AI-specific incident response plan is established covering runaway agent execution, mass hallucinations, and data leaks.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -452,7 +452,7 @@
       "id": "NIST-MN-3.1",
       "category": "MANAGE: Continuous Improvement",
       "description": "Continuous monitoring of production telemetry detects safety regressions, feedback signals, and emerging attack patterns.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -466,7 +466,7 @@
       "id": "NIST-MN-4.1",
       "category": "MANAGE: Continuous Improvement",
       "description": "Post-incident reviews and regular safety updates are integrated into ongoing model fine-tuning and system prompt revisions.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -475,6 +475,38 @@
       "values": {
         "function": "MANAGE"
       }
+    }
+  ],
+  "personas": [
+    {
+      "id": "ai-gov",
+      "label": "AI Governance Lead",
+      "role": "approver"
+    },
+    {
+      "id": "cro",
+      "label": "Chief Risk Officer",
+      "role": "sign-off"
+    },
+    {
+      "id": "mlops",
+      "label": "MLOps / AI Engineer",
+      "role": "editor"
+    },
+    {
+      "id": "compliance",
+      "label": "Ethics & Compliance Auditor",
+      "role": "reviewer"
+    },
+    {
+      "id": "dpo",
+      "label": "Data Protection Officer",
+      "role": "reviewer"
+    },
+    {
+      "id": "auditor",
+      "label": "Auditor",
+      "role": "read-only"
     }
   ]
 }

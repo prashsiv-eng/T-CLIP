@@ -15,11 +15,15 @@ import { useState } from 'react'
 import type { CapabilityLevel, ChecklistFile } from '../../types'
 import { IdentityForm } from '../shared/IdentityForm'
 
-const GITHUB_REPO_URL = 'https://github.com/thechecklistproject/t-clip'
+const GITHUB_REPO_URL = 'https://github.com/prashsiv-eng/T-CLIP'
 
 const CAP_COLORS: Record<CapabilityLevel, string> = {
-  observer: '#64748b', contributor: '#7c3aed', reviewer: '#2563eb',
-  approver: '#0284c7', editor: '#16a34a',
+  'read-only': '#64748b',
+  editor: '#0284c7',
+  reviewer: '#2563eb',
+  approver: '#7c3aed',
+  'sign-off': '#059669',
+  master: '#dc2626',
 }
 
 interface Props {

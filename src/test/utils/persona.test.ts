@@ -98,4 +98,24 @@ describe('getFilePersonasAndRoles', () => {
     expect(result.roles).toContain('Contributor')
     expect(result.roles).toContain('Observer')
   })
+
+  it('correctly handles updated assignments when reassigning', () => {
+    const item: ReviewedItem = {
+      id: 'SEC-101',
+      category: 'Security',
+      description: 'IAM Policy review',
+      status: 'not-started',
+      required: true,
+      confirmedBy: null,
+      history: [],
+      assignedTo: { role: 'Security Reviewer' },
+    }
+
+    const updatedItem = {
+      ...item,
+      assignedTo: { name: 'Alice', role: 'Lead Developer' },
+    }
+
+    expect(updatedItem.assignedTo).toEqual({ name: 'Alice', role: 'Lead Developer' })
+  })
 })

@@ -216,8 +216,8 @@ observer  →  contributor  →  reviewer  →  approver  →  editor
 
 ```bash
 # Clone the repository
-git clone https://github.com/thechecklistproject/t-clip.git
-cd t-clip
+git clone https://github.com/prashsiv-eng/T-CLIP.git
+cd T-CLIP
 
 # Install dependencies
 npm install

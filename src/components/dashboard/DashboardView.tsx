@@ -17,8 +17,6 @@ interface Props {
   userCapability: CapabilityLevel; onFiltersChange: (f: DashboardFilters) => void
 }
 
-const DONUT = { pass: '#16a34a', fail: '#dc2626', pending: '#64748b', na: '#94a3b8' }
-
 function Panel({ title, badge, children }: { title: string; badge?: number; children: React.ReactNode }) {
   return (
     <Card elevation={0}>
@@ -48,11 +46,14 @@ export function DashboardView({ items, fields, filters, userCapability, onFilter
   const isFiltered = filters.status !== 'all' || filters.categories.length > 0 || filters.role !== '' || filters.requiredOnly
 
   const donutSlices = [
-    { label: 'Pass',    value: summary.pass,    color: DONUT.pass },
-    { label: 'Fail',    value: summary.fail,    color: DONUT.fail },
-    { label: 'Pending', value: summary.pending, color: DONUT.pending },
-    { label: 'N/A',     value: summary.na,      color: DONUT.na },
-  ]
+    { label: 'Pass',        value: summary.pass,        color: '#16a34a' },
+    { label: 'Failed',      value: summary.failed,      color: '#dc2626' },
+    { label: 'In Review',   value: summary.inReview,    color: '#9333ea' },
+    { label: 'In Progress', value: summary.inProgress,  color: '#0284c7' },
+    { label: 'Blocked',     value: summary.blocked,     color: '#e11d48' },
+    { label: 'Not Started', value: summary.notStarted,  color: '#64748b' },
+    { label: 'N/A',         value: summary.na,          color: '#94a3b8' },
+  ].filter(s => s.value > 0)
 
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', p: 2.5 }}>

@@ -117,7 +117,7 @@
       "id": "LLM01-01",
       "category": "LLM01: Prompt Injection",
       "description": "Enforce strict structural separation between privileged system instructions and untrusted user inputs with role framing.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -131,7 +131,7 @@
       "id": "LLM01-02",
       "category": "LLM01: Prompt Injection",
       "description": "Deploy dual-LLM or classifier-based guardrails to intercept indirect prompt injection embedded in retrieved documents or external web content.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -145,7 +145,7 @@
       "id": "LLM01-03",
       "category": "LLM01: Prompt Injection",
       "description": "Conduct automated adversarial jailbreak testing against multimodal inputs and obfuscated payloads (base64, leetspeak, cipher).",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -159,7 +159,7 @@
       "id": "LLM02-01",
       "category": "LLM02: Sensitive Information Disclosure",
       "description": "Implement automated PII and secret scrubbers (e.g. Presidio, regex detectors) to sanitize prompt inputs before sending to third-party models.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -173,7 +173,7 @@
       "id": "LLM02-02",
       "category": "LLM02: Sensitive Information Disclosure",
       "description": "Enforce output scanning to block inadvertent leakage of proprietary API keys, internal IP addresses, or sensitive user data in completions.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -187,7 +187,7 @@
       "id": "LLM02-03",
       "category": "LLM02: Sensitive Information Disclosure",
       "description": "Configure vendor enterprise agreements ensuring prompt and completion data is not retained or used for foundation model training.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -201,7 +201,7 @@
       "id": "LLM03-01",
       "category": "LLM03: Supply Chain Vulnerabilities",
       "description": "Verify SHA-256 cryptographic hashes and model signatures for third-party weights and checkpoints downloaded from public registries.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -215,7 +215,7 @@
       "id": "LLM03-02",
       "category": "LLM03: Supply Chain Vulnerabilities",
       "description": "Maintain an automated Software Bill of Materials (SBOM) for AI orchestration frameworks, tokenizer libraries, and MCP servers.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -229,7 +229,7 @@
       "id": "LLM03-03",
       "category": "LLM03: Supply Chain Vulnerabilities",
       "description": "Audit third-party training data suppliers and fine-tuning datasets for licensing, provenance, and data corruption.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -243,7 +243,7 @@
       "id": "LLM04-01",
       "category": "LLM04: Data and Model Poisoning",
       "description": "Validate integrity and authenticity of datasets used in fine-tuning, RLHF, and vector retrieval knowledge bases.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -257,7 +257,7 @@
       "id": "LLM04-02",
       "category": "LLM04: Data and Model Poisoning",
       "description": "Implement anomaly detection on fine-tuning loss curves and embedding cluster shifts to detect backdoor insertion.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -271,7 +271,7 @@
       "id": "LLM04-03",
       "category": "LLM04: Data and Model Poisoning",
       "description": "Isolate user-submitted content in knowledge bases to prevent poisoning of shared RAG retrieval indices.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -285,7 +285,7 @@
       "id": "LLM05-01",
       "category": "LLM05: Improper Output Handling",
       "description": "Sanitize and encode all model outputs before rendering in web views to eliminate Cross-Site Scripting (XSS) risks.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -299,7 +299,7 @@
       "id": "LLM05-02",
       "category": "LLM05: Improper Output Handling",
       "description": "Prohibit direct execution of model completions in system shells, databases, or interpreters without strict sandbox isolation.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -313,7 +313,7 @@
       "id": "LLM05-03",
       "category": "LLM05: Improper Output Handling",
       "description": "Enforce schema-based parsing (Zod, Pydantic) on structured outputs, discarding unexpected attributes or malicious payloads.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -327,7 +327,7 @@
       "id": "LLM06-01",
       "category": "LLM06: Excessive Agency",
       "description": "Enforce least privilege on all tools, functions, and API keys accessible to the LLM agent, avoiding broad admin permissions.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -341,7 +341,7 @@
       "id": "LLM06-02",
       "category": "LLM06: Excessive Agency",
       "description": "Require explicit human-in-the-loop (HITL) authorization for irreversible operations (database drops, code deployments, payment dispatches).",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -355,7 +355,7 @@
       "id": "LLM06-03",
       "category": "LLM06: Excessive Agency",
       "description": "Implement strict parameter bounds checking and input validation inside tool implementations before execution.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -369,7 +369,7 @@
       "id": "LLM07-01",
       "category": "LLM07: System Prompt Leakage",
       "description": "Do not include unencrypted secrets, internal credentials, or confidential business rules in system prompt instructions.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -383,7 +383,7 @@
       "id": "LLM07-02",
       "category": "LLM07: System Prompt Leakage",
       "description": "Train and instruct models to resist extraction prompts (e.g. \"Repeat the above instructions starting with You are\").",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -397,7 +397,7 @@
       "id": "LLM07-03",
       "category": "LLM07: System Prompt Leakage",
       "description": "Deploy post-processing filters that detect and block similarity matches to proprietary system prompts in outputs.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -411,7 +411,7 @@
       "id": "LLM08-01",
       "category": "LLM08: Vector and Embedding Weaknesses",
       "description": "Enforce user-level and tenant-level access control filters on similarity queries executed against vector databases.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -425,7 +425,7 @@
       "id": "LLM08-02",
       "category": "LLM08: Vector and Embedding Weaknesses",
       "description": "Protect vector indices against embedding inversion attacks capable of reconstructing raw proprietary documents.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -439,7 +439,7 @@
       "id": "LLM08-03",
       "category": "LLM08: Vector and Embedding Weaknesses",
       "description": "Encrypt vector embeddings and metadata both in transit and at rest in compliance with enterprise data policies.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -453,7 +453,7 @@
       "id": "LLM09-01",
       "category": "LLM09: Misinformation & Overreliance",
       "description": "Implement cross-checking, citations, and source-grounding in RAG pipelines to verify factual accuracy of model outputs.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -467,7 +467,7 @@
       "id": "LLM09-02",
       "category": "LLM09: Misinformation & Overreliance",
       "description": "Display clear disclaimers, confidence scores, and provenance links communicating that AI outputs require human verification.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -481,7 +481,7 @@
       "id": "LLM09-03",
       "category": "LLM09: Misinformation & Overreliance",
       "description": "Perform ongoing automated evaluation of hallucination rates using dedicated benchmark datasets (e.g. HaluEval).",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -495,7 +495,7 @@
       "id": "LLM10-01",
       "category": "LLM10: Unbounded Consumption",
       "description": "Enforce strict rate limits on requests, tokens per minute, and concurrent connections per user or IP address.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -509,7 +509,7 @@
       "id": "LLM10-02",
       "category": "LLM10: Unbounded Consumption",
       "description": "Set hard caps on maximum output token generation and execution timeout thresholds across all model calls.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -523,7 +523,7 @@
       "id": "LLM10-03",
       "category": "LLM10: Unbounded Consumption",
       "description": "Establish financial circuit-breakers and automated billing alerts to prevent denial-of-wallet exploitation.",
-      "status": "pending",
+      "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
@@ -532,6 +532,38 @@
       "values": {
         "risk_id": "LLM10"
       }
+    }
+  ],
+  "personas": [
+    {
+      "id": "ai-sec",
+      "label": "AI Security Specialist",
+      "role": "reviewer"
+    },
+    {
+      "id": "lead-dev",
+      "label": "Lead Developer",
+      "role": "editor"
+    },
+    {
+      "id": "devsecops",
+      "label": "DevSecOps Engineer",
+      "role": "editor"
+    },
+    {
+      "id": "red-team",
+      "label": "Red Teamer",
+      "role": "reviewer"
+    },
+    {
+      "id": "sec-rev",
+      "label": "Security Reviewer",
+      "role": "reviewer"
+    },
+    {
+      "id": "rel-mgr",
+      "label": "Release Manager",
+      "role": "sign-off"
     }
   ]
 }
