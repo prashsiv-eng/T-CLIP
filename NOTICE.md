@@ -14,8 +14,15 @@ those licences, including attribution and ShareAlike terms.
 | `owasp-agentic-ai.json` | OWASP Top 10 for Agentic Applications | OWASP Foundation | CC BY-SA 4.0 |
 | `owasp-llmsvs.json` | LLM Security Verification Standard | OWASP Foundation | CC BY-SA 4.0 |
 | `nist-ai-rmf.json` | AI Risk Management Framework 1.0 (NIST AI 100-1) | NIST | U.S. Government work, public domain in the U.S. |
-| `caiq.json` | Consensus Assessments Initiative Questionnaire v4 | Cloud Security Alliance | CSA terms of use: **verify redistribution rights** |
+| `eu-cra.json` | Cyber Resilience Act (Regulation (EU) 2024/2847) | European Union | Official Journal of the European Union (public law, free reuse) |
 
 > TODO (maintainers): confirm each licence on the publisher's site before
-> the first tagged release, and confirm that CSA permits redistributing
-> modified CAIQ content.
+> the first tagged release.
+
+## Excluded standards
+
+The Cloud Security Alliance CAIQ / Cloud Controls Matrix is **not** bundled.
+CSA's licence permits personal, non-commercial use only and prohibits
+modification and redistribution, which is incompatible with this project's
+open licence. Do not contribute CAIQ or CCM content without written
+permission from CSA.

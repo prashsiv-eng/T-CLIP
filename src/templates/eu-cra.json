@@ -1,0 +1,618 @@
+{
+  "version": "1.0",
+  "project": "",
+  "branch": "main",
+  "rules": {
+    "structureEditableBy": "editor",
+    "enforcedAssignment": false
+  },
+  "roles": [
+    "Product Security Officer",
+    "Embedded / Firmware Engineer",
+    "Software Architect",
+    "DevSecOps Engineer",
+    "Compliance & Regulatory Lead",
+    "PSIRT Lead"
+  ],
+  "users": [],
+  "fields": [
+    {
+      "id": "article_ref",
+      "label": "CRA Legal Reference",
+      "type": "text",
+      "editableBy": "editor",
+      "visibleTo": "read-only"
+    },
+    {
+      "id": "product_tier",
+      "label": "Product Risk Classification",
+      "type": "select",
+      "options": [
+        "Default (Module A)",
+        "Important Class I",
+        "Important Class II",
+        "Critical"
+      ],
+      "requiredWhen": [
+        "pass",
+        "failed"
+      ],
+      "editableBy": "editor",
+      "visibleTo": "read-only"
+    },
+    {
+      "id": "compliance_evidence",
+      "label": "Technical File / Evidence Link",
+      "type": "url",
+      "requiredWhen": [
+        "pass",
+        "failed"
+      ],
+      "editableBy": "editor",
+      "visibleTo": "read-only"
+    },
+    {
+      "id": "implementation_status",
+      "label": "Technical Implementation & Audit Assessment",
+      "type": "textarea",
+      "requiredWhen": [
+        "pass",
+        "failed"
+      ],
+      "editableBy": "editor",
+      "visibleTo": "read-only"
+    }
+  ],
+  "items": [
+    {
+      "id": "CRA-I.1",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall be designed, developed and produced in such a manner that they ensure an appropriate level of cybersecurity based on the risks identified in the cybersecurity risk assessment across planning, design, development, production, delivery and maintenance phases.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (1)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.a",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall be delivered without any known exploitable vulnerabilities. Pre-release automated scanning (CVE/CWE matching), dependency audits, and penetration tests must verify that no exploitable flaws exist when placed on the market.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(a)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.b",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall be delivered with a secure by default configuration, including the possibility to reset the product to its original secure state. Insecure legacy protocols, debug ports, and default passwords must be disabled by default.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(b)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.c",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall ensure that vulnerabilities can be addressed through security updates, including, where technically feasible, automatic updates and user notification mechanisms, with options for users to manage automatic update policies.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(c)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.d",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall ensure protection from unauthorized access through appropriate control mechanisms, including robust authentication, credential protection, identity/access management systems, and detection/reporting of unauthorized access attempts.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(d)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.e",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall protect the confidentiality of stored, transmitted or otherwise processed data (personal or other) using state-of-the-art encryption algorithms, secure key storage (hardware root-of-trust / keystore), and authenticated ciphers.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(e)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.f",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall protect the integrity of stored, transmitted or processed data, programs, commands and system configurations against manipulation or modification not authorized by the user, and report on data corruptions and tampering.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(f)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.g",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall process only data (personal or other) that are adequate, relevant and limited to what is strictly necessary in relation to the intended purpose of the product ('data minimisation'). Telemetry and diagnostic collections must be minimized.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(g)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.h",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall protect the availability of essential functions, including resilience against and mitigation of denial of service (DoS) attacks, network floods, and resource starvation vectors.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(h)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.i",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall minimise their own negative impact on the availability of services provided by other devices or networks, preventing the product from becoming a launchpad or amplifier for lateral network attacks or botnet DDoS.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(i)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.j",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall be designed, developed and produced to limit attack surfaces, including external hardware/software interfaces (disabling JTAG/UART in production, closing unused ports, dropping unused daemon services).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(j)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.k",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall be designed, developed and produced to reduce the impact of an incident using appropriate exploitation mitigation mechanisms and techniques (e.g., ASLR, DEP/NX, stack canaries, sandboxing, memory-safe languages).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(k)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.l",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall provide comprehensive security-related information by recording and monitoring relevant internal activity, including the logging of security events, administrative access, authentication failures, and tamper-evident storage of audit logs.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(l)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-I.2.m",
+      "category": "Annex I Part I : Product Security Properties",
+      "description": "Products with digital elements shall provide the possibility for users to securely and easily remove all data and functionality permanently ('secure erasure / factory reset'), ensuring that cryptographic keys, tokens, credentials, and personal data cannot be recovered after disposal or transfer.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part I, Point (2)(m)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-II.1",
+      "category": "Annex I Part II : Vulnerability Handling Processes",
+      "description": "Manufacturers shall identify and document vulnerabilities and components contained in the product, including by drawing up a machine-readable Software Bill of Materials (SBOM) in a standard format (SPDX or CycloneDX) covering at least the top-level dependencies.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part II, Point (1)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-II.2",
+      "category": "Annex I Part II : Vulnerability Handling Processes",
+      "description": "Manufacturers shall in relation to the risks posed address and remediate vulnerabilities without delay, including by providing security updates; where technically feasible, security updates shall be provided separately from functionality updates to avoid deployment delays.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part II, Point (2)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-II.3",
+      "category": "Annex I Part II : Vulnerability Handling Processes",
+      "description": "Manufacturers shall apply effective and regular tests and reviews of the security of the product with digital elements, including automated static/dynamic code analysis (SAST/DAST), vulnerability assessments, and independent penetration testing.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part II, Point (3)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-II.4",
+      "category": "Annex I Part II : Vulnerability Handling Processes",
+      "description": "Once a security update has been made available, manufacturers shall publicly disclose information about fixed vulnerabilities, including a CVE description, impacted product versions, CVSS severity score, exploit impact, and user remediation instructions.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part II, Point (4)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-II.5",
+      "category": "Annex I Part II : Vulnerability Handling Processes",
+      "description": "Manufacturers shall put in place and enforce a policy on Coordinated Vulnerability Disclosure (CVD), defining procedures for receiving, triage, validating, tracking, and disclosing security vulnerabilities reported by external security researchers and third parties.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part II, Point (5)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-II.6",
+      "category": "Annex I Part II : Vulnerability Handling Processes",
+      "description": "Manufacturers shall facilitate information sharing on vulnerabilities by providing a dedicated, publicly accessible contact point/address (e.g. security@company.com or RFC 9116 security.txt) for reporting vulnerabilities discovered in their products.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part II, Point (6)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-II.7",
+      "category": "Annex I Part II : Vulnerability Handling Processes",
+      "description": "Manufacturers shall provide mechanisms for the secure distribution of security updates, ensuring that updates are digitally signed, validated for integrity and authenticity before installation, and protected against downgrade / rollback attacks.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part II, Point (7)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-II.8",
+      "category": "Annex I Part II : Vulnerability Handling Processes",
+      "description": "Manufacturers shall ensure that security updates are disseminated without delay and free of charge to all users throughout the declared support period, accompanied by clear advisory messages explaining the security issue and required user actions.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex I, Part II, Point (8)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-II.1",
+      "category": "Annex II : Information and Instructions to the User",
+      "description": "Manufacturer Identification: The instructions shall indicate the name, registered trade name or registered trade mark of the manufacturer, and the postal address and the email address or other digital contact at which the manufacturer can be contacted.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex II, Point (1)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-II.2",
+      "category": "Annex II : Information and Instructions to the User",
+      "description": "Vulnerability Contact Point: The instructions shall identify the single point of contact where information about cybersecurity vulnerabilities of the product with digital elements can be reported and received.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex II, Point (2)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-II.3",
+      "category": "Annex II : Information and Instructions to the User",
+      "description": "Product Identification: The instructions shall include the correct identification of the type, batch, version or serial number or other element allowing identification of the product with digital elements.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex II, Point (3)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-II.4",
+      "category": "Annex II : Information and Instructions to the User",
+      "description": "Intended Use & Security Environment: The instructions shall state the intended use, including the security environment provided by the manufacturer, as well as the essential functionalities of the product and its security properties.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex II, Point (4)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-II.5",
+      "category": "Annex II : Information and Instructions to the User",
+      "description": "Foreseeable Risks & Misuse: The instructions shall provide clear information on any known or foreseeable circumstances related to the use of the product with digital elements that may lead to significant cybersecurity risks.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex II, Point (5)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-II.6",
+      "category": "Annex II : Information and Instructions to the User",
+      "description": "Support Period End Date: The instructions shall state the end date of the support period (month and year) during which the manufacturer ensures that vulnerabilities of the product with digital elements are handled.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex II, Point (6)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-II.7",
+      "category": "Annex II : Information and Instructions to the User",
+      "description": "Secure Installation & Commissioning: The instructions shall provide clear instructions for secure installation, configuration, initial hardening, and connection to networks and peripheral devices.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex II, Point (7)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-II.8",
+      "category": "Annex II : Information and Instructions to the User",
+      "description": "Security Update Procedures: The instructions shall explain how security updates can be installed, whether automatic updates are supported and how users can control them, and how users are alerted to available updates.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex II, Point (8)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-II.9",
+      "category": "Annex II : Information and Instructions to the User",
+      "description": "Secure Decommissioning & Data Removal: The instructions shall detail how users can securely decommission the product and permanently remove all stored user and configuration data before transfer or disposal.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex II, Point (9)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-II.10",
+      "category": "Annex II : Information and Instructions to the User",
+      "description": "EU Declaration of Conformity Access: The instructions shall provide the internet address where the EU Declaration of Conformity can be accessed or include a copy of the simplified declaration.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex II, Point (10)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-II.11",
+      "category": "Annex II : Information and Instructions to the User",
+      "description": "Language & Accessibility: All user information and instructions shall be provided in paper or digital format in a language that can be easily understood by consumers and other end-users in the Member State of distribution.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex II, Point (11)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-VII.1",
+      "category": "Annex VII : Technical Documentation Dossier",
+      "description": "General Product Description: The technical documentation shall contain a general description of the product, including its name, type, software/firmware versions influencing compliance, and photographs or illustrations for hardware layout.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex VII, Point (1)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-VII.2",
+      "category": "Annex VII : Technical Documentation Dossier",
+      "description": "User Documentation Compilation: The technical file shall include the complete set of user information and instructions as specified in Annex II.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex VII, Point (2)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-VII.3",
+      "category": "Annex VII : Technical Documentation Dossier",
+      "description": "Cybersecurity Risk Assessment Dossier: The technical file shall contain the formal documented cybersecurity risk assessment, threat models, assumptions, and lifecycle impact analysis across design, production, and maintenance.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex VII, Point (3)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-VII.4",
+      "category": "Annex VII : Technical Documentation Dossier",
+      "description": "Design & Software Architecture Specifications: The technical file shall document software architecture decisions, interface specifications, build processes, and technical measures taken to satisfy Annex I Part I requirements.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex VII, Point (4)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-VII.5",
+      "category": "Annex VII : Technical Documentation Dossier",
+      "description": "Vulnerability Handling Process Dossier: The technical file shall include documented vulnerability handling processes, coordinated disclosure policies, and contact point infrastructure as required by Annex I Part II.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex VII, Point (5)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-VII.6",
+      "category": "Annex VII : Technical Documentation Dossier",
+      "description": "Support Period Technical Rationale: The technical file shall record the criteria and data used to determine the security support period under Article 13(8).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex VII, Point (6)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-VII.7",
+      "category": "Annex VII : Technical Documentation Dossier",
+      "description": "Machine-Readable SBOM Archive: The technical file shall contain the up-to-date Software Bill of Materials (SBOM) in a machine-readable format (SPDX or CycloneDX) covering components and dependencies.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex VII, Point (7)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Annex-VII.8",
+      "category": "Annex VII : Technical Documentation Dossier",
+      "description": "Verification Evidence & Test Reports: The technical file shall contain test reports, security assessment records, static/dynamic analysis logs, and citations of applied harmonized standards providing evidence of compliance.",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Annex VII, Point (8)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Art-13.1",
+      "category": "Chapter II : Manufacturer & Regulatory Obligations",
+      "description": "Cybersecurity Risk Assessment Obligation: Manufacturers shall undertake a cybersecurity risk assessment taking into account the product's intended purpose, reasonably foreseeable misuse, and operational environment, and integrate its results across all lifecycle phases (Article 13(1) & 13(2)).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Article 13(1), 13(2)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Art-13.5",
+      "category": "Chapter II : Manufacturer & Regulatory Obligations",
+      "description": "Third-Party Component Due Diligence: Manufacturers shall exercise due diligence when integrating third-party components (commercial, open source, or firmware) to ensure they do not compromise the cybersecurity of the product with digital elements (Article 13(5)).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Article 13(5)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Art-13.8",
+      "category": "Chapter II : Manufacturer & Regulatory Obligations",
+      "description": "Support Period Determination: Manufacturers shall determine and clearly communicate the support period for the product with digital elements, reflecting the reasonably expected product lifetime (or minimum 5 years), during which vulnerability handling and security patches are guaranteed (Article 13(8)).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Article 13(8)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Art-13.21",
+      "category": "Chapter II : Manufacturer & Regulatory Obligations",
+      "description": "10-Year Technical Documentation Retention: Manufacturers shall keep the technical documentation file and the EU Declaration of Conformity at the disposal of market surveillance authorities for at least 10 years after the product has been placed on the market (Article 13(21) & 31).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Article 13(21), Article 31",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Art-14.1",
+      "category": "Chapter II : Manufacturer & Regulatory Obligations",
+      "description": "24-Hour Early Warning to CSIRT & ENISA: Manufacturers shall notify the designated CSIRT and ENISA within 24 hours of becoming aware of an actively exploited vulnerability in their product, providing an early warning with suspected malicious exploitation details (Article 14(1) & 14(2)).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Article 14(1), 14(2)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Art-14.3",
+      "category": "Chapter II : Manufacturer & Regulatory Obligations",
+      "description": "72-Hour Detailed Vulnerability Notification: Manufacturers shall provide a comprehensive vulnerability notification to the designated CSIRT and ENISA within 72 hours of becoming aware, containing a preliminary technical assessment, general mitigating measures, and sensitivity markings (Article 14(3)).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Article 14(3)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Art-14.4",
+      "category": "Chapter II : Manufacturer & Regulatory Obligations",
+      "description": "14-Day Final Incident & Remediation Report: Manufacturers shall submit a final report to the CSIRT and ENISA within 14 days of a corrective measure (security patch or workaround) becoming available, detailing the root cause, severity, impact, and remediation deployed (Article 14(4)).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Article 14(4)",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Art-24",
+      "category": "Chapter II : Manufacturer & Regulatory Obligations",
+      "description": "EU Declaration of Conformity & CE Marking: Manufacturers shall draw up an EU Declaration of Conformity (DoC) stating that fulfillment of essential requirements has been demonstrated, and affix the CE marking visibly, legibly, and indelibly to the product with digital elements (Articles 24, 25 & 26).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Articles 24, 25, 26",
+        "product_tier": "Default (Module A)"
+      }
+    },
+    {
+      "id": "CRA-Art-32",
+      "category": "Chapter II : Manufacturer & Regulatory Obligations",
+      "description": "Product Classification & Conformity Procedure Routing: Manufacturers shall accurately classify the product (Default, Important Class I, Important Class II, or Critical per Annex III/IV) and apply the mandatory conformity assessment procedure: Internal control Module A, Harmonized Standard audit Module B+C, or Notified Body Full QA Module H (Articles 6, 7 & 32).",
+      "status": "not-started",
+      "required": true,
+      "values": {
+        "article_ref": "Articles 6, 7, 32",
+        "product_tier": "Default (Module A)"
+      }
+    }
+  ]
+}

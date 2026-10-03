@@ -53,7 +53,7 @@ checklist.json         link in checklist.json      marks "Pass" in PR         si
 ```
 
 ### 1. Day One Setup (5 Minutes)
-A Tech Lead or Architect opens T-CLIP, chooses an industry template (such as **OWASP ASVS** for web apps, **NIST AI** for generative AI, or creates custom questions), clicks **Export to Disk**, and commits `checklist.json` into the root of the repository:
+A Tech Lead or Architect opens T-CLIP, chooses an industry template (such as **OWASP ASVS** for web apps, **EU CRA** for connected digital products and hardware, **NIST AI** for AI systems, or creates custom questions), clicks **Export to Disk**, and commits `checklist.json` into the root of the repository:
 ```bash
 git add checklist.json
 git commit -m "chore: add T-CLIP release checklist"
@@ -172,7 +172,6 @@ jobs:
 4. **Visual Analytics Dashboard:** A donut chart and category compliance meters show you exactly which areas need attention before release day.
 5. **Built-in Security Standards:** Comes pre-loaded with:
    - **OWASP ASVS v4.0.3:** The gold standard for web application security.
-   - **CSA CAIQ v4:** Cloud security and vendor assessment questionnaire.
    - **NIST AI RMF 1.0:** Artificial intelligence risk management framework.
    - **OWASP Agentic AI Top 10:** Safety for autonomous agents and tools.
    - **OWASP LLM Top 10 (2025):** Common vulnerabilities in GenAI applications.

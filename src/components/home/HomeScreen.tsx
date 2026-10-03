@@ -200,7 +200,7 @@ export function HomeScreen({ onNew, onOpen }: Props) {
                         New Checklist
                       </Typography>
                       <Typography sx={{ fontSize: 12, color: '#94a3b8', lineHeight: 1.4 }}>
-                        Start from built-in industry standards: <strong>OWASP ASVS</strong>, <strong>CSA CAIQ</strong>, <strong>NIST AI RMF</strong>, or <strong>Agentic AI</strong>
+                        Start from built-in industry standards: <strong>OWASP ASVS</strong>, <strong>NIST AI RMF</strong>, <strong>EU CRA</strong>, <strong>LLM Top 10</strong>, or <strong>Agentic AI</strong>
                       </Typography>
                     </Box>
                   </Box>

@@ -7,11 +7,11 @@ describe('Built-in Templates', () => {
     const ids = BUILT_IN_TEMPLATE_META.map(t => t.id)
     expect(ids).toEqual([
       'owasp-asvs',
-      'caiq',
       'nist-ai-rmf',
       'owasp-agentic-ai',
       'owasp-llmsvs',
       'owasp-llm-top10',
+      'eu-cra',
     ])
   })
 
@@ -50,31 +50,6 @@ describe('Built-in Templates', () => {
     // Verify all 286 items have level defined
     const levels = asvs.file.items.map(i => i.values?.level)
     expect(levels.every(l => ['L1', 'L2', 'L3'].includes(l as string))).toBe(true)
-  })
-
-  it('validates CSA CAIQ template structure and all 17 CCM v4 domains', async () => {
-    const caiq = await getBuiltInTemplate('caiq')
-    expect(caiq.file.roles).toEqual(
-      expect.arrayContaining([
-        'Cloud Security Architect',
-        'Compliance Officer',
-        'DevSecOps Engineer',
-      ])
-    )
-    expect(caiq.file.fields.map(f => f.id)).toContain('evidence_link')
-    expect(caiq.file.fields.map(f => f.id)).toContain('control_implementation')
-    expect(caiq.file.fields.map(f => f.id)).toContain('disposition')
-    expect(caiq.file.items.length).toBe(197)
-
-    // Verify all 17 CSA CCM v4 domains are represented
-    const domains = new Set(caiq.file.items.map(i => i.category))
-    expect(domains.size).toBe(17)
-    expect(domains).toContain('Datacenter Security')
-    expect(domains).toContain('Human Resources')
-    expect(domains).toContain('Interoperability and Portability')
-    expect(domains).toContain('Supply Chain Management, Transparency, and Accountability')
-    expect(domains).toContain('Universal Endpoint Management')
-    expect(domains).toContain('Data Security and Privacy Lifecycle Management')
   })
 
   it('validates NIST AI RMF 1.0 functions, categories, and governance tiers', async () => {
@@ -133,5 +108,52 @@ describe('Built-in Templates', () => {
       const code = `LLM${String(i).padStart(2, '0')}`
       expect(risks).toContain(code)
     }
+  })
+
+  it('validates EU Cyber Resilience Act (CRA) Annex I and manufacturer obligations', async () => {
+    const cra = await getBuiltInTemplate('eu-cra')
+    expect(cra.file.roles).toEqual(
+      expect.arrayContaining([
+        'Product Security Officer',
+        'Embedded / Firmware Engineer',
+        'Software Architect',
+        'DevSecOps Engineer',
+        'Compliance & Regulatory Lead',
+        'PSIRT Lead',
+      ])
+    )
+    expect(cra.file.fields.map(f => f.id)).toContain('article_ref')
+    expect(cra.file.fields.map(f => f.id)).toContain('product_tier')
+    expect(cra.file.fields.map(f => f.id)).toContain('compliance_evidence')
+    expect(cra.file.fields.map(f => f.id)).toContain('implementation_status')
+    expect(cra.file.items.length).toBe(50)
+
+    const categories = new Set(cra.file.items.map(i => i.category))
+    expect(categories.size).toBe(5)
+    expect(categories).toContain('Annex I Part I : Product Security Properties')
+    expect(categories).toContain('Annex I Part II : Vulnerability Handling Processes')
+    expect(categories).toContain('Annex II : Information and Instructions to the User')
+    expect(categories).toContain('Annex VII : Technical Documentation Dossier')
+    expect(categories).toContain('Chapter II : Manufacturer & Regulatory Obligations')
+
+    // Verify all 14 Annex I Part I requirements are present
+    const part1 = cra.file.items.filter(i => i.category === 'Annex I Part I : Product Security Properties')
+    expect(part1.length).toBe(14)
+
+    // Verify all 8 Annex I Part II requirements are present
+    const part2 = cra.file.items.filter(i => i.category === 'Annex I Part II : Vulnerability Handling Processes')
+    expect(part2.length).toBe(8)
+
+    // Verify all 11 Annex II user instruction requirements are present
+    const annex2 = cra.file.items.filter(i => i.category === 'Annex II : Information and Instructions to the User')
+    expect(annex2.length).toBe(11)
+
+    // Verify all 8 Annex VII technical documentation requirements are present
+    const annex7 = cra.file.items.filter(i => i.category === 'Annex VII : Technical Documentation Dossier')
+    expect(annex7.length).toBe(8)
+
+    // Verify all 9 Chapter II manufacturer obligations are present
+    const chapter2 = cra.file.items.filter(i => i.category === 'Chapter II : Manufacturer & Regulatory Obligations')
+    expect(chapter2.length).toBe(9)
   })
 })

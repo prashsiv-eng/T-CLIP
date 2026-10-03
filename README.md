@@ -50,8 +50,8 @@ T-CLIP ships with production-ready templates for premier industry security and A
 | Template | Standard | Controls | Description |
 |:---|:---|:---:|:---|
 | **OWASP ASVS** | OWASP ASVS v4.0.3 | 286 items | Complete Application Security Verification Standard across all 14 chapters, L1–L3 levels, and CWE mappings. |
-| **CSA CAIQ** | CSA CAIQ v4 | 17 domains | Cloud Security Alliance Consensus Assessments Initiative Questionnaire covering cloud governance, IAM, encryption, and operational resilience. |
-| **NIST AI RMF** | NIST AI RMF 1.0 | 4 functions | NIST Artificial Intelligence Risk Management Framework (SP 1270-1) covering GOVERN, MAP, MEASURE, and MANAGE. |
+| **NIST AI RMF** | NIST AI RMF 1.0 | 72 subcategories | NIST Artificial Intelligence Risk Management Framework (SP 1270-1) covering GOVERN, MAP, MEASURE, and MANAGE. |
+| **EU Cyber Resilience Act** | Regulation (EU) 2024/2847 | 50 requirements | Mandatory EU regulation covering all requirements across Annex I Part I (Product Properties), Annex I Part II (Vulnerability Handling), Annex II (User Instructions), Annex VII (Technical Dossier), and Chapter II (Manufacturer Obligations & Incident Reporting). |
 | **OWASP Agentic AI** | OWASP Agentic AI Top 10 | 10 categories | Autonomous AI system risks including goal hijacking, tool misuse, privilege abuse, execution sandboxing, and multi-agent coordination. |
 | **OWASP LLMSVS** | OWASP LLMSVS | Tiered | Technical Large Language Model Security Verification Standard covering prompt guardrails, RAG/vector stores, output sandboxing, and memory. |
 | **OWASP LLM Top 10** | OWASP LLM Top 10 (2025) | Top 10 | Official GenAI vulnerability checklist covering prompt injection, sensitive data leakage, supply chain risks, and excessive agency. |

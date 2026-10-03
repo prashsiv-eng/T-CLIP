@@ -153,8 +153,8 @@ export function AboutDialog({ open, onClose }: Props) {
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mb: 3 }}>
           <Chip label="OWASP ASVS v4.0.3 (AppSec)" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.06)', color: '#e2e8f0', fontSize: 11 }} />
-          <Chip label="CSA CAIQ v4 (Cloud Security)" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.06)', color: '#e2e8f0', fontSize: 11 }} />
           <Chip label="NIST AI RMF 1.0 (AI Governance)" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.06)', color: '#e2e8f0', fontSize: 11 }} />
+          <Chip label="EU Cyber Resilience Act (CRA)" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.06)', color: '#e2e8f0', fontSize: 11 }} />
           <Chip label="OWASP Agentic AI Top 10" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.06)', color: '#e2e8f0', fontSize: 11 }} />
           <Chip label="OWASP LLMSVS (AI Verification)" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.06)', color: '#e2e8f0', fontSize: 11 }} />
           <Chip label="OWASP LLM Top 10 (GenAI)" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.06)', color: '#e2e8f0', fontSize: 11 }} />

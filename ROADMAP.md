@@ -6,7 +6,7 @@
 - Local-first checklist engine with schema-driven `checklist.json`
 - 5-tier capability model (observer to editor)
 - SHA-256 attestation export
-- Bundled templates: OWASP ASVS, LLM Top 10, Agentic AI, LLMSVS, NIST AI RMF, CSA CAIQ
+- Bundled templates: OWASP ASVS, LLM Top 10, Agentic AI, LLMSVS, NIST AI RMF
 
 ## v0.2
 - First tagged GitHub release, with a hosted demo on GitHub Pages

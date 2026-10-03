@@ -17,12 +17,6 @@ export const BUILT_IN_TEMPLATE_META: Omit<BuiltInTemplate, 'file'>[] = [
     categories: ['AppSec', 'L1', 'L2', 'L3', 'Architecture', 'Auth', 'Crypto', 'APIs'],
   },
   {
-    id: 'caiq',
-    name: 'CSA CAIQ v4',
-    description: 'Cloud Security Alliance Consensus Assessments Initiative Questionnaire covering all 197 official control specifications across all 17 Cloud Controls Matrix (CCM v4) domains.',
-    categories: ['Cloud Security', 'Governance', 'IAM', 'Data Protection', 'Compliance', 'CCM v4'],
-  },
-  {
     id: 'nist-ai-rmf',
     name: 'NIST AI RMF 1.0',
     description: 'NIST Artificial Intelligence Risk Management Framework (SP 1270-1) covering all 72 official subcategories across all 19 categories and the 4 Core Functions: GOVERN, MAP, MEASURE, and MANAGE.',
@@ -45,6 +39,12 @@ export const BUILT_IN_TEMPLATE_META: Omit<BuiltInTemplate, 'file'>[] = [
     name: 'OWASP LLM Top 10',
     description: 'Official OWASP Top 10 for Large Language Model Applications (2025) covering prompt injection, sensitive data leakage, supply chain, and excessive agency.',
     categories: ['GenAI Security', 'OWASP Top 10', 'Prompt Injection', 'Data Privacy', 'Supply Chain'],
+  },
+  {
+    id: 'eu-cra',
+    name: 'EU Cyber Resilience Act (CRA)',
+    description: 'European Union Cyber Resilience Act (Regulation (EU) 2024/2847) covering all 50 official requirements across Annex I Part I (Product Properties), Annex I Part II (Vulnerability Handling), Annex II (User Instructions), Annex VII (Technical Documentation File), and Chapter II (Manufacturer Obligations & Reporting).',
+    categories: ['EU Regulation', 'Cyber Resilience', 'IoT / Hardware', 'Software Supply Chain', 'SBOM', 'CE Mark'],
   },
 ]
 
