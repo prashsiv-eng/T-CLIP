@@ -11,7 +11,8 @@
     "AI Safety Engineer",
     "Lead AI Developer",
     "DevSecOps Engineer",
-    "Security Reviewer"
+    "Security Reviewer",
+    "Release Manager"
   ],
   "users": [],
   "fields": [
@@ -32,7 +33,7 @@
         "ASI10"
       ],
       "editableBy": "editor",
-      "visibleTo": "observer"
+      "visibleTo": "read-only"
     },
     {
       "id": "agent_impact",
@@ -44,8 +45,8 @@
         "Medium",
         "Low"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer"
+      "editableBy": "editor",
+      "visibleTo": "read-only"
     },
     {
       "id": "guardrail_type",
@@ -59,59 +60,55 @@
         "Scoped IAM / Ephemeral Tokens",
         "Runtime Step / Cost Watchdog"
       ],
-      "requiredWhen": [
-        "pass",
-        "fail"
-      ],
-      "editableBy": "contributor",
-      "visibleTo": "observer"
+      "editableBy": "editor",
+      "visibleTo": "read-only"
     },
     {
       "id": "evidence_url",
-      "label": "Safety Test / PR / Audit Link",
+      "label": "Evidence / PR / Audit Link",
       "type": "url",
       "requiredWhen": [
         "pass",
-        "fail"
+        "failed"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer"
+      "editableBy": "editor",
+      "visibleTo": "read-only"
     },
     {
       "id": "finding_notes",
-      "label": "Safety Finding & Evaluation Notes",
+      "label": "Safety Finding & Verification Notes",
       "type": "textarea",
       "requiredWhen": [
         "pass",
-        "fail"
+        "failed"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer",
+      "editableBy": "editor",
+      "visibleTo": "read-only",
       "maxLength": 1000
     },
     {
       "id": "disposition",
-      "label": "Disposition / Exception",
+      "label": "Disposition",
       "type": "select",
       "options": [
         "Mitigated & Verified",
-        "Remediation In Progress",
-        "Compensating Control",
-        "Risk Accepted",
+        "Compensating Guardrail Active",
+        "Fix in Progress",
+        "Risk Accepted by Safety Board",
         "Not Applicable"
       ],
       "requiredWhen": [
         "na"
       ],
       "editableBy": "reviewer",
-      "visibleTo": "observer"
+      "visibleTo": "read-only"
     }
   ],
   "items": [
     {
       "id": "ASI01-01",
       "category": "ASI01: Agent Goal Hijack",
-      "description": "Verify that system prompts and agent instructions are encapsulated in immutable system roles that cannot be overridden by user messages.",
+      "description": "Verify system prompts and operational instructions are encapsulated in immutable system roles that cannot be overridden by user messages.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -120,28 +117,30 @@
       },
       "values": {
         "risk_id": "ASI01",
-        "agent_impact": "Critical"
+        "agent_impact": "Critical",
+        "guardrail_type": "Input/Output Deterministic Filter"
       }
     },
     {
       "id": "ASI01-02",
       "category": "ASI01: Agent Goal Hijack",
-      "description": "Verify that untrusted input retrieved from external documents, URLs, or API responses is strictly delimited from operational instructions.",
+      "description": "Verify untrusted input retrieved from external documents, URLs, or API responses is strictly delimited from operational instructions with structured tagging.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "AI Safety Engineer"
+        "role": "Lead AI Developer"
       },
       "values": {
         "risk_id": "ASI01",
-        "agent_impact": "Critical"
+        "agent_impact": "High",
+        "guardrail_type": "Input/Output Deterministic Filter"
       }
     },
     {
       "id": "ASI01-03",
       "category": "ASI01: Agent Goal Hijack",
-      "description": "Verify that a secondary validation classifier inspects proposed agent goals before task execution to detect malicious goal redirection.",
+      "description": "Verify a secondary semantic validation classifier inspects proposed agent goals before task execution to detect malicious goal redirection.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -150,7 +149,24 @@
       },
       "values": {
         "risk_id": "ASI01",
-        "agent_impact": "High"
+        "agent_impact": "High",
+        "guardrail_type": "Model Guardrail (Classifier)"
+      }
+    },
+    {
+      "id": "ASI01-04",
+      "category": "ASI01: Agent Goal Hijack",
+      "description": "Verify multi-turn conversational defense preventing delayed indirect prompt injections hidden in intermediate tool execution outputs.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Safety Engineer"
+      },
+      "values": {
+        "risk_id": "ASI01",
+        "agent_impact": "High",
+        "guardrail_type": "Model Guardrail (Classifier)"
       }
     },
     {
@@ -165,13 +181,14 @@
       },
       "values": {
         "risk_id": "ASI02",
-        "agent_impact": "Critical"
+        "agent_impact": "Critical",
+        "guardrail_type": "Input/Output Deterministic Filter"
       }
     },
     {
       "id": "ASI02-02",
       "category": "ASI02: Tool Misuse & Exploitation",
-      "description": "Verify that tools operate under the principle of least privilege with strictly scoped API credentials rather than broad administrative tokens.",
+      "description": "Verify tools operate under the principle of least privilege with strictly scoped API credentials rather than broad administrative tokens.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -180,13 +197,14 @@
       },
       "values": {
         "risk_id": "ASI02",
-        "agent_impact": "High"
+        "agent_impact": "High",
+        "guardrail_type": "Scoped IAM / Ephemeral Tokens"
       }
     },
     {
       "id": "ASI02-03",
       "category": "ASI02: Tool Misuse & Exploitation",
-      "description": "Verify that irreversible, destructive, or financial actions require mandatory human confirmation before the tool can be invoked.",
+      "description": "Verify irreversible, destructive, or financial actions require mandatory human confirmation displaying explicit diffs and side-effects.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -195,43 +213,30 @@
       },
       "values": {
         "risk_id": "ASI02",
-        "agent_impact": "Critical"
+        "agent_impact": "Critical",
+        "guardrail_type": "Human-in-the-Loop Gate"
+      }
+    },
+    {
+      "id": "ASI02-04",
+      "category": "ASI02: Tool Misuse & Exploitation",
+      "description": "Verify tool idempotency and execution sandboxing preventing accidental or malicious duplicate execution of state-mutating actions.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "risk_id": "ASI02",
+        "agent_impact": "Medium",
+        "guardrail_type": "Isolated Code Sandbox"
       }
     },
     {
       "id": "ASI03-01",
       "category": "ASI03: Identity & Privilege Abuse",
-      "description": "Verify that agents execute requests strictly on behalf of the authenticated caller, using delegated JWT / OAuth tokens that enforce caller ACLs.",
-      "status": "not-started",
-      "required": true,
-      "statusEditableBy": "reviewer",
-      "assignedTo": {
-        "role": "DevSecOps Engineer"
-      },
-      "values": {
-        "risk_id": "ASI03",
-        "agent_impact": "High"
-      }
-    },
-    {
-      "id": "ASI03-02",
-      "category": "ASI03: Identity & Privilege Abuse",
-      "description": "Verify that credentials provided to agents have short-lived TTLs and are automatically revoked when the execution session ends.",
-      "status": "not-started",
-      "required": true,
-      "statusEditableBy": "reviewer",
-      "assignedTo": {
-        "role": "DevSecOps Engineer"
-      },
-      "values": {
-        "risk_id": "ASI03",
-        "agent_impact": "High"
-      }
-    },
-    {
-      "id": "ASI03-03",
-      "category": "ASI03: Identity & Privilege Abuse",
-      "description": "Verify that inter-agent communications employ mutual cryptographic authentication to prevent agent spoofing or privilege elevation.",
+      "description": "Verify agents execute requests strictly on behalf of the authenticated caller, using delegated JWT / OAuth tokens that enforce caller ACLs.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -240,7 +245,56 @@
       },
       "values": {
         "risk_id": "ASI03",
-        "agent_impact": "High"
+        "agent_impact": "Critical",
+        "guardrail_type": "Scoped IAM / Ephemeral Tokens"
+      }
+    },
+    {
+      "id": "ASI03-02",
+      "category": "ASI03: Identity & Privilege Abuse",
+      "description": "Verify credentials provided to agents have short-lived TTLs and are automatically revoked when the execution session ends.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "DevSecOps Engineer"
+      },
+      "values": {
+        "risk_id": "ASI03",
+        "agent_impact": "High",
+        "guardrail_type": "Scoped IAM / Ephemeral Tokens"
+      }
+    },
+    {
+      "id": "ASI03-03",
+      "category": "ASI03: Identity & Privilege Abuse",
+      "description": "Verify inter-agent communications employ mutual cryptographic authentication (mTLS / signed JWTs) to prevent agent spoofing or impersonation.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "DevSecOps Engineer"
+      },
+      "values": {
+        "risk_id": "ASI03",
+        "agent_impact": "High",
+        "guardrail_type": "Scoped IAM / Ephemeral Tokens"
+      }
+    },
+    {
+      "id": "ASI03-04",
+      "category": "ASI03: Identity & Privilege Abuse",
+      "description": "Verify anti-privilege escalation guardrails prevent agents from requesting, creating, or assuming permissions exceeding the initiating user scope.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Reviewer"
+      },
+      "values": {
+        "risk_id": "ASI03",
+        "agent_impact": "Critical",
+        "guardrail_type": "Scoped IAM / Ephemeral Tokens"
       }
     },
     {
@@ -255,13 +309,14 @@
       },
       "values": {
         "risk_id": "ASI04",
-        "agent_impact": "Critical"
+        "agent_impact": "Critical",
+        "guardrail_type": "Input/Output Deterministic Filter"
       }
     },
     {
       "id": "ASI04-02",
       "category": "ASI04: Agentic Supply Chain Vulnerabilities",
-      "description": "Verify that external MCP servers and agent tool endpoints are restricted to an explicit enterprise-approved allowlist.",
+      "description": "Verify external Model Context Protocol (MCP) servers and tool endpoints are restricted to an explicit enterprise-approved allowlist.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -270,13 +325,14 @@
       },
       "values": {
         "risk_id": "ASI04",
-        "agent_impact": "High"
+        "agent_impact": "High",
+        "guardrail_type": "Input/Output Deterministic Filter"
       }
     },
     {
       "id": "ASI04-03",
       "category": "ASI04: Agentic Supply Chain Vulnerabilities",
-      "description": "Verify automated software bill of materials (SBOM) scanning for vulnerabilities in all agent orchestration libraries and plugins.",
+      "description": "Verify automated software bill of materials (SBOM) scanning for vulnerabilities in all agent orchestration frameworks, skills, and plugins.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -285,28 +341,46 @@
       },
       "values": {
         "risk_id": "ASI04",
-        "agent_impact": "Medium"
+        "agent_impact": "Medium",
+        "guardrail_type": "Input/Output Deterministic Filter"
+      }
+    },
+    {
+      "id": "ASI04-04",
+      "category": "ASI04: Agentic Supply Chain Vulnerabilities",
+      "description": "Verify secure transport encryption (TLS 1.3 / mTLS) and authentication tokens are enforced on all remote MCP daemon connections.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "DevSecOps Engineer"
+      },
+      "values": {
+        "risk_id": "ASI04",
+        "agent_impact": "High",
+        "guardrail_type": "Scoped IAM / Ephemeral Tokens"
       }
     },
     {
       "id": "ASI05-01",
       "category": "ASI05: Unexpected Code Execution",
-      "description": "Verify that dynamic code execution (Python, Bash, JS) occurs inside an isolated, unprivileged container with no access to host filesystem or network.",
+      "description": "Verify dynamic code execution (Python, Bash, JS) occurs inside an isolated, unprivileged container with no access to host filesystem or network.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Lead AI Developer"
+        "role": "DevSecOps Engineer"
       },
       "values": {
         "risk_id": "ASI05",
-        "agent_impact": "Critical"
+        "agent_impact": "Critical",
+        "guardrail_type": "Isolated Code Sandbox"
       }
     },
     {
       "id": "ASI05-02",
       "category": "ASI05: Unexpected Code Execution",
-      "description": "Verify that agents cannot directly construct raw shell or SQL commands, and that all data manipulation utilizes parameterized abstractions.",
+      "description": "Verify agents cannot directly construct raw shell or SQL commands, and that all data manipulation utilizes parameterized abstractions.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -315,7 +389,8 @@
       },
       "values": {
         "risk_id": "ASI05",
-        "agent_impact": "Critical"
+        "agent_impact": "Critical",
+        "guardrail_type": "Input/Output Deterministic Filter"
       }
     },
     {
@@ -326,26 +401,44 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "AI Safety Engineer"
+        "role": "Lead AI Developer"
       },
       "values": {
         "risk_id": "ASI05",
-        "agent_impact": "High"
+        "agent_impact": "High",
+        "guardrail_type": "Isolated Code Sandbox"
+      }
+    },
+    {
+      "id": "ASI05-04",
+      "category": "ASI05: Unexpected Code Execution",
+      "description": "Verify strict compute resource limits (CPU ceiling, memory limit, timeout limits, disk quotas) are enforced on code execution sandboxes.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "DevSecOps Engineer"
+      },
+      "values": {
+        "risk_id": "ASI05",
+        "agent_impact": "High",
+        "guardrail_type": "Runtime Step / Cost Watchdog"
       }
     },
     {
       "id": "ASI06-01",
       "category": "ASI06: Memory & State Poisoning",
-      "description": "Verify that persistent memory (vector embeddings, summaries, key-value stores) is sanitized against stored prompt injection prior to ingestion.",
+      "description": "Verify persistent memory (vector embeddings, summaries, key-value stores) is sanitized against stored prompt injection prior to ingestion.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "AI Safety Engineer"
+        "role": "Lead AI Developer"
       },
       "values": {
         "risk_id": "ASI06",
-        "agent_impact": "Critical"
+        "agent_impact": "High",
+        "guardrail_type": "Input/Output Deterministic Filter"
       }
     },
     {
@@ -360,13 +453,14 @@
       },
       "values": {
         "risk_id": "ASI06",
-        "agent_impact": "Critical"
+        "agent_impact": "Critical",
+        "guardrail_type": "Scoped IAM / Ephemeral Tokens"
       }
     },
     {
       "id": "ASI06-03",
       "category": "ASI06: Memory & State Poisoning",
-      "description": "Verify automated state object integrity checking and TTL expiration on scratchpad memory items.",
+      "description": "Verify automated state object integrity checking with cryptographic hashes and TTL expiration on scratchpad memory items.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -375,13 +469,30 @@
       },
       "values": {
         "risk_id": "ASI06",
-        "agent_impact": "Medium"
+        "agent_impact": "Medium",
+        "guardrail_type": "Input/Output Deterministic Filter"
+      }
+    },
+    {
+      "id": "ASI06-04",
+      "category": "ASI06: Memory & State Poisoning",
+      "description": "Verify context window eviction safely scrubs sensitive credentials, session keys, and PII prior to long-term memory commits.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Safety Engineer"
+      },
+      "values": {
+        "risk_id": "ASI06",
+        "agent_impact": "High",
+        "guardrail_type": "Input/Output Deterministic Filter"
       }
     },
     {
       "id": "ASI07-01",
       "category": "ASI07: Insecure Multi-Agent Orchestration",
-      "description": "Verify that parent agents validate all subagent responses against a strict typed schema before acting on child output.",
+      "description": "Verify parent agents validate all subagent responses against a strict typed schema before acting on child output.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -390,7 +501,8 @@
       },
       "values": {
         "risk_id": "ASI07",
-        "agent_impact": "High"
+        "agent_impact": "High",
+        "guardrail_type": "Input/Output Deterministic Filter"
       }
     },
     {
@@ -401,17 +513,18 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Agent Architect"
+        "role": "Lead AI Developer"
       },
       "values": {
         "risk_id": "ASI07",
-        "agent_impact": "High"
+        "agent_impact": "High",
+        "guardrail_type": "Runtime Step / Cost Watchdog"
       }
     },
     {
       "id": "ASI07-03",
       "category": "ASI07: Insecure Multi-Agent Orchestration",
-      "description": "Verify that subagents inherit least-privilege permission boundaries and cannot spawn arbitrary further descendants.",
+      "description": "Verify subagents inherit least-privilege permission boundaries and cannot spawn arbitrary further descendants.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -420,7 +533,24 @@
       },
       "values": {
         "risk_id": "ASI07",
-        "agent_impact": "Medium"
+        "agent_impact": "High",
+        "guardrail_type": "Scoped IAM / Ephemeral Tokens"
+      }
+    },
+    {
+      "id": "ASI07-04",
+      "category": "ASI07: Insecure Multi-Agent Orchestration",
+      "description": "Verify hard recursion depth limits on hierarchical subagent delegation to prevent uncontrollable distributed spawning.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Agent Architect"
+      },
+      "values": {
+        "risk_id": "ASI07",
+        "agent_impact": "Critical",
+        "guardrail_type": "Runtime Step / Cost Watchdog"
       }
     },
     {
@@ -431,11 +561,12 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Lead AI Developer"
+        "role": "DevSecOps Engineer"
       },
       "values": {
         "risk_id": "ASI08",
-        "agent_impact": "High"
+        "agent_impact": "High",
+        "guardrail_type": "Runtime Step / Cost Watchdog"
       }
     },
     {
@@ -450,7 +581,8 @@
       },
       "values": {
         "risk_id": "ASI08",
-        "agent_impact": "High"
+        "agent_impact": "High",
+        "guardrail_type": "Runtime Step / Cost Watchdog"
       }
     },
     {
@@ -465,28 +597,46 @@
       },
       "values": {
         "risk_id": "ASI08",
-        "agent_impact": "Medium"
+        "agent_impact": "Medium",
+        "guardrail_type": "Runtime Step / Cost Watchdog"
+      }
+    },
+    {
+      "id": "ASI08-04",
+      "category": "ASI08: Cascading Failures & Unbounded Resource Consumption",
+      "description": "Verify exponential backoff and automated circuit breakers on external tool failures to prevent cascading downstream system failures.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "DevSecOps Engineer"
+      },
+      "values": {
+        "risk_id": "ASI08",
+        "agent_impact": "Medium",
+        "guardrail_type": "Runtime Step / Cost Watchdog"
       }
     },
     {
       "id": "ASI09-01",
       "category": "ASI09: Insufficient Guardrails & Human-in-the-Loop Bypass",
-      "description": "Verify that high-impact operations have non-bypassable confirmation prompts displaying explicit side-effects and diffs.",
+      "description": "Verify high-impact operations have non-bypassable confirmation prompts displaying explicit side-effects and diffs.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Security Reviewer"
+        "role": "Agent Architect"
       },
       "values": {
         "risk_id": "ASI09",
-        "agent_impact": "Critical"
+        "agent_impact": "Critical",
+        "guardrail_type": "Human-in-the-Loop Gate"
       }
     },
     {
       "id": "ASI09-02",
       "category": "ASI09: Insufficient Guardrails & Human-in-the-Loop Bypass",
-      "description": "Verify that agent reasoning cannot hallucinate or synthesize fake user approvals to bypass confirmation gates.",
+      "description": "Verify agent reasoning cannot hallucinate, mock, or synthesize fake user approvals to bypass confirmation gates.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -495,7 +645,8 @@
       },
       "values": {
         "risk_id": "ASI09",
-        "agent_impact": "Critical"
+        "agent_impact": "Critical",
+        "guardrail_type": "Human-in-the-Loop Gate"
       }
     },
     {
@@ -510,7 +661,24 @@
       },
       "values": {
         "risk_id": "ASI09",
-        "agent_impact": "High"
+        "agent_impact": "High",
+        "guardrail_type": "Model Guardrail (Classifier)"
+      }
+    },
+    {
+      "id": "ASI09-04",
+      "category": "ASI09: Insufficient Guardrails & Human-in-the-Loop Bypass",
+      "description": "Verify tamper-evident audit logging of all human confirmation decisions, rejections, and permission overrides.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Reviewer"
+      },
+      "values": {
+        "risk_id": "ASI09",
+        "agent_impact": "Medium",
+        "guardrail_type": "Input/Output Deterministic Filter"
       }
     },
     {
@@ -525,7 +693,8 @@
       },
       "values": {
         "risk_id": "ASI10",
-        "agent_impact": "Critical"
+        "agent_impact": "Critical",
+        "guardrail_type": "Model Guardrail (Classifier)"
       }
     },
     {
@@ -540,7 +709,8 @@
       },
       "values": {
         "risk_id": "ASI10",
-        "agent_impact": "High"
+        "agent_impact": "Critical",
+        "guardrail_type": "Runtime Step / Cost Watchdog"
       }
     },
     {
@@ -555,7 +725,24 @@
       },
       "values": {
         "risk_id": "ASI10",
-        "agent_impact": "High"
+        "agent_impact": "High",
+        "guardrail_type": "Input/Output Deterministic Filter"
+      }
+    },
+    {
+      "id": "ASI10-04",
+      "category": "ASI10: Rogue Agent Emergence & Misalignment",
+      "description": "Verify behavioral anomaly detection flagging abrupt deviations in tool invocation frequencies, argument patterns, or data volumes.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Safety Engineer"
+      },
+      "values": {
+        "risk_id": "ASI10",
+        "agent_impact": "High",
+        "guardrail_type": "Runtime Step / Cost Watchdog"
       }
     }
   ],
@@ -571,7 +758,7 @@
       "role": "reviewer"
     },
     {
-      "id": "ai-dev",
+      "id": "lead-ai-dev",
       "label": "Lead AI Developer",
       "role": "editor"
     },
@@ -581,12 +768,12 @@
       "role": "editor"
     },
     {
-      "id": "sec-rev",
+      "id": "security-reviewer",
       "label": "Security Reviewer",
       "role": "reviewer"
     },
     {
-      "id": "rel-mgr",
+      "id": "release-mgr",
       "label": "Release Manager",
       "role": "sign-off"
     }

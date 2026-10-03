@@ -7,7 +7,7 @@ export function PendingResponsesList({ items }: { items: ReviewedItem[] }) {
     return (
       <Box sx={{ py: 3, textAlign: 'center' }}>
         <InboxOutlinedIcon sx={{ fontSize: 28, color: 'text.disabled', display: 'block', mx: 'auto', mb: 0.5 }} />
-        <Typography variant="body2" color="text.secondary">No pending responses 🎉</Typography>
+        <Typography variant="body2" color="text.secondary">No pending responses.</Typography>
       </Box>
     )
   }

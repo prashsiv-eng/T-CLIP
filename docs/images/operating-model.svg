@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" width="100%" height="100%" style="background:#0b1120; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,sans-serif;">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="460" fill="#0b1120" rx="16"/>
+  <rect width="960" height="460" fill="none" stroke="#1e293b" stroke-width="1.5" rx="16"/>
+
+  <!-- Title -->
+  <text x="480" y="42" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">T-CLIP 5-Tier Capability &amp; Governance Model</text>
+  <text x="480" y="66" text-anchor="middle" fill="#94a3b8" font-size="12">Strict separation of duties prevents conflicts of interest between developers, reviewers, and approvers</text>
+
+  <!-- 5 Cards -->
+  <!-- 1. Observer -->
+  <g transform="translate(30, 95)" filter="url(#cardShadow)">
+    <rect width="170" height="300" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+    <rect width="170" height="40" rx="10" fill="#1e293b"/>
+    <rect y="30" width="170" height="10" fill="#1e293b"/>
+    <text x="85" y="26" text-anchor="middle" fill="#94a3b8" font-size="13" font-weight="700">1. observer</text>
+    
+    <text x="85" y="60" text-anchor="middle" fill="#cbd5e1" font-size="11" font-weight="600">Audit &amp; Stakeholder</text>
+    <text x="85" y="76" text-anchor="middle" fill="#64748b" font-size="10">Read-Only</text>
+    <line x1="15" y1="90" x2="155" y2="90" stroke="#1e293b"/>
+
+    <text x="16" y="112" fill="#38bdf8" font-size="10" font-weight="700">CAN:</text>
+    <text x="16" y="128" fill="#94a3b8" font-size="10.5">✓ View checklist</text>
+    <text x="16" y="144" fill="#94a3b8" font-size="10.5">✓ Inspect evidence</text>
+    <text x="16" y="160" fill="#94a3b8" font-size="10.5">✓ Monitor dashboard</text>
+    <text x="16" y="176" fill="#94a3b8" font-size="10.5">✓ Verify attestations</text>
+
+    <text x="16" y="206" fill="#f87171" font-size="10" font-weight="700">CANNOT:</text>
+    <text x="16" y="222" fill="#64748b" font-size="10.5">✕ Add evidence</text>
+    <text x="16" y="238" fill="#64748b" font-size="10.5">✕ Change statuses</text>
+    <text x="16" y="254" fill="#64748b" font-size="10.5">✕ Sign off release</text>
+
+    <rect x="15" y="270" width="140" height="18" rx="4" fill="#1e293b"/>
+    <text x="85" y="283" text-anchor="middle" fill="#64748b" font-size="9">Tier: 1 (Lowest)</text>
+  </g>
+
+  <!-- 2. Contributor -->
+  <g transform="translate(215, 95)" filter="url(#cardShadow)">
+    <rect width="170" height="300" rx="10" fill="#0f172a" stroke="#2563eb" stroke-width="1.5"/>
+    <rect width="170" height="40" rx="10" fill="#1e3a8a" fill-opacity="0.4"/>
+    <rect y="30" width="170" height="10" fill="#1e3a8a" fill-opacity="0.4"/>
+    <text x="85" y="26" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="700">2. contributor</text>
+    
+    <text x="85" y="60" text-anchor="middle" fill="#cbd5e1" font-size="11" font-weight="600">Developer / Author</text>
+    <text x="85" y="76" text-anchor="middle" fill="#38bdf8" font-size="10">Data &amp; Evidence</text>
+    <line x1="15" y1="90" x2="155" y2="90" stroke="#1e293b"/>
+
+    <text x="16" y="112" fill="#38bdf8" font-size="10" font-weight="700">CAN:</text>
+    <text x="16" y="128" fill="#94a3b8" font-size="10.5">✓ All observer rights</text>
+    <text x="16" y="144" fill="#94a3b8" font-size="10.5">✓ Fill evidence URLs</text>
+    <text x="16" y="160" fill="#94a3b8" font-size="10.5">✓ Add technical notes</text>
+    <text x="16" y="176" fill="#94a3b8" font-size="10.5">✓ Answer custom fields</text>
+
+    <text x="16" y="206" fill="#f87171" font-size="10" font-weight="700">CANNOT:</text>
+    <text x="16" y="222" fill="#64748b" font-size="10.5">✕ Mark Pass/Fail</text>
+    <text x="16" y="238" fill="#64748b" font-size="10.5">✕ Confirm decisions</text>
+    <text x="16" y="254" fill="#64748b" font-size="10.5">✕ Edit checklist schema</text>
+
+    <rect x="15" y="270" width="140" height="18" rx="4" fill="#1e293b"/>
+    <text x="85" y="283" text-anchor="middle" fill="#60a5fa" font-size="9">Tier: 2</text>
+  </g>
+
+  <!-- 3. Reviewer -->
+  <g transform="translate(400, 95)" filter="url(#cardShadow)">
+    <rect width="170" height="300" rx="10" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5"/>
+    <rect width="170" height="40" rx="10" fill="#4c1d95" fill-opacity="0.4"/>
+    <rect y="30" width="170" height="10" fill="#4c1d95" fill-opacity="0.4"/>
+    <text x="85" y="26" text-anchor="middle" fill="#a78bfa" font-size="13" font-weight="700">3. reviewer</text>
+    
+    <text x="85" y="60" text-anchor="middle" fill="#cbd5e1" font-size="11" font-weight="600">Security / QA Lead</text>
+    <text x="85" y="76" text-anchor="middle" fill="#a78bfa" font-size="10">Evaluation Authority</text>
+    <line x1="15" y1="90" x2="155" y2="90" stroke="#1e293b"/>
+
+    <text x="16" y="112" fill="#38bdf8" font-size="10" font-weight="700">CAN:</text>
+    <text x="16" y="128" fill="#94a3b8" font-size="10.5">✓ All contributor rights</text>
+    <text x="16" y="144" fill="#94a3b8" font-size="10.5">✓ Set status (Pass/Fail)</text>
+    <text x="16" y="160" fill="#94a3b8" font-size="10.5">✓ Assign checklist items</text>
+    <text x="16" y="176" fill="#94a3b8" font-size="10.5">✓ Batch status updates</text>
+
+    <text x="16" y="206" fill="#f87171" font-size="10" font-weight="700">CANNOT:</text>
+    <text x="16" y="222" fill="#64748b" font-size="10.5">✕ Confirm dual sign-off</text>
+    <text x="16" y="238" fill="#64748b" font-size="10.5">✕ Override approver</text>
+    <text x="16" y="254" fill="#64748b" font-size="10.5">✕ Modify checklist rules</text>
+
+    <rect x="15" y="270" width="140" height="18" rx="4" fill="#1e293b"/>
+    <text x="85" y="283" text-anchor="middle" fill="#a78bfa" font-size="9">Tier: 3</text>
+  </g>
+
+  <!-- 4. Approver -->
+  <g transform="translate(585, 95)" filter="url(#cardShadow)">
+    <rect width="170" height="300" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+    <rect width="170" height="40" rx="10" fill="#064e3b" fill-opacity="0.4"/>
+    <rect y="30" width="170" height="10" fill="#064e3b" fill-opacity="0.4"/>
+    <text x="85" y="26" text-anchor="middle" fill="#34d399" font-size="13" font-weight="700">4. approver</text>
+    
+    <text x="85" y="60" text-anchor="middle" fill="#cbd5e1" font-size="11" font-weight="600">Release / Sign-off Auth</text>
+    <text x="85" y="76" text-anchor="middle" fill="#34d399" font-size="10">Dual Sign-Off Gate</text>
+    <line x1="15" y1="90" x2="155" y2="90" stroke="#1e293b"/>
+
+    <text x="16" y="112" fill="#38bdf8" font-size="10" font-weight="700">CAN:</text>
+    <text x="16" y="128" fill="#94a3b8" font-size="10.5">✓ All reviewer rights</text>
+    <text x="16" y="144" fill="#94a3b8" font-size="10.5">✓ Dual sign-off confirm</text>
+    <text x="16" y="160" fill="#94a3b8" font-size="10.5">✓ Override evaluations</text>
+    <text x="16" y="176" fill="#94a3b8" font-size="10.5">✓ Generate attestation</text>
+
+    <text x="16" y="206" fill="#f87171" font-size="10" font-weight="700">CANNOT:</text>
+    <text x="16" y="222" fill="#64748b" font-size="10.5">✕ Add/delete items</text>
+    <text x="16" y="238" fill="#64748b" font-size="10.5">✕ Reorder categories</text>
+    <text x="16" y="254" fill="#64748b" font-size="10.5">✕ Alter schema types</text>
+
+    <rect x="15" y="270" width="140" height="18" rx="4" fill="#1e293b"/>
+    <text x="85" y="283" text-anchor="middle" fill="#34d399" font-size="9">Tier: 4</text>
+  </g>
+
+  <!-- 5. Editor -->
+  <g transform="translate(770, 95)" filter="url(#cardShadow)">
+    <rect width="160" height="300" rx="10" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+    <rect width="160" height="40" rx="10" fill="#78350f" fill-opacity="0.4"/>
+    <rect y="30" width="160" height="10" fill="#78350f" fill-opacity="0.4"/>
+    <text x="80" y="26" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="700">5. editor</text>
+    
+    <text x="80" y="60" text-anchor="middle" fill="#cbd5e1" font-size="11" font-weight="600">Admin / Architect</text>
+    <text x="80" y="76" text-anchor="middle" fill="#fbbf24" font-size="10">Full Structural Control</text>
+    <line x1="15" y1="90" x2="145" y2="90" stroke="#1e293b"/>
+
+    <text x="16" y="112" fill="#38bdf8" font-size="10" font-weight="700">CAN:</text>
+    <text x="16" y="128" fill="#94a3b8" font-size="10.5">✓ All approver rights</text>
+    <text x="16" y="144" fill="#94a3b8" font-size="10.5">✓ Add &amp; delete items</text>
+    <text x="16" y="160" fill="#94a3b8" font-size="10.5">✓ Modify field schema</text>
+    <text x="16" y="176" fill="#94a3b8" font-size="10.5">✓ Update metadata</text>
+
+    <text x="16" y="206" fill="#38bdf8" font-size="10" font-weight="700">SPECIAL:</text>
+    <text x="16" y="222" fill="#94a3b8" font-size="10.5">✓ Configure rules</text>
+    <text x="16" y="238" fill="#94a3b8" font-size="10.5">✓ Manage personas</text>
+    <text x="16" y="254" fill="#94a3b8" font-size="10.5">✓ Template creator</text>
+
+    <rect x="15" y="270" width="130" height="18" rx="4" fill="#1e293b"/>
+    <text x="80" y="283" text-anchor="middle" fill="#fbbf24" font-size="9">Tier: 5 (Superuser)</text>
+  </g>
+
+  <!-- Bottom Progressive Arrow -->
+  <g transform="translate(115, 415)">
+    <text x="-80" y="16" fill="#64748b" font-size="11" font-weight="600">Hierarchy:</text>
+    <line x1="0" y1="12" x2="710" y2="12" stroke="#334155" stroke-width="2"/>
+    <polygon points="710,7 725,12 710,17" fill="#334155"/>
+    <text x="355" y="28" text-anchor="middle" fill="#94a3b8" font-size="10.5">Progressive permission inheritance: Higher tiers inherit all capabilities of lower tiers</text>
+  </g>
+</svg>

@@ -1,12 +1,16 @@
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import GitHubIcon from '@mui/icons-material/GitHub'
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
+import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
+import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined'
 import {
+  Alert,
   AppBar, Avatar, Box, Button, ButtonBase, Chip, ClickAwayListener,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
   IconButton, Paper, Popper, Toolbar, Tooltip, Typography,
@@ -39,9 +43,11 @@ interface Props {
   onExport?: () => void
   onRestart?: () => void
   onAboutOpen?: () => void
+  onHelpOpen?: () => void
+  onNewReleaseOpen?: () => void
 }
 
-export function Header({ file, fileName, hasBeenSaved, userName, userRole, capability, onNameChange, onRoleChange, onSettingsOpen, onExport, onRestart, onAboutOpen }: Props) {
+export function Header({ file, fileName, hasBeenSaved, userName, userRole, capability, onNameChange, onRoleChange, onSettingsOpen, onExport, onRestart, onAboutOpen, onHelpOpen, onNewReleaseOpen }: Props) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [confirmRestartOpen, setConfirmRestartOpen] = useState(false)
 
@@ -189,6 +195,34 @@ export function Header({ file, fileName, hasBeenSaved, userName, userRole, capab
             </Box>
           </ClickAwayListener>
 
+          {onNewReleaseOpen && (
+            <Tooltip title="Start New Release or PR cycle (resets reviews while keeping responses)">
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<RocketLaunchOutlinedIcon sx={{ fontSize: 15 }} />}
+                onClick={onNewReleaseOpen}
+                sx={{
+                  color: '#34d399',
+                  borderColor: 'rgba(52, 211, 153, 0.35)',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  height: 32,
+                  px: 1.5,
+                  textTransform: 'none',
+                  whiteSpace: 'nowrap',
+                  bgcolor: 'rgba(52, 211, 153, 0.08)',
+                  '&:hover': {
+                    borderColor: '#10b981',
+                    bgcolor: 'rgba(16, 185, 129, 0.16)',
+                  },
+                }}
+              >
+                New Release / PR
+              </Button>
+            </Tooltip>
+          )}
+
           {onExport && (
             <Button
               variant="outlined"
@@ -212,6 +246,13 @@ export function Header({ file, fileName, hasBeenSaved, userName, userRole, capab
             >
               Export JSON
             </Button>
+          )}
+          {onHelpOpen && (
+            <Tooltip title="Help & Documentation">
+              <IconButton size="small" onClick={onHelpOpen} sx={{ color: '#94a3b8', '&:hover': { color: '#f8fafc' } }}>
+                <HelpOutlineOutlinedIcon sx={{ fontSize: 18 }} />
+              </IconButton>
+            </Tooltip>
           )}
           {onAboutOpen && (
             <Tooltip title="About T-CLIP">
@@ -265,11 +306,31 @@ export function Header({ file, fileName, hasBeenSaved, userName, userRole, capab
       <DialogTitle sx={{ fontWeight: 700, fontSize: 18, color: '#f8fafc' }}>
         Restart Workflow?
       </DialogTitle>
-      <DialogContent>
-        <DialogContentText sx={{ color: '#94a3b8', fontSize: 14 }}>
+      <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, pt: 1 }}>
+        <Alert
+          severity="warning"
+          icon={<WarningAmberOutlinedIcon sx={{ fontSize: 20, color: '#f59e0b', mt: 0.2 }} />}
+          sx={{
+            bgcolor: 'rgba(245, 158, 11, 0.1)',
+            border: '1px solid rgba(245, 158, 11, 0.35)',
+            color: '#fef3c7',
+            borderRadius: 2,
+            py: 1,
+          }}
+        >
+          <Typography sx={{ fontSize: 13, fontWeight: 700, color: '#fbbf24', mb: 0.25 }}>
+            Warning: Save current state before resetting!
+          </Typography>
+          <Typography sx={{ fontSize: 12, color: '#e2e8f0', lineHeight: 1.4 }}>
+            {!hasBeenSaved
+              ? 'This checklist has not been exported or saved to your computer. Returning to Home now will permanently discard your current session.'
+              : 'Returning to Home will close this active checklist session. Export a backup now if you made any recent changes.'}
+          </Typography>
+        </Alert>
+        <DialogContentText sx={{ color: '#94a3b8', fontSize: 13.5 }}>
           {!hasBeenSaved
-            ? 'This checklist has not been saved to your computer yet. If you restart now, your current answers and progress will be discarded unless you export first.'
-            : 'Are you sure you want to close this checklist and return to the home screen to open or create a different checklist?'}
+            ? 'Make sure to export your file first if you want to keep your progress.'
+            : 'Are you sure you want to close this checklist and return to the home screen?'}
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 2, gap: 1 }}>
@@ -279,9 +340,10 @@ export function Header({ file, fileName, hasBeenSaved, userName, userRole, capab
         >
           Cancel
         </Button>
-        {!hasBeenSaved && onExport && (
+        {onExport && (
           <Button
             variant="outlined"
+            startIcon={<FileDownloadOutlinedIcon sx={{ fontSize: 16 }} />}
             onClick={() => {
               onExport()
               setConfirmRestartOpen(false)

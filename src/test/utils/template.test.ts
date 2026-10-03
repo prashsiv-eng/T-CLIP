@@ -52,7 +52,7 @@ describe('Built-in Templates', () => {
     expect(levels.every(l => ['L1', 'L2', 'L3'].includes(l as string))).toBe(true)
   })
 
-  it('validates CSA CAIQ template structure and roles', async () => {
+  it('validates CSA CAIQ template structure and all 17 CCM v4 domains', async () => {
     const caiq = await getBuiltInTemplate('caiq')
     expect(caiq.file.roles).toEqual(
       expect.arrayContaining([
@@ -64,20 +64,35 @@ describe('Built-in Templates', () => {
     expect(caiq.file.fields.map(f => f.id)).toContain('evidence_link')
     expect(caiq.file.fields.map(f => f.id)).toContain('control_implementation')
     expect(caiq.file.fields.map(f => f.id)).toContain('disposition')
-    expect(caiq.file.items.length).toBeGreaterThanOrEqual(30)
+    expect(caiq.file.items.length).toBe(197)
+
+    // Verify all 17 CSA CCM v4 domains are represented
+    const domains = new Set(caiq.file.items.map(i => i.category))
+    expect(domains.size).toBe(17)
+    expect(domains).toContain('Datacenter Security')
+    expect(domains).toContain('Human Resources')
+    expect(domains).toContain('Interoperability and Portability')
+    expect(domains).toContain('Supply Chain Management, Transparency, and Accountability')
+    expect(domains).toContain('Universal Endpoint Management')
+    expect(domains).toContain('Data Security and Privacy Lifecycle Management')
   })
 
-  it('validates NIST AI RMF 1.0 functions and governance tiers', async () => {
+  it('validates NIST AI RMF 1.0 functions, categories, and governance tiers', async () => {
     const nist = await getBuiltInTemplate('nist-ai-rmf')
     expect(nist.file.fields.map(f => f.id)).toContain('function')
     expect(nist.file.fields.map(f => f.id)).toContain('governance_tier')
     expect(nist.file.fields.map(f => f.id)).toContain('assessment_notes')
-    
+    expect(nist.file.items.length).toBe(72)
+
     const functions = new Set(nist.file.items.map(i => i.values?.function))
     expect(functions).toContain('GOVERN')
     expect(functions).toContain('MAP')
     expect(functions).toContain('MEASURE')
     expect(functions).toContain('MANAGE')
+
+    // Verify all 19 official categories are represented
+    const categories = new Set(nist.file.items.map(i => i.category))
+    expect(categories.size).toBe(19)
   })
 
   it('validates OWASP Agentic AI Top 10 risks', async () => {
@@ -85,6 +100,7 @@ describe('Built-in Templates', () => {
     expect(agentic.file.fields.map(f => f.id)).toContain('risk_id')
     expect(agentic.file.fields.map(f => f.id)).toContain('guardrail_type')
     expect(agentic.file.fields.map(f => f.id)).toContain('agent_impact')
+    expect(agentic.file.items.length).toBe(40)
     
     const risks = new Set(agentic.file.items.map(i => i.values?.risk_id))
     for (let i = 1; i <= 10; i++) {
@@ -97,6 +113,7 @@ describe('Built-in Templates', () => {
     const llmsvs = await getBuiltInTemplate('owasp-llmsvs')
     expect(llmsvs.file.fields.map(f => f.id)).toContain('level')
     expect(llmsvs.file.fields.map(f => f.id)).toContain('verification_method')
+    expect(llmsvs.file.items.length).toBe(42)
     
     const levels = new Set(llmsvs.file.items.map(i => i.values?.level))
     expect(levels).toContain('L1')
@@ -109,6 +126,7 @@ describe('Built-in Templates', () => {
     expect(llm.file.fields.map(f => f.id)).toContain('risk_id')
     expect(llm.file.fields.map(f => f.id)).toContain('attack_vector')
     expect(llm.file.fields.map(f => f.id)).toContain('mitigation_status')
+    expect(llm.file.items.length).toBe(40)
     
     const risks = new Set(llm.file.items.map(i => i.values?.risk_id))
     for (let i = 1; i <= 10; i++) {

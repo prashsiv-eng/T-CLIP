@@ -4,6 +4,7 @@ import type { ChecklistFile, ChecklistItem, ChecklistPhase, FieldSchema, FileRul
 import { sha256Hex } from '../utils/hash'
 import { clearActiveSession, restoreActiveSession, restoreSession, saveActiveSession, saveSession } from '../utils/session'
 import { STANDARD_PERSONAS } from '../utils/capability'
+import { prepareNewRelease, type NewReleaseOptions } from '../utils/release'
 
 export type { ChecklistPhase }
 
@@ -248,7 +249,12 @@ export function useChecklist() {
       ...s,
       reviewedItems: s.reviewedItems.map(item =>
         item.id === itemId
-          ? { ...item, status: action.status, history: [...item.history, action] }
+          ? {
+              ...item,
+              status: action.status,
+              values: action.fieldValues ? { ...(item.values ?? {}), ...action.fieldValues } : item.values,
+              history: [...item.history, action],
+            }
           : item
       ),
     }))
@@ -437,6 +443,26 @@ export function useChecklist() {
     setState(s => ({ ...s, sessionRestored: false }))
   }, [])
 
+  const startNewRelease = useCallback((options?: NewReleaseOptions) => {
+    setState(s => {
+      if (!s.checklistFile) return s
+      const { updatedFile, updatedItems } = prepareNewRelease(s.checklistFile, s.reviewedItems, options)
+
+      const safeProject = updatedFile.project.toLowerCase().replace(/[^a-z0-9_-]/g, '_') || 'checklist'
+      const safeVersion = updatedFile.version.toLowerCase().replace(/[^a-z0-9._-]/g, '_') || '1.0'
+      const updatedFileName = `${safeProject}-${safeVersion}.json`
+
+      return {
+        ...s,
+        isDirty: true,
+        hasBeenSaved: false,
+        fileName: updatedFileName,
+        checklistFile: updatedFile,
+        reviewedItems: updatedItems,
+      }
+    })
+  }, [])
+
   return {
     ...state,
     reset,
@@ -463,5 +489,6 @@ export function useChecklist() {
     updateRules,
     updateMetadata,
     clearSessionRestored,
+    startNewRelease,
   }
 }

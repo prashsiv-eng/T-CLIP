@@ -12,12 +12,15 @@
 [![Tests](https://img.shields.io/badge/Tests-97%2F97%20Passing-success.svg)](https://vitest.dev/)
 [![Local--First](https://img.shields.io/badge/Architecture-100%25%20Local--First-emerald.svg)](#architectural-pillars)
 [![Zero Telemetry](https://img.shields.io/badge/Telemetry-Zero%20Network%20Calls-purple.svg)](#zero-telemetry--privacy)
+[![User Guide](https://img.shields.io/badge/Guide-HELP.md-blue.svg)](HELP.md)
+
+[**User & Operating Guide**](HELP.md) • [Features](#features) • [Capability Model](#capability--role-model) • [File Specs](#file-format-reference)
 
 </div>
 
 ---
 
-## 📖 Overview
+## Overview
 
 **T-CLIP** (The Checklist Project) is an open-source, client-side compliance governance tool. It enables software teams, security leads, compliance officers, and release managers to evaluate, manage, and attest release readiness against rigorous security and compliance frameworks.
 
@@ -25,22 +28,22 @@ Traditional compliance reviews are plagued by brittle spreadsheets, unverified w
 
 ---
 
-## 🏛️ Architectural Pillars
+## Architectural Pillars
 
-- 🔒 **100% Local-First & Zero Telemetry**  
+- **100% Local-First & Zero Telemetry**  
   All parsing, evaluations, validations, and hashes occur client-side via the Web Crypto API. Your compliance data, vulnerability details, and review evidence never leave your browser session. Works offline, via static web servers, or from local `file://` distribution.
-- 📋 **Schema-Driven Declarative Specs**  
+- **Schema-Driven Declarative Specs**  
   Every checklist is represented by a single, portable, human-readable `checklist.json` document. Controls, dynamic evidence schemas, required fields, and access rules are declared cleanly in JSON.
-- 🛡️ **Role-Based Capability Model**  
+- **Role-Based Capability Model**  
   Enforces separation of duties across 5 progressive capability tiers (`observer`, `contributor`, `reviewer`, `approver`, `editor`). Roles are dynamically resolved at runtime from free-form role strings using customizable pattern matching.
-- 🔏 **Cryptographic Attestations (SHA-256)**  
+- **Cryptographic Attestations (SHA-256)**  
   T-CLIP computes a SHA-256 hash of the loaded source file. When all mandatory items are resolved, it generates an immutable, tamper-evident `checklist-attestation.json` audit report binding the source hash to actor identities, responses, timestamps, and approver sign-offs.
-- ⚡ **Auto-Save & Resilient Session Recovery**  
+- **Auto-Save & Resilient Session Recovery**  
   In-flight responses are auto-saved to browser `localStorage` keyed by the source file hash. If a page is accidentally refreshed or closed, work is safely restored upon reopening.
 
 ---
 
-## 📚 Included Standards & Templates
+## Included Standards & Templates
 
 T-CLIP ships with production-ready templates for premier industry security and AI standards:
 
@@ -56,7 +59,7 @@ T-CLIP ships with production-ready templates for premier industry security and A
 
 ---
 
-## ✨ Features
+## Features
 
 ### 1. Dual Checklist Views
 - **Category Accordion View**: Grouped by operational categories with collapsible headers, category progress meters, and quick-filter tags.
@@ -95,7 +98,7 @@ T-CLIP ships with production-ready templates for premier industry security and A
 
 ---
 
-## 👥 Capability & Role Model
+## Capability & Role Model
 
 T-CLIP uses an ascending 5-tier capability hierarchy:
 
@@ -116,7 +119,7 @@ observer  →  contributor  →  reviewer  →  approver  →  editor
 
 ---
 
-## 📄 File Format Reference
+## File Format Reference
 
 ### `checklist.json` Structure
 
@@ -205,7 +208,7 @@ observer  →  contributor  →  reviewer  →  approver  →  editor
 
 ---
 
-## 🚀 Quickstart & Development
+## Quickstart & Development
 
 ### Prerequisites
 
@@ -261,7 +264,7 @@ npm run lint
 
 ---
 
-## 🔄 Recommended CI/CD & GitOps Workflow
+## Recommended CI/CD & GitOps Workflow
 
 Because T-CLIP is 100% file-based and deterministic, it integrates smoothly into Git workflows:
 
@@ -281,7 +284,7 @@ flowchart LR
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 t-clip/
@@ -313,6 +316,6 @@ t-clip/
 
 ---
 
-## 🛡️ License
+## License
 
 This project is licensed under the [MIT License](LICENSE).

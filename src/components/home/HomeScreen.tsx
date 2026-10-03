@@ -1,6 +1,7 @@
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined'
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined'
 import GitHubIcon from '@mui/icons-material/GitHub'
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import {
@@ -14,6 +15,7 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 import { darkTheme } from '../../theme'
+import { HelpDialog } from '../help/HelpDialog'
 import { AboutDialog } from './AboutDialog'
 
 interface Props {
@@ -25,6 +27,7 @@ const GITHUB_REPO_URL = 'https://github.com/prashsiv-eng/T-CLIP'
 
 export function HomeScreen({ onNew, onOpen }: Props) {
   const [aboutOpen, setAboutOpen] = useState(false)
+  const [helpOpen, setHelpOpen] = useState(false)
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -83,6 +86,21 @@ export function HomeScreen({ onNew, onOpen }: Props) {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Button
+              size="small"
+              variant="text"
+              startIcon={<HelpOutlineOutlinedIcon sx={{ fontSize: 16 }} />}
+              onClick={() => setHelpOpen(true)}
+              sx={{
+                color: '#cbd5e1',
+                textTransform: 'none',
+                fontSize: 12,
+                fontWeight: 600,
+                '&:hover': { color: '#f8fafc', bgcolor: 'rgba(255,255,255,0.06)' },
+              }}
+            >
+              Help &amp; Guide
+            </Button>
             <Button
               size="small"
               variant="text"
@@ -231,15 +249,15 @@ export function HomeScreen({ onNew, onOpen }: Props) {
               gap: 2, mt: 4, flexWrap: 'wrap',
             }}>
               <Typography sx={{ fontSize: 11, color: '#64748b' }}>
-                🔒 100% Local-First
+                100% Local-First
               </Typography>
               <Typography sx={{ fontSize: 11, color: '#475569' }}>•</Typography>
               <Typography sx={{ fontSize: 11, color: '#64748b' }}>
-                🛡️ Zero Telemetry
+                Zero Telemetry
               </Typography>
               <Typography sx={{ fontSize: 11, color: '#475569' }}>•</Typography>
               <Typography sx={{ fontSize: 11, color: '#64748b' }}>
-                ⚖️ MIT Licensed
+                MIT Licensed
               </Typography>
             </Box>
           </Box>
@@ -247,6 +265,8 @@ export function HomeScreen({ onNew, onOpen }: Props) {
 
         {/* About Dialog */}
         <AboutDialog open={aboutOpen} onClose={() => setAboutOpen(false)} />
+        {/* Help Dialog */}
+        <HelpDialog open={helpOpen} onClose={() => setHelpOpen(false)} />
       </Box>
     </ThemeProvider>
   )

@@ -19,13 +19,13 @@ export const BUILT_IN_TEMPLATE_META: Omit<BuiltInTemplate, 'file'>[] = [
   {
     id: 'caiq',
     name: 'CSA CAIQ v4',
-    description: 'Cloud Security Alliance Consensus Assessments Initiative Questionnaire covering cloud governance, IAM, data security, encryption, and operational resilience.',
-    categories: ['Cloud Security', 'Governance', 'IAM', 'Data Protection', 'Compliance'],
+    description: 'Cloud Security Alliance Consensus Assessments Initiative Questionnaire covering all 197 official control specifications across all 17 Cloud Controls Matrix (CCM v4) domains.',
+    categories: ['Cloud Security', 'Governance', 'IAM', 'Data Protection', 'Compliance', 'CCM v4'],
   },
   {
     id: 'nist-ai-rmf',
     name: 'NIST AI RMF 1.0',
-    description: 'NIST Artificial Intelligence Risk Management Framework (SP 1270-1) covering the 4 Core Functions: GOVERN, MAP, MEASURE, and MANAGE.',
+    description: 'NIST Artificial Intelligence Risk Management Framework (SP 1270-1) covering all 72 official subcategories across all 19 categories and the 4 Core Functions: GOVERN, MAP, MEASURE, and MANAGE.',
     categories: ['AI Governance', 'NIST', 'Risk Management', 'Safety', 'Ethics'],
   },
   {

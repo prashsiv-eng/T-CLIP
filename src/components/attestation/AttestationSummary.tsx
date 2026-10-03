@@ -1,6 +1,7 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined'
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import {
@@ -41,6 +42,7 @@ interface Props {
   userName: string
   userRole: string
   onSignoffAttestation?: (signoff: SignoffRecord) => void
+  onNewReleaseOpen?: () => void
 }
 
 export function AttestationSummary({
@@ -50,6 +52,7 @@ export function AttestationSummary({
   userName,
   userRole,
   onSignoffAttestation,
+  onNewReleaseOpen,
 }: Props) {
   const [statement, setStatement] = useState(
     'I confirm that all compliance controls have been reviewed, verified, and approved for release.'
@@ -228,6 +231,27 @@ export function AttestationSummary({
             <Typography component="code" sx={{ fontSize: 11, color: '#059669', fontFamily: 'monospace', display: 'block', wordBreak: 'break-all' }}>
               SHA-256 Digest: {activeSignoff.hash}
             </Typography>
+            {onNewReleaseOpen && (
+              <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px dashed rgba(16, 185, 129, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
+                <Box>
+                  <Typography sx={{ fontSize: 12, fontWeight: 700, color: '#059669' }}>
+                    Ready for the next release or PR?
+                  </Typography>
+                  <Typography sx={{ fontSize: 11, color: 'text.secondary' }}>
+                    Reset review workflow to not-started while keeping all responses intact.
+                  </Typography>
+                </Box>
+                <Button
+                  variant="contained"
+                  size="small"
+                  startIcon={<RocketLaunchOutlinedIcon sx={{ fontSize: 14 }} />}
+                  onClick={onNewReleaseOpen}
+                  sx={{ bgcolor: '#059669', color: '#fff', textTransform: 'none', fontWeight: 600, fontSize: 11.5, px: 2, '&:hover': { bgcolor: '#047857' } }}
+                >
+                  Start New Release / PR
+                </Button>
+              </Box>
+            )}
           </Box>
         ) : isSignoffAuthorized ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>

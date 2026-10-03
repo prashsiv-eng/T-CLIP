@@ -8,7 +8,7 @@ export function PendingReviewList({ items }: { items: ReviewedItem[] }) {
     return (
       <Box sx={{ py: 3, textAlign: 'center' }}>
         <CheckCircleOutlinedIcon sx={{ fontSize: 28, color: 'text.disabled', display: 'block', mx: 'auto', mb: 0.5 }} />
-        <Typography variant="body2" color="text.secondary">Nothing awaiting review 🎉</Typography>
+        <Typography variant="body2" color="text.secondary">Nothing awaiting review.</Typography>
       </Box>
     )
   }

@@ -11,7 +11,8 @@
     "Lead Developer",
     "DevSecOps Engineer",
     "Red Teamer",
-    "Security Reviewer"
+    "Security Reviewer",
+    "Release Manager"
   ],
   "users": [],
   "fields": [
@@ -32,7 +33,7 @@
         "LLM10"
       ],
       "editableBy": "editor",
-      "visibleTo": "observer"
+      "visibleTo": "read-only"
     },
     {
       "id": "attack_vector",
@@ -49,74 +50,74 @@
       ],
       "requiredWhen": [
         "pass",
-        "fail"
+        "failed"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer"
+      "editableBy": "editor",
+      "visibleTo": "read-only"
     },
     {
       "id": "mitigation_status",
       "label": "Mitigation Status",
       "type": "select",
       "options": [
-        "Fully Implemented & Verified",
-        "Partially Implemented",
-        "Planned in Roadmap",
-        "Compensating Control",
-        "Risk Accepted"
+        "Fully Guarded & Tested",
+        "Guardrail In Place (Needs Verification)",
+        "Architectural Exception Approved",
+        "Vulnerability Confirmed (Action Required)"
       ],
       "requiredWhen": [
         "pass",
-        "fail"
+        "failed"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer"
+      "editableBy": "editor",
+      "visibleTo": "read-only"
     },
     {
       "id": "evidence_url",
-      "label": "Test Evidence / PR Link",
+      "label": "Evidence / Benchmark / PR Link",
       "type": "url",
       "requiredWhen": [
         "pass",
-        "fail"
+        "failed"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer"
+      "editableBy": "editor",
+      "visibleTo": "read-only"
     },
     {
       "id": "finding_notes",
-      "label": "Mitigation & Review Notes",
+      "label": "Security Finding & Test Notes",
       "type": "textarea",
       "requiredWhen": [
         "pass",
-        "fail"
+        "failed"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer",
+      "editableBy": "editor",
+      "visibleTo": "read-only",
       "maxLength": 1000
     },
     {
       "id": "disposition",
-      "label": "Disposition / Exception",
+      "label": "Disposition",
       "type": "select",
       "options": [
-        "Verified Compliant",
-        "Remediation Required",
-        "Accepted Risk",
+        "Mitigated & Verified",
+        "Compensating Guardrail Active",
+        "Fix in Progress",
+        "Risk Accepted by AppSec",
         "Not Applicable"
       ],
       "requiredWhen": [
         "na"
       ],
       "editableBy": "reviewer",
-      "visibleTo": "observer"
+      "visibleTo": "read-only"
     }
   ],
   "items": [
     {
       "id": "LLM01-01",
       "category": "LLM01: Prompt Injection",
-      "description": "Enforce strict structural separation between privileged system instructions and untrusted user inputs with role framing.",
+      "description": "Enforce strict structural separation between privileged system instructions and untrusted user inputs with role framing (ChatML / JSON system roles).",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -156,6 +157,20 @@
       }
     },
     {
+      "id": "LLM01-04",
+      "category": "LLM01: Prompt Injection",
+      "description": "Implement continuous prompt fuzzing and automated regression testing in CI/CD against known prompt injection taxonomies.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "DevSecOps Engineer"
+      },
+      "values": {
+        "risk_id": "LLM01"
+      }
+    },
+    {
       "id": "LLM02-01",
       "category": "LLM02: Sensitive Information Disclosure",
       "description": "Implement automated PII and secret scrubbers (e.g. Presidio, regex detectors) to sanitize prompt inputs before sending to third-party models.",
@@ -163,7 +178,7 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "AI Security Specialist"
+        "role": "Lead Developer"
       },
       "values": {
         "risk_id": "LLM02"
@@ -177,7 +192,7 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Lead Developer"
+        "role": "AI Security Specialist"
       },
       "values": {
         "risk_id": "LLM02"
@@ -192,6 +207,20 @@
       "statusEditableBy": "reviewer",
       "assignedTo": {
         "role": "Security Reviewer"
+      },
+      "values": {
+        "risk_id": "LLM02"
+      }
+    },
+    {
+      "id": "LLM02-04",
+      "category": "LLM02: Sensitive Information Disclosure",
+      "description": "Enforce differential privacy and canary token monitoring to detect memorization and regurgitation of proprietary data.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Security Specialist"
       },
       "values": {
         "risk_id": "LLM02"
@@ -240,14 +269,28 @@
       }
     },
     {
-      "id": "LLM04-01",
-      "category": "LLM04: Data and Model Poisoning",
-      "description": "Validate integrity and authenticity of datasets used in fine-tuning, RLHF, and vector retrieval knowledge bases.",
+      "id": "LLM03-04",
+      "category": "LLM03: Supply Chain Vulnerabilities",
+      "description": "Implement automated vulnerability gating in CI/CD blocking deployment of outdated or compromised AI dependencies.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "AI Security Specialist"
+        "role": "DevSecOps Engineer"
+      },
+      "values": {
+        "risk_id": "LLM03"
+      }
+    },
+    {
+      "id": "LLM04-01",
+      "category": "LLM04: Data and Model Poisoning",
+      "description": "Validate integrity and authenticity of datasets used in fine-tuning, RLHF, and vector retrieval knowledge bases with cryptographic hashes.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead Developer"
       },
       "values": {
         "risk_id": "LLM04"
@@ -282,9 +325,23 @@
       }
     },
     {
+      "id": "LLM04-04",
+      "category": "LLM04: Data and Model Poisoning",
+      "description": "Maintain immutable data lineage and versioning records for all training, validation, and evaluation corpora.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "DevSecOps Engineer"
+      },
+      "values": {
+        "risk_id": "LLM04"
+      }
+    },
+    {
       "id": "LLM05-01",
       "category": "LLM05: Improper Output Handling",
-      "description": "Sanitize and encode all model outputs before rendering in web views to eliminate Cross-Site Scripting (XSS) risks.",
+      "description": "Sanitize and contextual-encode all model outputs before rendering in web views to eliminate Cross-Site Scripting (XSS) risks.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -303,7 +360,7 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "DevSecOps Engineer"
+        "role": "Lead Developer"
       },
       "values": {
         "risk_id": "LLM05"
@@ -324,6 +381,20 @@
       }
     },
     {
+      "id": "LLM05-04",
+      "category": "LLM05: Improper Output Handling",
+      "description": "Implement fail-closed error handling when structured completions fail validation, preventing malformed data ingestion.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead Developer"
+      },
+      "values": {
+        "risk_id": "LLM05"
+      }
+    },
+    {
       "id": "LLM06-01",
       "category": "LLM06: Excessive Agency",
       "description": "Enforce least privilege on all tools, functions, and API keys accessible to the LLM agent, avoiding broad admin permissions.",
@@ -331,7 +402,7 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "DevSecOps Engineer"
+        "role": "Security Reviewer"
       },
       "values": {
         "risk_id": "LLM06"
@@ -345,7 +416,7 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Security Reviewer"
+        "role": "Lead Developer"
       },
       "values": {
         "risk_id": "LLM06"
@@ -366,6 +437,20 @@
       }
     },
     {
+      "id": "LLM06-04",
+      "category": "LLM06: Excessive Agency",
+      "description": "Establish hard rate limits, call count ceilings, and spend quotas on automated tool and function dispatches.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "DevSecOps Engineer"
+      },
+      "values": {
+        "risk_id": "LLM06"
+      }
+    },
+    {
       "id": "LLM07-01",
       "category": "LLM07: System Prompt Leakage",
       "description": "Do not include unencrypted secrets, internal credentials, or confidential business rules in system prompt instructions.",
@@ -373,7 +458,7 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "AI Security Specialist"
+        "role": "Lead Developer"
       },
       "values": {
         "risk_id": "LLM07"
@@ -387,7 +472,7 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Lead Developer"
+        "role": "AI Security Specialist"
       },
       "values": {
         "risk_id": "LLM07"
@@ -402,6 +487,20 @@
       "statusEditableBy": "reviewer",
       "assignedTo": {
         "role": "AI Security Specialist"
+      },
+      "values": {
+        "risk_id": "LLM07"
+      }
+    },
+    {
+      "id": "LLM07-04",
+      "category": "LLM07: System Prompt Leakage",
+      "description": "Maintain version-controlled, auditable records of all production system prompt revisions and access permissions.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "DevSecOps Engineer"
       },
       "values": {
         "risk_id": "LLM07"
@@ -450,6 +549,20 @@
       }
     },
     {
+      "id": "LLM08-04",
+      "category": "LLM08: Vector and Embedding Weaknesses",
+      "description": "Monitor vector space drift and perform periodic similarity metric integrity checks to detect index manipulation.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Security Specialist"
+      },
+      "values": {
+        "risk_id": "LLM08"
+      }
+    },
+    {
       "id": "LLM09-01",
       "category": "LLM09: Misinformation & Overreliance",
       "description": "Implement cross-checking, citations, and source-grounding in RAG pipelines to verify factual accuracy of model outputs.",
@@ -471,7 +584,7 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Security Reviewer"
+        "role": "Lead Developer"
       },
       "values": {
         "risk_id": "LLM09"
@@ -486,6 +599,20 @@
       "statusEditableBy": "reviewer",
       "assignedTo": {
         "role": "AI Security Specialist"
+      },
+      "values": {
+        "risk_id": "LLM09"
+      }
+    },
+    {
+      "id": "LLM09-04",
+      "category": "LLM09: Misinformation & Overreliance",
+      "description": "Establish human review workflows for high-stakes decisions generated or assisted by model recommendations.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Security Reviewer"
       },
       "values": {
         "risk_id": "LLM09"
@@ -532,6 +659,20 @@
       "values": {
         "risk_id": "LLM10"
       }
+    },
+    {
+      "id": "LLM10-04",
+      "category": "LLM10: Unbounded Consumption",
+      "description": "Implement request queueing and priority throttling during load spikes to guarantee service availability for critical paths.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "DevSecOps Engineer"
+      },
+      "values": {
+        "risk_id": "LLM10"
+      }
     }
   ],
   "personas": [
@@ -556,12 +697,12 @@
       "role": "reviewer"
     },
     {
-      "id": "sec-rev",
+      "id": "security-reviewer",
       "label": "Security Reviewer",
       "role": "reviewer"
     },
     {
-      "id": "rel-mgr",
+      "id": "release-mgr",
       "label": "Release Manager",
       "role": "sign-off"
     }

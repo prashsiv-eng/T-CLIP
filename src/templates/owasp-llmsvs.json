@@ -11,7 +11,8 @@
     "Lead AI Developer",
     "Security Architect",
     "Penetration Tester",
-    "Compliance Reviewer"
+    "Compliance Reviewer",
+    "Release Manager"
   ],
   "users": [],
   "fields": [
@@ -25,7 +26,7 @@
         "L3"
       ],
       "editableBy": "editor",
-      "visibleTo": "observer"
+      "visibleTo": "read-only"
     },
     {
       "id": "verification_method",
@@ -40,10 +41,10 @@
       ],
       "requiredWhen": [
         "pass",
-        "fail"
+        "failed"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer"
+      "editableBy": "editor",
+      "visibleTo": "read-only"
     },
     {
       "id": "evidence_url",
@@ -51,39 +52,38 @@
       "type": "url",
       "requiredWhen": [
         "pass",
-        "fail"
+        "failed"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer"
+      "editableBy": "editor",
+      "visibleTo": "read-only"
     },
     {
       "id": "finding_notes",
-      "label": "Assessment & Finding Notes",
+      "label": "Technical Finding & Verification Notes",
       "type": "textarea",
       "requiredWhen": [
         "pass",
-        "fail"
+        "failed"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer",
+      "editableBy": "editor",
+      "visibleTo": "read-only",
       "maxLength": 1000
     },
     {
       "id": "disposition",
-      "label": "Disposition / Exception",
+      "label": "Verification Disposition",
       "type": "select",
       "options": [
-        "Compliant",
-        "Non-Compliant",
-        "Compensating Control",
-        "Accepted Risk",
-        "Not Applicable"
+        "Verified & Passing",
+        "Compensating Control Accepted",
+        "Deficiency Logged (Action Required)",
+        "Not Applicable to Architecture"
       ],
       "requiredWhen": [
         "na"
       ],
       "editableBy": "reviewer",
-      "visibleTo": "observer"
+      "visibleTo": "read-only"
     }
   ],
   "items": [
@@ -98,7 +98,8 @@
         "role": "Security Architect"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Manual Code Review"
       }
     },
     {
@@ -109,10 +110,11 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "LLM Security Engineer"
+        "role": "Lead AI Developer"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Configuration Audit"
       }
     },
     {
@@ -123,10 +125,11 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Lead AI Developer"
+        "role": "LLM Security Engineer"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Automated SAST/DAST"
       }
     },
     {
@@ -140,7 +143,8 @@
         "role": "Security Architect"
       },
       "values": {
-        "level": "L2"
+        "level": "L2",
+        "verification_method": "Configuration Audit"
       }
     },
     {
@@ -154,7 +158,8 @@
         "role": "Penetration Tester"
       },
       "values": {
-        "level": "L2"
+        "level": "L2",
+        "verification_method": "Adversarial Prompting"
       }
     },
     {
@@ -168,7 +173,38 @@
         "role": "Security Architect"
       },
       "values": {
-        "level": "L3"
+        "level": "L3",
+        "verification_method": "Configuration Audit"
+      }
+    },
+    {
+      "id": "LLMSVS-V1.7",
+      "category": "V1: Architecture & Model Lifecycle",
+      "description": "Verify prompt caching and key-value (KV) cache isolation preventing side-channel leakage across concurrent user sessions.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L2",
+        "verification_method": "Manual Code Review"
+      }
+    },
+    {
+      "id": "LLMSVS-V1.8",
+      "category": "V1: Architecture & Model Lifecycle",
+      "description": "Verify formal model decommissioning protocols ensuring purged weights, unmounted fine-tuning volumes, and deleted adapter checkpoints.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Compliance Reviewer"
+      },
+      "values": {
+        "level": "L3",
+        "verification_method": "Configuration Audit"
       }
     },
     {
@@ -182,7 +218,8 @@
         "role": "Lead AI Developer"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Automated SAST/DAST"
       }
     },
     {
@@ -196,7 +233,8 @@
         "role": "Lead AI Developer"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Manual Code Review"
       }
     },
     {
@@ -210,7 +248,8 @@
         "role": "LLM Security Engineer"
       },
       "values": {
-        "level": "L2"
+        "level": "L1",
+        "verification_method": "Adversarial Prompting"
       }
     },
     {
@@ -224,7 +263,8 @@
         "role": "LLM Security Engineer"
       },
       "values": {
-        "level": "L2"
+        "level": "L2",
+        "verification_method": "Adversarial Prompting"
       }
     },
     {
@@ -235,10 +275,41 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "LLM Security Engineer"
+        "role": "Penetration Tester"
       },
       "values": {
-        "level": "L3"
+        "level": "L2",
+        "verification_method": "Adversarial Prompting"
+      }
+    },
+    {
+      "id": "LLMSVS-V2.6",
+      "category": "V2: Input & Prompt Guardrails",
+      "description": "Verify Unicode normalization and homoglyph decoding to prevent visual obfuscation attacks in user prompts.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "level": "L2",
+        "verification_method": "Manual Code Review"
+      }
+    },
+    {
+      "id": "LLMSVS-V2.7",
+      "category": "V2: Input & Prompt Guardrails",
+      "description": "Verify automated adversarial red-team fuzzing executes continuously in staging against evasive jailbreak variations.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Penetration Tester"
+      },
+      "values": {
+        "level": "L3",
+        "verification_method": "Adversarial Prompting"
       }
     },
     {
@@ -252,7 +323,8 @@
         "role": "Lead AI Developer"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Manual Code Review"
       }
     },
     {
@@ -266,7 +338,8 @@
         "role": "Lead AI Developer"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Automated SAST/DAST"
       }
     },
     {
@@ -280,7 +353,8 @@
         "role": "Security Architect"
       },
       "values": {
-        "level": "L2"
+        "level": "L2",
+        "verification_method": "Configuration Audit"
       }
     },
     {
@@ -291,10 +365,11 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "LLM Security Engineer"
+        "role": "Security Architect"
       },
       "values": {
-        "level": "L2"
+        "level": "L1",
+        "verification_method": "Configuration Audit"
       }
     },
     {
@@ -305,14 +380,30 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Compliance Reviewer"
+        "role": "Security Architect"
       },
       "values": {
-        "level": "L2"
+        "level": "L1",
+        "verification_method": "Manual Code Review"
       }
     },
     {
       "id": "LLMSVS-V3.6",
+      "category": "V3: Output Handling & Tool Safety",
+      "description": "Verify deterministic validation and parameter range checks on tool invocation arguments prior to execution.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "level": "L2",
+        "verification_method": "Automated SAST/DAST"
+      }
+    },
+    {
+      "id": "LLMSVS-V3.7",
       "category": "V3: Output Handling & Tool Safety",
       "description": "Verify formal mathematical verification and deterministic safety proofs on tool parameters prior to automated dispatch.",
       "status": "not-started",
@@ -322,7 +413,23 @@
         "role": "Security Architect"
       },
       "values": {
-        "level": "L3"
+        "level": "L3",
+        "verification_method": "Manual Code Review"
+      }
+    },
+    {
+      "id": "LLMSVS-V3.8",
+      "category": "V3: Output Handling & Tool Safety",
+      "description": "Verify prompt reflection defenses preventing model completions from echoing sensitive system instructions back to the client.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L2",
+        "verification_method": "Adversarial Prompting"
       }
     },
     {
@@ -333,10 +440,11 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Lead AI Developer"
+        "role": "Security Architect"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Manual Code Review"
       }
     },
     {
@@ -350,7 +458,8 @@
         "role": "Compliance Reviewer"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Automated SAST/DAST"
       }
     },
     {
@@ -361,10 +470,11 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Security Architect"
+        "role": "Lead AI Developer"
       },
       "values": {
-        "level": "L2"
+        "level": "L1",
+        "verification_method": "Configuration Audit"
       }
     },
     {
@@ -378,13 +488,14 @@
         "role": "LLM Security Engineer"
       },
       "values": {
-        "level": "L2"
+        "level": "L2",
+        "verification_method": "Adversarial Prompting"
       }
     },
     {
       "id": "LLMSVS-V4.5",
       "category": "V4: RAG, Vector Search & Data Privacy",
-      "description": "Verify differential privacy guarantees and empirical membership inference mitigation on all training and fine-tuning corpora.",
+      "description": "Verify tenant isolation in multi-tenant vector databases preventing cross-partition retrieval leaks.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -392,7 +503,38 @@
         "role": "Security Architect"
       },
       "values": {
-        "level": "L3"
+        "level": "L2",
+        "verification_method": "Manual Code Review"
+      }
+    },
+    {
+      "id": "LLMSVS-V4.6",
+      "category": "V4: RAG, Vector Search & Data Privacy",
+      "description": "Verify differential privacy guarantees and empirical membership inference mitigation on all training and fine-tuning corpora.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L3",
+        "verification_method": "Differential Privacy Analysis"
+      }
+    },
+    {
+      "id": "LLMSVS-V4.7",
+      "category": "V4: RAG, Vector Search & Data Privacy",
+      "description": "Verify vector inversion defense testing to ensure original raw text cannot be reconstructed from embedding vectors.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Penetration Tester"
+      },
+      "values": {
+        "level": "L3",
+        "verification_method": "Differential Privacy Analysis"
       }
     },
     {
@@ -406,7 +548,8 @@
         "role": "Lead AI Developer"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Manual Code Review"
       }
     },
     {
@@ -420,7 +563,8 @@
         "role": "Compliance Reviewer"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Configuration Audit"
       }
     },
     {
@@ -434,7 +578,8 @@
         "role": "LLM Security Engineer"
       },
       "values": {
-        "level": "L2"
+        "level": "L2",
+        "verification_method": "Automated SAST/DAST"
       }
     },
     {
@@ -448,7 +593,38 @@
         "role": "Security Architect"
       },
       "values": {
-        "level": "L3"
+        "level": "L2",
+        "verification_method": "Manual Code Review"
+      }
+    },
+    {
+      "id": "LLMSVS-V5.5",
+      "category": "V5: Memory & State Management",
+      "description": "Verify anti-extraction filters on long-term memory retrieval blocking attempts to dump cross-turn user profiles.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "LLM Security Engineer"
+      },
+      "values": {
+        "level": "L2",
+        "verification_method": "Adversarial Prompting"
+      }
+    },
+    {
+      "id": "LLMSVS-V5.6",
+      "category": "V5: Memory & State Management",
+      "description": "Verify state snapshot encryption and secure cryptographic erasure on user account termination (right to be forgotten).",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Compliance Reviewer"
+      },
+      "values": {
+        "level": "L3",
+        "verification_method": "Configuration Audit"
       }
     },
     {
@@ -462,7 +638,8 @@
         "role": "Lead AI Developer"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Manual Code Review"
       }
     },
     {
@@ -476,7 +653,8 @@
         "role": "LLM Security Engineer"
       },
       "values": {
-        "level": "L1"
+        "level": "L1",
+        "verification_method": "Configuration Audit"
       }
     },
     {
@@ -490,7 +668,8 @@
         "role": "Compliance Reviewer"
       },
       "values": {
-        "level": "L2"
+        "level": "L1",
+        "verification_method": "Configuration Audit"
       }
     },
     {
@@ -501,10 +680,11 @@
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "LLM Security Engineer"
+        "role": "Lead AI Developer"
       },
       "values": {
-        "level": "L2"
+        "level": "L2",
+        "verification_method": "Automated SAST/DAST"
       }
     },
     {
@@ -518,7 +698,23 @@
         "role": "Security Architect"
       },
       "values": {
-        "level": "L3"
+        "level": "L2",
+        "verification_method": "Configuration Audit"
+      }
+    },
+    {
+      "id": "LLMSVS-V6.6",
+      "category": "V6: Observability & Incident Response",
+      "description": "Verify automated rollback capabilities capable of instantaneously reverting model checkpoints and prompt templates to a known secure baseline.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Lead AI Developer"
+      },
+      "values": {
+        "level": "L3",
+        "verification_method": "Configuration Audit"
       }
     }
   ],
@@ -549,7 +745,7 @@
       "role": "reviewer"
     },
     {
-      "id": "rel-mgr",
+      "id": "release-mgr",
       "label": "Release Manager",
       "role": "sign-off"
     }

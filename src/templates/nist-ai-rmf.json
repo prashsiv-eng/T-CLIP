@@ -26,7 +26,7 @@
         "MANAGE"
       ],
       "editableBy": "editor",
-      "visibleTo": "observer"
+      "visibleTo": "read-only"
     },
     {
       "id": "governance_tier",
@@ -38,8 +38,8 @@
         "Tier 3 - Repeatable (Standardized)",
         "Tier 4 - Adaptive (Continuous Improvement)"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer"
+      "editableBy": "editor",
+      "visibleTo": "read-only"
     },
     {
       "id": "evidence_url",
@@ -47,10 +47,10 @@
       "type": "url",
       "requiredWhen": [
         "pass",
-        "fail"
+        "failed"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer"
+      "editableBy": "editor",
+      "visibleTo": "read-only"
     },
     {
       "id": "assessment_notes",
@@ -58,36 +58,35 @@
       "type": "textarea",
       "requiredWhen": [
         "pass",
-        "fail"
+        "failed"
       ],
-      "editableBy": "contributor",
-      "visibleTo": "observer",
+      "editableBy": "editor",
+      "visibleTo": "read-only",
       "maxLength": 1000
     },
     {
       "id": "disposition",
-      "label": "Compliance Disposition",
+      "label": "Risk Disposition",
       "type": "select",
       "options": [
-        "Fully Implemented",
-        "Substantially Implemented",
-        "In Progress",
-        "Compensating Control",
-        "Accepted Risk",
+        "Compliant & Verified",
+        "Substantially Compliant",
+        "Mitigation in Progress",
+        "Formal Risk Acceptance",
         "Not Applicable"
       ],
       "requiredWhen": [
         "na"
       ],
       "editableBy": "reviewer",
-      "visibleTo": "observer"
+      "visibleTo": "read-only"
     }
   ],
   "items": [
     {
-      "id": "NIST-GV-1.1",
-      "category": "GOVERN: Culture & Accountability",
-      "description": "Legal, regulatory, and ethical principles for AI design, deployment, and monitoring are formally documented and communicated.",
+      "id": "NIST-GO-1.1",
+      "category": "GOVERN 1 : Policies, processes, procedures, and practices across the organization related to the mapping, measuring, and managing of AI risks are in place, transparent, and implemented effectively.",
+      "description": "Legal and regulatory requirements involving AI are understood, managed, and documented.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -99,9 +98,163 @@
       }
     },
     {
-      "id": "NIST-GV-1.2",
-      "category": "GOVERN: Culture & Accountability",
-      "description": "Roles and organizational accountabilities for AI safety, compliance, and incident response are clearly established across teams.",
+      "id": "NIST-GO-1.2",
+      "category": "GOVERN 1 : Policies, processes, procedures, and practices across the organization related to the mapping, measuring, and managing of AI risks are in place, transparent, and implemented effectively.",
+      "description": "The characteristics of trustworthy AI are integrated into organizational policies, processes, procedures, and practices.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-1.3",
+      "category": "GOVERN 1 : Policies, processes, procedures, and practices across the organization related to the mapping, measuring, and managing of AI risks are in place, transparent, and implemented effectively.",
+      "description": "Processes, procedures, and practices are in place to determine the needed level of risk management activities based on the organization's risk tolerance.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-1.4",
+      "category": "GOVERN 1 : Policies, processes, procedures, and practices across the organization related to the mapping, measuring, and managing of AI risks are in place, transparent, and implemented effectively.",
+      "description": "The risk management process and its outcomes are established through transparent policies, procedures, and other controls based on organizational risk priorities.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-1.5",
+      "category": "GOVERN 1 : Policies, processes, procedures, and practices across the organization related to the mapping, measuring, and managing of AI risks are in place, transparent, and implemented effectively.",
+      "description": "Ongoing monitoring and periodic review of the risk management process and its outcomes are planned and organizational roles and responsibilities clearly defined, including determining the frequency of periodic review.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-1.6",
+      "category": "GOVERN 1 : Policies, processes, procedures, and practices across the organization related to the mapping, measuring, and managing of AI risks are in place, transparent, and implemented effectively.",
+      "description": "Mechanisms are in place to inventory AI systems and are resourced according to organizational risk priorities.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-1.7",
+      "category": "GOVERN 1 : Policies, processes, procedures, and practices across the organization related to the mapping, measuring, and managing of AI risks are in place, transparent, and implemented effectively.",
+      "description": "Processes and procedures are in place for decommissioning and phasing out AI systems safely and in a manner that does not increase risks or decrease the organization’s trustworthiness.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-2.1",
+      "category": "GOVERN 2 : Accountability structures are in place so that the appropriate teams and individuals are empowered, responsible, and trained for mapping, measuring, and managing AI risks.",
+      "description": "Roles and responsibilities and lines of communication related to mapping, measuring, and managing AI risks are documented and are clear to individuals and teams throughout the organization.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-2.2",
+      "category": "GOVERN 2 : Accountability structures are in place so that the appropriate teams and individuals are empowered, responsible, and trained for mapping, measuring, and managing AI risks.",
+      "description": "The organization’s personnel and partners receive AI risk management training to enable them to perform their duties and responsibilities consistent with related policies, procedures, and agreements.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-2.3",
+      "category": "GOVERN 2 : Accountability structures are in place so that the appropriate teams and individuals are empowered, responsible, and trained for mapping, measuring, and managing AI risks.",
+      "description": "Executive leadership of the organization takes responsibility for decisions about risks associated with AI system development and deployment.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-3.1",
+      "category": "GOVERN 3 : Workforce diversity, equity, inclusion, and accessibility processes are prioritized in the mapping, measuring, and managing of AI risks throughout the lifecycle.",
+      "description": "Decision-making related to mapping, measuring, and managing AI risks throughout the lifecycle is informed by a diverse team (e.g., diversity of demographics, disciplines, experience, expertise, and backgrounds).",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Ethics & Compliance Auditor"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-3.2",
+      "category": "GOVERN 3 : Workforce diversity, equity, inclusion, and accessibility processes are prioritized in the mapping, measuring, and managing of AI risks throughout the lifecycle.",
+      "description": "Policies and procedures are in place to define and differentiate roles and responsibilities for human-AI configurations and oversight of AI systems.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Ethics & Compliance Auditor"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-4.1",
+      "category": "GOVERN 4 : Organizational teams are committed to a culture that considers and communicates AI risk.",
+      "description": "Organizational policies and practices are in place to foster a critical thinking and safety-first mindset in the design, development, deployment, and uses of AI systems to minimize potential negative impacts.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -113,23 +266,9 @@
       }
     },
     {
-      "id": "NIST-GV-1.3",
-      "category": "GOVERN: Culture & Accountability",
-      "description": "AI development teams include multidisciplinary perspectives, safety training, and diverse stakeholder representation.",
-      "status": "not-started",
-      "required": true,
-      "statusEditableBy": "reviewer",
-      "assignedTo": {
-        "role": "Ethics & Compliance Auditor"
-      },
-      "values": {
-        "function": "GOVERN"
-      }
-    },
-    {
-      "id": "NIST-GV-1.4",
-      "category": "GOVERN: Culture & Accountability",
-      "description": "Organizational risk tolerances, safety thresholds, and red-lines for unacceptable AI use cases are formally enacted.",
+      "id": "NIST-GO-4.2",
+      "category": "GOVERN 4 : Organizational teams are committed to a culture that considers and communicates AI risk.",
+      "description": "Organizational teams document the risks and potential impacts of the AI technology they design, develop, deploy, evaluate, and use, and they communicate about the impacts more broadly.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -141,37 +280,23 @@
       }
     },
     {
-      "id": "NIST-GV-2.1",
-      "category": "GOVERN: Inventory & Policies",
-      "description": "A comprehensive inventory of all internal, fine-tuned, and third-party AI models, tools, and foundation APIs is maintained.",
+      "id": "NIST-GO-4.3",
+      "category": "GOVERN 4 : Organizational teams are committed to a culture that considers and communicates AI risk.",
+      "description": "Organizational practices are in place to enable AI testing, identification of incidents, and information sharing.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "MLOps / AI Engineer"
+        "role": "Chief Risk Officer"
       },
       "values": {
         "function": "GOVERN"
       }
     },
     {
-      "id": "NIST-GV-2.2",
-      "category": "GOVERN: Inventory & Policies",
-      "description": "Third-party AI providers, foundation models, and commercial APIs undergo formal risk and privacy due diligence.",
-      "status": "not-started",
-      "required": true,
-      "statusEditableBy": "reviewer",
-      "assignedTo": {
-        "role": "AI Governance Lead"
-      },
-      "values": {
-        "function": "GOVERN"
-      }
-    },
-    {
-      "id": "NIST-GV-3.1",
-      "category": "GOVERN: Stakeholder Engagement",
-      "description": "Mechanisms exist for capturing internal and external stakeholder feedback, reports of hallucinations, and algorithmic bias complaints.",
+      "id": "NIST-GO-5.1",
+      "category": "GOVERN 5 : Processes are in place for robust engagement with relevant AI actors.",
+      "description": "Organizational policies and practices are in place to collect, consider, prioritize, and integrate feedback from those external to the team that developed or deployed the AI system regarding the potential individual and societal impacts related to AI risks.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -183,37 +308,9 @@
       }
     },
     {
-      "id": "NIST-GV-4.1",
-      "category": "GOVERN: Human Oversight",
-      "description": "Clear escalation and human-in-the-loop (HITL) intervention protocols are established for high-impact or automated agentic workflows.",
-      "status": "not-started",
-      "required": true,
-      "statusEditableBy": "reviewer",
-      "assignedTo": {
-        "role": "AI Governance Lead"
-      },
-      "values": {
-        "function": "GOVERN"
-      }
-    },
-    {
-      "id": "NIST-MP-1.1",
-      "category": "MAP: System Characterization",
-      "description": "Intended context of use, operational scope, end-user personas, and business objectives of the AI system are formally documented.",
-      "status": "not-started",
-      "required": true,
-      "statusEditableBy": "reviewer",
-      "assignedTo": {
-        "role": "AI Governance Lead"
-      },
-      "values": {
-        "function": "MAP"
-      }
-    },
-    {
-      "id": "NIST-MP-1.2",
-      "category": "MAP: System Characterization",
-      "description": "Expected benefits, potential downstream harms, unintended uses, and societal impacts of the system are identified.",
+      "id": "NIST-GO-5.2",
+      "category": "GOVERN 5 : Processes are in place for robust engagement with relevant AI actors.",
+      "description": "Mechanisms are established to enable the team that developed or deployed AI systems to regularly incorporate adjudicated feedback from relevant AI actors into system design and implementation.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -221,13 +318,13 @@
         "role": "Ethics & Compliance Auditor"
       },
       "values": {
-        "function": "MAP"
+        "function": "GOVERN"
       }
     },
     {
-      "id": "NIST-MP-2.1",
-      "category": "MAP: Data & Model Mapping",
-      "description": "Model architectures, foundation base models, weights versions, and deployment topologies are thoroughly cataloged.",
+      "id": "NIST-GO-6.1",
+      "category": "GOVERN 6 : Policies and procedures are in place to address AI risks and benefits arising from third-party software and data and other supply chain issues.",
+      "description": "Policies and procedures are in place that address AI risks associated with third-party entities, including risks of infringement of a third-party’s intellectual property or other rights.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -235,13 +332,111 @@
         "role": "MLOps / AI Engineer"
       },
       "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-GO-6.2",
+      "category": "GOVERN 6 : Policies and procedures are in place to address AI risks and benefits arising from third-party software and data and other supply chain issues.",
+      "description": "Contingency processes are in place to handle failures or incidents in third-party data or AI systems deemed to be high-risk.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "GOVERN"
+      }
+    },
+    {
+      "id": "NIST-MA-1.1",
+      "category": "MAP 1 : Context is established and understood.",
+      "description": "Intended purposes, potentially beneficial uses, context-specific laws, norms and expectations, and prospective settings in which the AI system will be deployed are understood and documented. Considerations include: the specific set or types of users along with their expectations; potential positive and negative impacts of system uses to individuals, communities, organizations, society, and the planet; assumptions and related limitations about AI system purposes, uses, and risks across the development or product AI lifecycle; and related TEVV and system metrics.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
         "function": "MAP"
       }
     },
     {
-      "id": "NIST-MP-2.2",
-      "category": "MAP: Data & Model Mapping",
-      "description": "Data provenance, quality, integrity, license compliance, and demographic representation of training/RAG datasets are verified.",
+      "id": "NIST-MA-1.2",
+      "category": "MAP 1 : Context is established and understood.",
+      "description": "Interdisciplinary AI actors, competencies, skills, and capacities for establishing context reflect demographic diversity and broad domain and user experience expertise, and their participation is documented. Opportunities for interdisciplinary collaboration are prioritized.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-1.3",
+      "category": "MAP 1 : Context is established and understood.",
+      "description": "The organization’s mission and relevant goals for AI technology are understood and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-1.4",
+      "category": "MAP 1 : Context is established and understood.",
+      "description": "The business value or context of business use has been clearly defined or – in the case of assessing existing AI systems – re-evaluated.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-1.5",
+      "category": "MAP 1 : Context is established and understood.",
+      "description": "Organizational risk tolerances are determined and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-1.6",
+      "category": "MAP 1 : Context is established and understood.",
+      "description": "System requirements (e.g., “the system shall respect the privacy of its users”) are elicited from and understood by relevant AI actors. Design decisions take socio-technical implications into account to address AI risks.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-2.1",
+      "category": "MAP 2 : Categorization of the AI system is performed.",
+      "description": "The specific tasks and methods used to implement the tasks that the AI system will support are defined (e.g., classifiers, generative models, recommenders).",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -253,9 +448,9 @@
       }
     },
     {
-      "id": "NIST-MP-2.3",
-      "category": "MAP: Data & Model Mapping",
-      "description": "Privacy risks, PII exposure pathways, and copyright/IP liabilities in training and prompt contexts are mapped.",
+      "id": "NIST-MA-2.2",
+      "category": "MAP 2 : Categorization of the AI system is performed.",
+      "description": "Information about the AI system’s knowledge limits and how system output may be utilized and overseen by humans is documented. Documentation provides sufficient information to assist relevant AI actors when making decisions and taking subsequent actions.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -267,9 +462,93 @@
       }
     },
     {
-      "id": "NIST-MP-3.1",
-      "category": "MAP: Boundaries & Dependencies",
-      "description": "Dependencies on external APIs, vector embeddings, third-party retrieval engines, and tokenizer libraries are mapped.",
+      "id": "NIST-MA-2.3",
+      "category": "MAP 2 : Categorization of the AI system is performed.",
+      "description": "Scientific integrity and TEVV considerations are identified and documented, including those related to experimental design, data collection and selection (e.g., availability, representativeness, suitability), system trustworthiness, and construct validation.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Data Protection Officer"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-3.1",
+      "category": "MAP 3 : AI capabilities, targeted usage, goals, and expected benefits and costs compared with appropriate benchmarks are understood.",
+      "description": "Potential benefits of intended AI system functionality and performance are examined and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-3.2",
+      "category": "MAP 3 : AI capabilities, targeted usage, goals, and expected benefits and costs compared with appropriate benchmarks are understood.",
+      "description": "Potential costs, including non-monetary costs, which result from expected or realized AI errors or system functionality and trustworthiness – as connected to organizational risk tolerance – are examined and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-3.3",
+      "category": "MAP 3 : AI capabilities, targeted usage, goals, and expected benefits and costs compared with appropriate benchmarks are understood.",
+      "description": "Targeted application scope is specified and documented based on the system’s capability, established context, and AI system categorization.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-3.4",
+      "category": "MAP 3 : AI capabilities, targeted usage, goals, and expected benefits and costs compared with appropriate benchmarks are understood.",
+      "description": "Processes for operator and practitioner proficiency with AI system performance and trustworthiness – and relevant technical standards and certifications – are defined, assessed, and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-3.5",
+      "category": "MAP 3 : AI capabilities, targeted usage, goals, and expected benefits and costs compared with appropriate benchmarks are understood.",
+      "description": "Processes for human oversight are defined, assessed, and documented in accordance with organizational policies from the govern function.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "AI Governance Lead"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-4.1",
+      "category": "MAP 4 : Risks and benefits are mapped for all components of the AI system including third-party software and data.",
+      "description": "Approaches for mapping AI technology and legal risks of its components – including the use of third-party data or software – are in place, followed, and documented, as are risks of infringement of a third party’s intellectual property or other rights.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -281,23 +560,51 @@
       }
     },
     {
-      "id": "NIST-MP-4.1",
-      "category": "MAP: Mission Failure Modes",
-      "description": "Critical failure modes, adversarial threat vectors, jailbreak pathways, and edge cases under distribution drift are mapped.",
+      "id": "NIST-MA-4.2",
+      "category": "MAP 4 : Risks and benefits are mapped for all components of the AI system including third-party software and data.",
+      "description": "Internal risk controls for components of the AI system, including third-party AI technologies, are identified and documented.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "Chief Risk Officer"
+        "role": "MLOps / AI Engineer"
       },
       "values": {
         "function": "MAP"
       }
     },
     {
-      "id": "NIST-MS-1.1",
-      "category": "MEASURE: Quantitative & Qualitative Metrics",
-      "description": "Quantitative metrics for model accuracy, hallucination rates, latency, precision, and recall are established and baselined.",
+      "id": "NIST-MA-5.1",
+      "category": "MAP 5 : Impacts to individuals, groups, communities, organizations, and society are characterized.",
+      "description": "Likelihood and magnitude of each identified impact (both potentially beneficial and harmful) based on expected use, past uses of AI systems in similar contexts, public incident reports, feedback from those external to the team that developed or deployed the AI system, or other data are identified and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Ethics & Compliance Auditor"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-MA-5.2",
+      "category": "MAP 5 : Impacts to individuals, groups, communities, organizations, and society are characterized.",
+      "description": "Practices and personnel for supporting regular engagement with relevant AI actors and integrating feedback about positive, negative, and unanticipated impacts are in place and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Ethics & Compliance Auditor"
+      },
+      "values": {
+        "function": "MAP"
+      }
+    },
+    {
+      "id": "NIST-ME-1.1",
+      "category": "MEASURE 1 : Appropriate methods and metrics are identified and applied.",
+      "description": "Approaches and metrics for measurement of AI risks enumerated during the map function are selected for implementation starting with the most significant AI risks. The risks or trustworthiness characteristics that will not – or cannot – be measured are properly documented.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -309,9 +616,9 @@
       }
     },
     {
-      "id": "NIST-MS-1.2",
-      "category": "MEASURE: Quantitative & Qualitative Metrics",
-      "description": "Independent adversarial red-teaming is conducted against prompt injection, jailbreaks, data extraction, and evasion.",
+      "id": "NIST-ME-1.2",
+      "category": "MEASURE 1 : Appropriate methods and metrics are identified and applied.",
+      "description": "Appropriateness of AI metrics and effectiveness of existing controls are regularly assessed and updated, including reports of errors and potential impacts on affected communities.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -323,9 +630,163 @@
       }
     },
     {
-      "id": "NIST-MS-2.1",
-      "category": "MEASURE: Trust Characteristics",
-      "description": "Algorithmic bias, disparate impact, and toxicity are measured across demographic groups using standardized benchmarks.",
+      "id": "NIST-ME-1.3",
+      "category": "MEASURE 1 : Appropriate methods and metrics are identified and applied.",
+      "description": "Internal experts who did not serve as front-line developers for the system and/or independent assessors are involved in regular assessments and updates. Domain experts, users, AI actors external to the team that developed or deployed the AI system, and affected communities are consulted in support of assessments as necessary per organizational risk tolerance.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-2.1",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "Test sets, metrics, and details about the tools used during TEVV are documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-2.2",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "Evaluations involving human subjects meet applicable requirements (including human subject protection) and are representative of the relevant population.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-2.3",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "AI system performance or assurance criteria are measured qualitatively or quantitatively and demonstrated for conditions similar to deployment setting(s). Measures are documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-2.4",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "The functionality and behavior of the AI system and its components – as identified in the map function – are monitored when in production.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-2.5",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "The AI system to be deployed is demonstrated to be valid and reliable. Limitations of the generalizability beyond the conditions under which the technology was developed are documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-2.6",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "The AI system is evaluated regularly for safety risks – as identified in the map function. The AI system to be deployed is demonstrated to be safe, its residual negative risk does not exceed the risk tolerance, and it can fail safely, particularly if made to operate beyond its knowledge limits. Safety metrics reflect system reliability and robustness, real-time monitoring, and response times for AI system failures.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-2.7",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "AI system security and resilience – as identified in the map function – are evaluated and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-2.8",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "Risks associated with transparency and accountability – as identified in the map function – are examined and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-2.9",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "The AI model is explained, validated, and documented, and AI system output is interpreted within its context – as identified in the map function – to inform responsible use and governance.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-2.10",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "Privacy risk of the AI system – as identified in the map function – is examined and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Data Protection Officer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-2.11",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "Fairness and bias – as identified in the map function – are evaluated and results are documented.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -337,23 +798,9 @@
       }
     },
     {
-      "id": "NIST-MS-2.2",
-      "category": "MEASURE: Trust Characteristics",
-      "description": "Explainability and interpretability indicators are evaluated to ensure model decisions can be audited and understood.",
-      "status": "not-started",
-      "required": true,
-      "statusEditableBy": "reviewer",
-      "assignedTo": {
-        "role": "AI Governance Lead"
-      },
-      "values": {
-        "function": "MEASURE"
-      }
-    },
-    {
-      "id": "NIST-MS-2.3",
-      "category": "MEASURE: Trust Characteristics",
-      "description": "Robustness against data poisoning, membership inference, and model inversion attacks is rigorously measured.",
+      "id": "NIST-ME-2.12",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "Environmental impact and sustainability of AI model training and management activities – as identified in the map function – are assessed and documented.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -365,9 +812,9 @@
       }
     },
     {
-      "id": "NIST-MS-3.1",
-      "category": "MEASURE: Tracking & Verification",
-      "description": "Model output drift, confidence score distributions, and performance degradations are continuously tracked in staging and production.",
+      "id": "NIST-ME-2.13",
+      "category": "MEASURE 2 : AI systems are evaluated for trustworthy characteristics.",
+      "description": "Effectiveness of the employed TEVV metrics and processes in the measure function are evaluated and documented.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -379,9 +826,93 @@
       }
     },
     {
-      "id": "NIST-MS-4.1",
-      "category": "MEASURE: Tracking & Verification",
-      "description": "Periodic independent audits are conducted to verify compliance of measured performance against enterprise risk tolerances.",
+      "id": "NIST-ME-3.1",
+      "category": "MEASURE 3 : Mechanisms for tracking identified AI risks over time are in place.",
+      "description": "Approaches, personnel, and documentation are in place to regularly identify and track existing, unanticipated, and emergent AI risks based on factors such as intended and actual performance in deployed contexts.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-3.2",
+      "category": "MEASURE 3 : Mechanisms for tracking identified AI risks over time are in place.",
+      "description": "Risk tracking approaches are considered for settings where AI risks are difficult to assess using currently available measurement techniques or where metrics are not yet available.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-3.3",
+      "category": "MEASURE 3 : Mechanisms for tracking identified AI risks over time are in place.",
+      "description": "Feedback processes for end users and impacted communities to report problems and appeal system outcomes are established and integrated into AI system evaluation metrics.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-4.1",
+      "category": "MEASURE 4 : Feedback about efficacy of measurement is gathered and assessed.",
+      "description": "Measurement approaches for identifying AI risks are connected to deployment context(s) and informed through consultation with domain experts and other end users. Approaches are documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Ethics & Compliance Auditor"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-4.2",
+      "category": "MEASURE 4 : Feedback about efficacy of measurement is gathered and assessed.",
+      "description": "Measurement results regarding AI system trustworthiness in deployment context(s) and across the AI lifecycle are informed by input from domain experts and relevant AI actors to validate whether the system is performing consistently as intended. Results are documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Ethics & Compliance Auditor"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-ME-4.3",
+      "category": "MEASURE 4 : Feedback about efficacy of measurement is gathered and assessed.",
+      "description": "Measurable performance improvements or declines based on consultations with relevant AI actors, including affected communities, and field data about context-relevant risks and trustworthiness characteristics are identified and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Ethics & Compliance Auditor"
+      },
+      "values": {
+        "function": "MEASURE"
+      }
+    },
+    {
+      "id": "NIST-MA-1.1",
+      "category": "MANAGE 1 : AI risks based on assessments and other analytical output from the MAP and MEASURE functions are prioritized, responded to, and managed",
+      "description": "A determination is made as to whether the AI system achieves its intended purposes and stated objectives and whether its development or deployment should proceed.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -389,13 +920,13 @@
         "role": "Chief Risk Officer"
       },
       "values": {
-        "function": "MEASURE"
+        "function": "MANAGE"
       }
     },
     {
-      "id": "NIST-MN-1.1",
-      "category": "MANAGE: Risk Treatment",
-      "description": "Risk treatment plans (mitigate, transfer, accept, or avoid) are formally documented and implemented for all mapped AI hazards.",
+      "id": "NIST-MA-1.2",
+      "category": "MANAGE 1 : AI risks based on assessments and other analytical output from the MAP and MEASURE functions are prioritized, responded to, and managed",
+      "description": "Treatment of documented AI risks is prioritized based on impact, likelihood, and available resources or methods.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -407,37 +938,9 @@
       }
     },
     {
-      "id": "NIST-MN-1.2",
-      "category": "MANAGE: Risk Treatment",
-      "description": "Deterministic guardrails, content filtering, and prompt sanitizers are deployed to intercept unaligned inputs and outputs.",
-      "status": "not-started",
-      "required": true,
-      "statusEditableBy": "reviewer",
-      "assignedTo": {
-        "role": "MLOps / AI Engineer"
-      },
-      "values": {
-        "function": "MANAGE"
-      }
-    },
-    {
-      "id": "NIST-MN-2.1",
-      "category": "MANAGE: Fallback & Resiliency",
-      "description": "Automated fallback systems, graceful degradation modes, and emergency kill-switches are implemented for anomalous behaviors.",
-      "status": "not-started",
-      "required": true,
-      "statusEditableBy": "reviewer",
-      "assignedTo": {
-        "role": "MLOps / AI Engineer"
-      },
-      "values": {
-        "function": "MANAGE"
-      }
-    },
-    {
-      "id": "NIST-MN-2.2",
-      "category": "MANAGE: Fallback & Resiliency",
-      "description": "An AI-specific incident response plan is established covering runaway agent execution, mass hallucinations, and data leaks.",
+      "id": "NIST-MA-1.3",
+      "category": "MANAGE 1 : AI risks based on assessments and other analytical output from the MAP and MEASURE functions are prioritized, responded to, and managed",
+      "description": "Responses to the AI risks deemed high priority, as identified by the map function, are developed, planned, and documented. Risk response options can include mitigating, transferring, avoiding, or accepting.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -449,9 +952,23 @@
       }
     },
     {
-      "id": "NIST-MN-3.1",
-      "category": "MANAGE: Continuous Improvement",
-      "description": "Continuous monitoring of production telemetry detects safety regressions, feedback signals, and emerging attack patterns.",
+      "id": "NIST-MA-1.4",
+      "category": "MANAGE 1 : AI risks based on assessments and other analytical output from the MAP and MEASURE functions are prioritized, responded to, and managed",
+      "description": "Negative residual risks (defined as the sum of all unmitigated risks) to both downstream acquirers of AI systems and end users are documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Chief Risk Officer"
+      },
+      "values": {
+        "function": "MANAGE"
+      }
+    },
+    {
+      "id": "NIST-MA-2.1",
+      "category": "MANAGE 2 : Strategies to maximize AI benefits and minimize negative impacts are planned, prepared, implemented, documented, and informed by input from relevant AI actors.",
+      "description": "Resources required to manage AI risks are taken into account – along with viable non-AI alternative systems, approaches, or methods – to reduce the magnitude or likelihood of potential impacts.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
@@ -463,14 +980,112 @@
       }
     },
     {
-      "id": "NIST-MN-4.1",
-      "category": "MANAGE: Continuous Improvement",
-      "description": "Post-incident reviews and regular safety updates are integrated into ongoing model fine-tuning and system prompt revisions.",
+      "id": "NIST-MA-2.2",
+      "category": "MANAGE 2 : Strategies to maximize AI benefits and minimize negative impacts are planned, prepared, implemented, documented, and informed by input from relevant AI actors.",
+      "description": "Mechanisms are in place and applied to sustain the value of deployed AI systems.",
       "status": "not-started",
       "required": true,
       "statusEditableBy": "reviewer",
       "assignedTo": {
-        "role": "AI Governance Lead"
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MANAGE"
+      }
+    },
+    {
+      "id": "NIST-MA-2.3",
+      "category": "MANAGE 2 : Strategies to maximize AI benefits and minimize negative impacts are planned, prepared, implemented, documented, and informed by input from relevant AI actors.",
+      "description": "Procedures are followed to respond to and recover from a previously unknown risk when it is identified.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MANAGE"
+      }
+    },
+    {
+      "id": "NIST-MA-2.4",
+      "category": "MANAGE 2 : Strategies to maximize AI benefits and minimize negative impacts are planned, prepared, implemented, documented, and informed by input from relevant AI actors.",
+      "description": "Mechanisms are in place and applied, and responsibilities are assigned and understood, to supersede, disengage, or deactivate AI systems that demonstrate performance or outcomes inconsistent with intended use.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MANAGE"
+      }
+    },
+    {
+      "id": "NIST-MA-3.1",
+      "category": "MANAGE 3 : AI risks and benefits from third-party entities are managed.",
+      "description": "AI risks and benefits from third-party resources are regularly monitored, and risk controls are applied and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Chief Risk Officer"
+      },
+      "values": {
+        "function": "MANAGE"
+      }
+    },
+    {
+      "id": "NIST-MA-3.2",
+      "category": "MANAGE 3 : AI risks and benefits from third-party entities are managed.",
+      "description": "Pre-trained models which are used for development are monitored as part of AI system regular monitoring and maintenance.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "Chief Risk Officer"
+      },
+      "values": {
+        "function": "MANAGE"
+      }
+    },
+    {
+      "id": "NIST-MA-4.1",
+      "category": "MANAGE 4 : Risk treatments, including response and recovery, and communication plans for the identified and measured AI risks are documented and monitored regularly.",
+      "description": "Post-deployment AI system monitoring plans are implemented, including mechanisms for capturing and evaluating input from users and other relevant AI actors, appeal and override, decommissioning, incident response, recovery, and change management.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MANAGE"
+      }
+    },
+    {
+      "id": "NIST-MA-4.2",
+      "category": "MANAGE 4 : Risk treatments, including response and recovery, and communication plans for the identified and measured AI risks are documented and monitored regularly.",
+      "description": "Measurable activities for continual improvements are integrated into AI system updates and include regular engagement with interested parties, including relevant AI actors.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
+      },
+      "values": {
+        "function": "MANAGE"
+      }
+    },
+    {
+      "id": "NIST-MA-4.3",
+      "category": "MANAGE 4 : Risk treatments, including response and recovery, and communication plans for the identified and measured AI risks are documented and monitored regularly.",
+      "description": "Incidents and errors are communicated to relevant AI actors, including affected communities. Processes for tracking, responding to, and recovering from incidents and errors are followed and documented.",
+      "status": "not-started",
+      "required": true,
+      "statusEditableBy": "reviewer",
+      "assignedTo": {
+        "role": "MLOps / AI Engineer"
       },
       "values": {
         "function": "MANAGE"
@@ -479,7 +1094,7 @@
   ],
   "personas": [
     {
-      "id": "ai-gov",
+      "id": "gov-lead",
       "label": "AI Governance Lead",
       "role": "approver"
     },
@@ -489,12 +1104,12 @@
       "role": "sign-off"
     },
     {
-      "id": "mlops",
+      "id": "ml-engineer",
       "label": "MLOps / AI Engineer",
       "role": "editor"
     },
     {
-      "id": "compliance",
+      "id": "ethics-auditor",
       "label": "Ethics & Compliance Auditor",
       "role": "reviewer"
     },

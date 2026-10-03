@@ -6,6 +6,7 @@ import { ChecklistView } from './components/checklist/ChecklistView'
 import { DashboardView } from './components/dashboard/DashboardView'
 import { ItemEditor } from './components/editor/ItemEditor'
 import { MetadataEditor } from './components/editor/MetadataEditor'
+import { HelpDialog } from './components/help/HelpDialog'
 import { AboutDialog } from './components/home/AboutDialog'
 import { HomeScreen } from './components/home/HomeScreen'
 import { MetaEntryForm } from './components/home/MetaEntryForm'
@@ -14,6 +15,7 @@ import { PersonaSelectScreen } from './components/home/PersonaSelectScreen'
 import { TemplateChooser } from './components/home/TemplateChooser'
 import { Header } from './components/layout/Header'
 import { NavTabs, type Tab } from './components/layout/NavTabs'
+import { NewReleaseDialog } from './components/review/NewReleaseDialog'
 import { RestoredBanner } from './components/review/RestoredBanner'
 import { SettingsPanel } from './components/settings/SettingsPanel'
 import { useChecklist } from './hooks/useChecklist'
@@ -30,6 +32,8 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('checklist')
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
+  const [helpOpen, setHelpOpen] = useState(false)
+  const [newReleaseOpen, setNewReleaseOpen] = useState(false)
   const [editingItemId, setEditingItemId] = useState<string | null>(null)
 
   const file = checklist.checklistFile
@@ -118,6 +122,8 @@ export default function App() {
         onExport={handleExport}
         onRestart={checklist.reset}
         onAboutOpen={() => setAboutOpen(true)}
+        onHelpOpen={() => setHelpOpen(true)}
+        onNewReleaseOpen={() => setNewReleaseOpen(true)}
       />
 
       {/* Sub-header: metadata edit + nav */}
@@ -218,6 +224,7 @@ export default function App() {
                   fileHash={checklist.fileHash ?? ''}
                   userName={settings.currentUser}
                   userRole={settings.currentRole}
+                  onNewReleaseOpen={() => setNewReleaseOpen(true)}
                 />
               </Box>
             )}
@@ -250,6 +257,21 @@ export default function App() {
           onClose={() => setEditingItemId(null)} />
       )}
       <AboutDialog open={aboutOpen} onClose={() => setAboutOpen(false)} />
+      <HelpDialog open={helpOpen} onClose={() => setHelpOpen(false)} />
+      {file && (
+        <NewReleaseDialog
+          open={newReleaseOpen}
+          currentProject={file.project}
+          currentVersion={file.version}
+          currentBranch={file.branch}
+          totalItems={checklist.reviewedItems.length}
+          evidenceCount={checklist.reviewedItems.filter(i => i.values && Object.values(i.values).some(v => v?.trim())).length}
+          hasBeenSaved={checklist.hasBeenSaved}
+          onExportCurrent={handleExport}
+          onConfirm={checklist.startNewRelease}
+          onClose={() => setNewReleaseOpen(false)}
+        />
+      )}
     </Box>
   )
 

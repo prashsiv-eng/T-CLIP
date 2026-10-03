@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%" style="background:#0f172a; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,sans-serif;">
+  <defs>
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Window Frame -->
+  <rect width="960" height="540" fill="#0f172a" rx="12"/>
+  <rect width="960" height="40" fill="#0b1120" rx="12"/>
+  <rect y="30" width="960" height="10" fill="#0b1120"/>
+  <!-- Window Controls -->
+  <circle cx="24" cy="20" r="5.5" fill="#ef4444"/>
+  <circle cx="42" cy="20" r="5.5" fill="#f59e0b"/>
+  <circle cx="60" cy="20" r="5.5" fill="#10b981"/>
+  <rect x="300" y="10" width="360" height="20" rx="6" fill="#1e293b"/>
+  <text x="480" y="24" text-anchor="middle" fill="#64748b" font-size="10.5" font-family="monospace">https://t-clip.internal · Local-First Compliance</text>
+
+  <!-- Top Navigation Bar -->
+  <rect y="40" width="960" height="50" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+  <rect x="25" y="52" width="26" height="26" rx="6" fill="url(#brandGrad)"/>
+  <text x="38" y="70" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">✓</text>
+  <text x="60" y="70" fill="#fff" font-size="15" font-weight="700" letter-spacing="1">T-CLIP</text>
+
+  <rect x="135" y="55" width="55" height="20" rx="4" fill="#1e3a8a" fill-opacity="0.5" stroke="#3b82f6" stroke-opacity="0.3"/>
+  <text x="162" y="69" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="700">v1.0.0</text>
+  <rect x="198" y="55" width="85" height="20" rx="4" fill="none" stroke="#334155"/>
+  <text x="240" y="69" text-anchor="middle" fill="#94a3b8" font-size="10">Open Source</text>
+
+  <rect x="800" y="53" width="65" height="24" rx="6" fill="#1e293b"/>
+  <text x="832" y="69" text-anchor="middle" fill="#cbd5e1" font-size="11">About</text>
+  <rect x="875" y="53" width="65" height="24" rx="6" fill="none" stroke="#334155"/>
+  <text x="907" y="69" text-anchor="middle" fill="#f8fafc" font-size="11">GitHub ↗</text>
+
+  <!-- Main Hero Content -->
+  <g transform="translate(0, 90)">
+    <!-- Brand Icon -->
+    <rect x="450" y="25" width="60" height="60" rx="16" fill="url(#brandGrad)" filter="url(#shadow)"/>
+    <text x="480" y="65" text-anchor="middle" fill="#fff" font-size="28" font-weight="800">✓</text>
+
+    <text x="480" y="112" text-anchor="middle" fill="#ffffff" font-size="26" font-weight="800" letter-spacing="1">T-CLIP</text>
+    <text x="480" y="134" text-anchor="middle" fill="#93c5fd" font-size="14" font-weight="600">The Checklist Project</text>
+    <text x="480" y="154" text-anchor="middle" fill="#94a3b8" font-size="12">Open-source, local-first compliance, security verification, and release governance framework.</text>
+
+    <!-- Cards Container -->
+    <g transform="translate(255, 175)">
+      <!-- Card 1: New Checklist -->
+      <rect width="450" height="85" rx="12" fill="#1e293b" fill-opacity="0.6" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+      <rect x="18" y="18" width="48" height="48" rx="10" fill="#1e3a8a" fill-opacity="0.4" stroke="#3b82f6" stroke-opacity="0.3"/>
+      <circle cx="42" cy="42" r="14" fill="none" stroke="#60a5fa" stroke-width="2"/>
+      <line x1="42" y1="35" x2="42" y2="49" stroke="#60a5fa" stroke-width="2"/>
+      <line x1="35" y1="42" x2="49" y2="42" stroke="#60a5fa" stroke-width="2"/>
+
+      <text x="80" y="38" fill="#ffffff" font-size="15" font-weight="700">New Checklist</text>
+      <text x="80" y="56" fill="#94a3b8" font-size="11.5">Start from industry standards: <tspan fill="#e2e8f0" font-weight="600">OWASP ASVS, CSA CAIQ, NIST AI RMF,</tspan></text>
+      <text x="80" y="72" fill="#94a3b8" font-size="11.5">or create a custom schema.</text>
+
+      <!-- Card 2: Open Existing -->
+      <g transform="translate(0, 100)">
+        <rect width="450" height="85" rx="12" fill="#1e293b" fill-opacity="0.6" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+        <rect x="18" y="18" width="48" height="48" rx="10" fill="#4c1d95" fill-opacity="0.4" stroke="#7c3aed" stroke-opacity="0.3"/>
+        <path d="M32 36 L38 36 L41 39 L52 39 C54 39 55 40 55 42 L55 50 C55 52 54 53 52 53 L32 53 C30 53 29 52 29 50 L29 39 C29 37 30 36 32 36 Z" fill="none" stroke="#c4b5fd" stroke-width="1.8"/>
+
+        <text x="80" y="38" fill="#ffffff" font-size="15" font-weight="700">Open Existing Checklist</text>
+        <text x="80" y="56" fill="#94a3b8" font-size="11.5">Load an existing <tspan fill="#c4b5fd" font-family="monospace">checklist.json</tspan> to review items, add responses,</text>
+        <text x="80" y="72" fill="#94a3b8" font-size="11.5">or sign off attestations for production gating.</text>
+      </g>
+    </g>
+
+    <!-- Trust Badges -->
+    <text x="480" y="415" text-anchor="middle" fill="#64748b" font-size="11">
+      🔒 100% Local-First  •  🛡️ Zero Telemetry  •  ⚡ Web Crypto SHA-256  •  ⚖️ MIT Licensed
+    </text>
+  </g>
+</svg>

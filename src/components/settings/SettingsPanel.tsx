@@ -31,6 +31,7 @@ export function SettingsPanel({ roleCapabilityMap, fileHash, onUpdateCapabilityM
   const [newPattern, setNewPattern] = useState('')
   const [newLevel, setNewLevel] = useState<CapabilityLevel>('reviewer')
   const [confirmClear, setConfirmClear] = useState(false)
+  const [confirmRestart, setConfirmRestart] = useState(false)
 
   function addRule() {
     if (!newPattern.trim()) return
@@ -132,9 +133,28 @@ export function SettingsPanel({ roleCapabilityMap, fileHash, onUpdateCapabilityM
           <Typography variant="h5" sx={{ color: 'text.secondary', mb: 1.5 }}>Session &amp; Workflow</Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
             {onRestart && (
-              <Button size="small" color="primary" variant="outlined" onClick={() => { onClose(); onRestart() }}>
-                Restart Workflow (Return to Home)
-              </Button>
+              confirmRestart ? (
+                <Box sx={{ p: 1.5, bgcolor: '#1e293b', border: '1px solid #334155', borderRadius: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Typography sx={{ fontSize: 12.5, fontWeight: 700, color: '#fbbf24' }}>
+                    Warning: Save current state before resetting!
+                  </Typography>
+                  <Typography sx={{ fontSize: 11.5, color: '#94a3b8' }}>
+                    Returning to Home will close the active checklist. Be sure to export first if you have unsaved progress.
+                  </Typography>
+                  <Box sx={{ display: 'flex', gap: 1, mt: 0.5 }}>
+                    <Button size="small" color="error" variant="contained" onClick={() => { onClose(); onRestart() }}>
+                      Restart
+                    </Button>
+                    <Button size="small" onClick={() => setConfirmRestart(false)}>
+                      Cancel
+                    </Button>
+                  </Box>
+                </Box>
+              ) : (
+                <Button size="small" color="primary" variant="outlined" onClick={() => setConfirmRestart(true)}>
+                  Restart Workflow (Return to Home)
+                </Button>
+              )
             )}
             {fileHash ? (
               confirmClear ? (
