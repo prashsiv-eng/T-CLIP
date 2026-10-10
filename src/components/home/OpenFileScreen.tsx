@@ -1,26 +1,60 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined'
 import { Alert, Box, Button, Card, CardContent, IconButton, ThemeProvider, Typography } from '@mui/material'
 import { useRef, useState } from 'react'
 import { darkTheme } from '../../theme'
+import type { ChecklistFile } from '../../types'
+import { SpreadsheetImportDialog } from '../importer/SpreadsheetImportDialog'
+import {
+  type FileSystemFileHandleLike,
+  isFileSystemAccessSupported,
+  pickOpenFileHandle,
+} from '../../utils/fileStorage'
 
 interface Props {
-  onFileLoaded: (bytes: ArrayBuffer, text: string, fileName?: string) => void
+  onFileLoaded: (
+    bytes: ArrayBuffer,
+    text: string,
+    fileName?: string,
+    handle?: FileSystemFileHandleLike | null
+  ) => void
   onBack: () => void
   validationErrors: string[]
+  onImportChecklist?: (file: ChecklistFile, fileName?: string) => void
+  onImportTemplate?: (file: ChecklistFile) => void
 }
 
-export function OpenFileScreen({ onFileLoaded, onBack, validationErrors }: Props) {
+export function OpenFileScreen({ onFileLoaded, onBack, validationErrors, onImportChecklist, onImportTemplate }: Props) {
   const fileRef = useRef<HTMLInputElement>(null)
   const [isDragging, setIsDragging] = useState(false)
+  const [spreadsheetDialogOpen, setSpreadsheetDialogOpen] = useState(false)
 
   function processFile(file: File) {
     const reader = new FileReader()
     reader.onload = ev => {
       const b = ev.target?.result as ArrayBuffer
-      onFileLoaded(b, new TextDecoder().decode(b), file.name)
+      onFileLoaded(b, new TextDecoder().decode(b), file.name, null)
     }
     reader.readAsArrayBuffer(file)
+  }
+
+  async function handleOpenClick() {
+    if (isFileSystemAccessSupported()) {
+      try {
+        const result = await pickOpenFileHandle()
+        if (result) {
+          const { handle, file } = result
+          const text = await file.text()
+          const bytes = await file.arrayBuffer()
+          onFileLoaded(bytes, text, file.name, handle)
+          return
+        }
+      } catch {
+        // Fallback to standard input
+      }
+    }
+    fileRef.current?.click()
   }
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -28,9 +62,26 @@ export function OpenFileScreen({ onFileLoaded, onBack, validationErrors }: Props
     if (file) processFile(file)
   }
 
-  function handleDrop(e: React.DragEvent) {
+  async function handleDrop(e: React.DragEvent) {
     e.preventDefault()
     setIsDragging(false)
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      const item = e.dataTransfer.items[0]
+      if (typeof (item as unknown as { getAsFileSystemHandle?: unknown }).getAsFileSystemHandle === 'function') {
+        try {
+          const handle = await (item as unknown as { getAsFileSystemHandle: () => Promise<FileSystemFileHandleLike> }).getAsFileSystemHandle()
+          if (handle && handle.kind === 'file') {
+            const file = await handle.getFile()
+            const text = await file.text()
+            const bytes = await file.arrayBuffer()
+            onFileLoaded(bytes, text, file.name, handle)
+            return
+          }
+        } catch {
+          // fallback
+        }
+      }
+    }
     const file = e.dataTransfer.files?.[0]
     if (file) processFile(file)
   }
@@ -84,7 +135,7 @@ export function OpenFileScreen({ onFileLoaded, onBack, validationErrors }: Props
                 bgcolor: 'rgba(255,255,255,0.06)',
               },
             }}
-            onClick={() => fileRef.current?.click()}
+            onClick={handleOpenClick}
           >
             <CardContent sx={{ p: 0 }}>
               <Box sx={{
@@ -101,12 +152,46 @@ export function OpenFileScreen({ onFileLoaded, onBack, validationErrors }: Props
               <Typography sx={{ fontSize: 13, color: '#94a3b8', mb: 2 }}>
                 Accepts valid JSON checklist files (*.json)
               </Typography>
-              <Button variant="outlined" size="small" sx={{ borderColor: 'rgba(255,255,255,0.2)', color: '#f8fafc' }}>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={e => {
+                  e.stopPropagation()
+                  handleOpenClick()
+                }}
+                sx={{ borderColor: 'rgba(255,255,255,0.2)', color: '#f8fafc' }}
+              >
                 Select File
               </Button>
               <input ref={fileRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleFileChange} />
             </CardContent>
           </Card>
+
+          {/* Import from Spreadsheet Option */}
+          <Box sx={{ mt: 2.5, textAlign: 'center' }}>
+            <Typography sx={{ fontSize: 12, color: '#64748b', mb: 1 }}>— OR —</Typography>
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<TableChartOutlinedIcon sx={{ fontSize: '16px !important' }} />}
+              onClick={() => setSpreadsheetDialogOpen(true)}
+              sx={{
+                color: '#6ee7b7',
+                borderColor: 'rgba(16,185,129,0.4)',
+                bgcolor: 'rgba(16,185,129,0.06)',
+                fontWeight: 600,
+                fontSize: 12,
+                px: 2,
+                '&:hover': {
+                  borderColor: '#10b981',
+                  bgcolor: 'rgba(16,185,129,0.15)',
+                  color: '#ffffff',
+                },
+              }}
+            >
+              Import from CSV / Excel (.xlsx)
+            </Button>
+          </Box>
 
           {validationErrors.length > 0 && (
             <Alert severity="error" sx={{ mt: 2.5, borderRadius: 2 }}>
@@ -116,6 +201,15 @@ export function OpenFileScreen({ onFileLoaded, onBack, validationErrors }: Props
               </ul>
             </Alert>
           )}
+
+          {/* Spreadsheet Import Dialog */}
+          <SpreadsheetImportDialog
+            open={spreadsheetDialogOpen}
+            initialMode="checklist"
+            onClose={() => setSpreadsheetDialogOpen(false)}
+            onImportChecklist={onImportChecklist}
+            onImportTemplate={onImportTemplate}
+          />
         </Box>
       </Box>
     </ThemeProvider>

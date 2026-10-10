@@ -19,7 +19,7 @@ export const BUILT_IN_TEMPLATE_META: Omit<BuiltInTemplate, 'file'>[] = [
   {
     id: 'nist-ai-rmf',
     name: 'NIST AI RMF 1.0',
-    description: 'NIST Artificial Intelligence Risk Management Framework (SP 1270-1) covering all 72 official subcategories across all 19 categories and the 4 Core Functions: GOVERN, MAP, MEASURE, and MANAGE.',
+    description: 'NIST Artificial Intelligence Risk Management Framework (NIST AI 100-1) covering all 72 official subcategories across all 19 categories and the 4 Core Functions: GOVERN, MAP, MEASURE, and MANAGE.',
     categories: ['AI Governance', 'NIST', 'Risk Management', 'Safety', 'Ethics'],
   },
   {

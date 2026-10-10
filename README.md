@@ -9,7 +9,7 @@
 [![React 19](https://img.shields.io/badge/React-19.2-61dafb.svg)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178c6.svg)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg)](https://vitejs.dev/)
-[![Tests](https://img.shields.io/badge/Tests-97%2F97%20Passing-success.svg)](https://vitest.dev/)
+[![Tests](https://img.shields.io/badge/Tests-127%2F127%20Passing-success.svg)](https://vitest.dev/)
 [![Local--First](https://img.shields.io/badge/Architecture-100%25%20Local--First-emerald.svg)](#architectural-pillars)
 [![Zero Telemetry](https://img.shields.io/badge/Telemetry-Zero%20Network%20Calls-purple.svg)](#zero-telemetry--privacy)
 [![User Guide](https://img.shields.io/badge/Guide-HELP.md-blue.svg)](HELP.md)
@@ -38,8 +38,8 @@ Traditional compliance reviews are plagued by brittle spreadsheets, unverified w
   Enforces separation of duties across 5 progressive capability tiers (`observer`, `contributor`, `reviewer`, `approver`, `editor`). Roles are dynamically resolved at runtime from free-form role strings using customizable pattern matching.
 - **Cryptographic Attestations (SHA-256)**  
   T-CLIP computes a SHA-256 hash of the loaded source file. When all mandatory items are resolved, it generates an immutable, tamper-evident `checklist-attestation.json` audit report binding the source hash to actor identities, responses, timestamps, and approver sign-offs.
-- **Auto-Save & Resilient Session Recovery**  
-  In-flight responses are auto-saved to browser `localStorage` keyed by the source file hash. If a page is accidentally refreshed or closed, work is safely restored upon reopening.
+- **Live Auto-Save & Direct Disk Synchronization**  
+  T-CLIP features a prominent, real-time **Auto-save toggle** on the page. In addition to in-flight browser session persistence across reloads, T-CLIP leverages the modern File System Access API to write responses directly back to your local file on disk without requiring explicit manual exports!
 
 ---
 
@@ -50,12 +50,12 @@ T-CLIP ships with production-ready templates for premier industry security and A
 | Template | Standard | Controls | Description |
 |:---|:---|:---:|:---|
 | **OWASP ASVS** | OWASP ASVS v4.0.3 | 286 items | Complete Application Security Verification Standard across all 14 chapters, L1–L3 levels, and CWE mappings. |
-| **NIST AI RMF** | NIST AI RMF 1.0 | 72 subcategories | NIST Artificial Intelligence Risk Management Framework (SP 1270-1) covering GOVERN, MAP, MEASURE, and MANAGE. |
+| **NIST AI RMF** | NIST AI RMF 1.0 | 72 subcategories | NIST Artificial Intelligence Risk Management Framework (NIST AI 100-1) covering GOVERN, MAP, MEASURE, and MANAGE. |
 | **EU Cyber Resilience Act** | Regulation (EU) 2024/2847 | 50 requirements | Mandatory EU regulation covering all requirements across Annex I Part I (Product Properties), Annex I Part II (Vulnerability Handling), Annex II (User Instructions), Annex VII (Technical Dossier), and Chapter II (Manufacturer Obligations & Incident Reporting). |
 | **OWASP Agentic AI** | OWASP Agentic AI Top 10 | 10 categories | Autonomous AI system risks including goal hijacking, tool misuse, privilege abuse, execution sandboxing, and multi-agent coordination. |
 | **OWASP LLMSVS** | OWASP LLMSVS | Tiered | Technical Large Language Model Security Verification Standard covering prompt guardrails, RAG/vector stores, output sandboxing, and memory. |
 | **OWASP LLM Top 10** | OWASP LLM Top 10 (2025) | Top 10 | Official GenAI vulnerability checklist covering prompt injection, sensitive data leakage, supply chain risks, and excessive agency. |
-| **Custom / Import** | Custom Schema | Variable | Create custom checklists from scratch or import existing JSON schemas directly. |
+| **Custom / Import** | Custom Schema | Variable | Create custom checklists from scratch, import JSON schemas, or convert spreadsheets (CSV, TSV, XLSX) into templates or active checklists with visual in-line column mapping. |
 
 ---
 
@@ -95,6 +95,12 @@ T-CLIP ships with production-ready templates for premier industry security and A
 - Blocks attestation export if any required checklist item is `pending` or missing required evidence.
 - Pre-export read-only summary highlights all `fail` items and missing fields.
 - Exports a standalone, portable `checklist-attestation.json` report containing the raw file's SHA-256 hash, full item responses, history, and timestamps for CI/CD gates and auditors.
+
+### 6. Prominent Auto-Save Toggle & Direct File Synchronization
+- **Visible Auto-Save Switch**: Always visible in the sticky top header toolbar, complete with live status indicators (`Saved to Disk`, `Browser session`, `Saving…`, or `OFF`).
+- **Direct-to-Disk Saving**: Automatically syncs responses, notes, and evidence directly back to your local file on disk using the File System Access API without downloading separate export files.
+- **Resilient In-Flight Recovery**: Browser session persistence safeguards against tab closing or reloading.
+- **Instant Toggle & Export**: Flip auto-save on or off with one click; standard `Export JSON` and `Export to Disk` remain available anytime.
 
 ---
 

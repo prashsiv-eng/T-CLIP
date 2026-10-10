@@ -1,6 +1,8 @@
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
+import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined'
 import { Alert, Box, Button } from '@mui/material'
 import { useState } from 'react'
+import { isFileSystemAccessSupported } from './utils/fileStorage'
 import { AttestationSummary } from './components/attestation/AttestationSummary'
 import { ChecklistView } from './components/checklist/ChecklistView'
 import { DashboardView } from './components/dashboard/DashboardView'
@@ -56,6 +58,8 @@ export default function App() {
       <HomeScreen
         onNew={checklist.startNew}
         onOpen={checklist.startOpen}
+        onImportChecklist={(f, name) => checklist.loadChecklistFile(f, name)}
+        onImportTemplate={checklist.selectTemplate}
       />
     )
   }
@@ -85,6 +89,8 @@ export default function App() {
         onFileLoaded={(b, t, name) => checklist.loadFile(b, t, name)}
         onBack={checklist.goBack}
         validationErrors={checklist.validationErrors}
+        onImportChecklist={(f, name) => checklist.loadChecklistFile(f, name)}
+        onImportTemplate={checklist.selectTemplate}
       />
     )
   }
@@ -116,6 +122,14 @@ export default function App() {
         userName={settings.currentUser}
         userRole={settings.currentRole}
         capability={settings.currentCapability}
+        autoSaveEnabled={checklist.autoSaveEnabled}
+        autoSaveStatus={checklist.autoSaveStatus}
+        autoSaveTarget={checklist.autoSaveTarget}
+        lastSavedAt={checklist.lastSavedAt}
+        diskSaveError={checklist.diskSaveError}
+        onToggleAutoSave={checklist.toggleAutoSave}
+        onConnectDiskFile={checklist.connectDiskFile}
+        onSaveToDiskNow={checklist.saveToDiskNow}
         onNameChange={settings.setUser}
         onRoleChange={settings.setRole}
         onSettingsOpen={() => setSettingsOpen(true)}
@@ -142,41 +156,96 @@ export default function App() {
       {/* Banners */}
       {!checklist.hasBeenSaved && (
         <Alert
-          severity="info"
-          icon={<SaveOutlinedIcon sx={{ fontSize: 18, color: '#38bdf8' }} />}
+          severity={checklist.autoSaveEnabled ? 'info' : 'warning'}
+          icon={
+            checklist.autoSaveEnabled ? (
+              <SaveOutlinedIcon sx={{ fontSize: 18, color: '#38bdf8' }} />
+            ) : (
+              <WarningAmberOutlinedIcon sx={{ fontSize: 18, color: '#f59e0b' }} />
+            )
+          }
           sx={{
             mx: 2.5,
             mt: 1.5,
             borderRadius: 2,
             bgcolor: '#1e293b',
             color: '#f1f5f9',
-            border: '1px solid #334155',
+            border: `1px solid ${checklist.autoSaveEnabled ? '#334155' : 'rgba(245, 158, 11, 0.4)'}`,
             alignItems: 'center',
             fontSize: 12.5,
             boxShadow: '0 4px 12px rgba(15,23,42,0.12)',
             '& .MuiAlert-message': { flex: 1, py: 0.25 },
           }}
           action={
-            <Button
-              size="small"
-              variant="contained"
-              onClick={handleExport}
-              sx={{
-                bgcolor: '#2563eb',
-                color: '#fff',
-                fontWeight: 700,
-                fontSize: 11.5,
-                textTransform: 'none',
-                px: 2,
-                py: 0.5,
-                '&:hover': { bgcolor: '#1d4ed8' },
-              }}
-            >
-              Export to Disk
-            </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {!checklist.autoSaveEnabled ? (
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={checklist.toggleAutoSave}
+                  sx={{
+                    borderColor: 'rgba(52, 211, 153, 0.5)',
+                    color: '#34d399',
+                    fontWeight: 600,
+                    fontSize: 11.5,
+                    textTransform: 'none',
+                    px: 1.5,
+                    py: 0.5,
+                    '&:hover': { borderColor: '#34d399', bgcolor: 'rgba(52, 211, 153, 0.1)' },
+                  }}
+                >
+                  Turn on Auto-save
+                </Button>
+              ) : (
+                isFileSystemAccessSupported() && (
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={checklist.connectDiskFile}
+                    sx={{
+                      borderColor: 'rgba(56, 189, 248, 0.4)',
+                      color: '#38bdf8',
+                      fontWeight: 600,
+                      fontSize: 11.5,
+                      textTransform: 'none',
+                      px: 1.5,
+                      py: 0.5,
+                      '&:hover': { borderColor: '#38bdf8', bgcolor: 'rgba(56, 189, 248, 0.1)' },
+                    }}
+                  >
+                    Save directly to File
+                  </Button>
+                )
+              )}
+              <Button
+                size="small"
+                variant="contained"
+                onClick={handleExport}
+                sx={{
+                  bgcolor: '#2563eb',
+                  color: '#fff',
+                  fontWeight: 700,
+                  fontSize: 11.5,
+                  textTransform: 'none',
+                  px: 2,
+                  py: 0.5,
+                  '&:hover': { bgcolor: '#1d4ed8' },
+                }}
+              >
+                Export to Disk
+              </Button>
+            </Box>
           }
         >
-          <strong>Unsaved Checklist:</strong> This session currently exists in your browser memory. Export your file to save a permanent local copy.
+          {checklist.autoSaveEnabled ? (
+            <>
+              <strong>Browser Auto-save Active:</strong> Changes are preserved in your browser session. Connect directly to a local file to auto-save without needing to export.
+            </>
+          ) : (
+            <>
+              <strong>Auto-save is OFF:</strong> This session currently exists only in temporary browser memory. Turn on auto-save or export to keep a permanent copy.
+            </>
+          )}
         </Alert>
       )}
       {checklist.storageWarning && (
@@ -243,6 +312,10 @@ export default function App() {
           userCapability={settings.currentCapability}
           roleCapabilityMap={settings.roleCapabilityMap}
           fileHash={checklist.fileHash}
+          autoSaveEnabled={checklist.autoSaveEnabled}
+          autoSaveTarget={checklist.autoSaveTarget}
+          onToggleAutoSave={checklist.toggleAutoSave}
+          onConnectDiskFile={checklist.connectDiskFile}
           onUpdateCapabilityMap={settings.updateCapabilityMap}
           onClearSession={() => { if (checklist.fileHash) clearSession(checklist.fileHash) }}
           onRestart={checklist.reset}

@@ -4,6 +4,7 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined'
 import {
   Box,
   Button,
@@ -15,19 +16,24 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 import { darkTheme } from '../../theme'
+import type { ChecklistFile } from '../../types'
+import { SpreadsheetImportDialog } from '../importer/SpreadsheetImportDialog'
 import { HelpDialog } from '../help/HelpDialog'
 import { AboutDialog } from './AboutDialog'
 
 interface Props {
   onNew: () => void
   onOpen: () => void
+  onImportChecklist?: (file: ChecklistFile, fileName?: string) => void
+  onImportTemplate?: (file: ChecklistFile) => void
 }
 
 const GITHUB_REPO_URL = 'https://github.com/prashsiv-eng/T-CLIP'
 
-export function HomeScreen({ onNew, onOpen }: Props) {
+export function HomeScreen({ onNew, onOpen, onImportChecklist, onImportTemplate }: Props) {
   const [aboutOpen, setAboutOpen] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
+  const [importDialogOpen, setImportDialogOpen] = useState(false)
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -241,6 +247,41 @@ export function HomeScreen({ onNew, onOpen }: Props) {
                   </Box>
                 </CardActionArea>
               </Card>
+
+              <Card sx={{
+                bgcolor: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 2.5,
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  bgcolor: 'rgba(255,255,255,0.07)',
+                  borderColor: '#10b981',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 12px 24px -10px rgba(16,185,129,0.3)',
+                },
+              }}>
+                <CardActionArea onClick={() => setImportDialogOpen(true)} sx={{ p: 2.5 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Box sx={{
+                      width: 46, height: 46, borderRadius: '12px',
+                      bgcolor: 'rgba(16,185,129,0.15)', color: '#6ee7b7',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      border: '1px solid rgba(16,185,129,0.3)',
+                      flexShrink: 0,
+                    }}>
+                      <TableChartOutlinedIcon sx={{ fontSize: 26 }} />
+                    </Box>
+                    <Box sx={{ flex: 1 }}>
+                      <Typography sx={{ fontSize: 16, fontWeight: 700, color: '#f8fafc', mb: 0.5 }}>
+                        Import from CSV / Excel
+                      </Typography>
+                      <Typography sx={{ fontSize: 12, color: '#94a3b8', lineHeight: 1.4 }}>
+                        Convert a spreadsheet into an active checklist or reusable template with visual column mapping &amp; in-line editing
+                      </Typography>
+                    </Box>
+                  </Box>
+                </CardActionArea>
+              </Card>
             </Box>
 
             {/* Footer Trust Indicators */}
@@ -267,6 +308,14 @@ export function HomeScreen({ onNew, onOpen }: Props) {
         <AboutDialog open={aboutOpen} onClose={() => setAboutOpen(false)} />
         {/* Help Dialog */}
         <HelpDialog open={helpOpen} onClose={() => setHelpOpen(false)} />
+        {/* Spreadsheet Import Dialog */}
+        <SpreadsheetImportDialog
+          open={importDialogOpen}
+          initialMode="checklist"
+          onClose={() => setImportDialogOpen(false)}
+          onImportChecklist={onImportChecklist}
+          onImportTemplate={onImportTemplate}
+        />
       </Box>
     </ThemeProvider>
   )

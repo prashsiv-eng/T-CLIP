@@ -2,6 +2,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CloseIcon from '@mui/icons-material/Close'
 import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined'
 import SearchIcon from '@mui/icons-material/Search'
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined'
 import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
 import {
@@ -26,6 +27,7 @@ import { useMemo, useState } from 'react'
 import { darkTheme } from '../../theme'
 import type { ChecklistFile } from '../../types'
 import { BUILT_IN_TEMPLATE_META, getBuiltInTemplate } from '../../utils/template'
+import { SpreadsheetImportDialog } from '../importer/SpreadsheetImportDialog'
 import { CreateTemplateDialog } from './CreateTemplateDialog'
 
 interface Props {
@@ -39,6 +41,7 @@ export function TemplateChooser({ onSelect, onBack }: Props) {
   const [importError, setImportError] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [createTemplateOpen, setCreateTemplateOpen] = useState(false)
+  const [spreadsheetDialogOpen, setSpreadsheetDialogOpen] = useState(false)
 
   async function handleSelect(id: string) {
     setLoading(id)
@@ -131,7 +134,32 @@ export function TemplateChooser({ onSelect, onBack }: Props) {
                       },
                     }}
                   >
-                    Create your own template
+                    Create template
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={() => setSpreadsheetDialogOpen(true)}
+                    startIcon={<TableChartOutlinedIcon sx={{ fontSize: '14px !important' }} />}
+                    sx={{
+                      color: '#c4b5fd',
+                      borderColor: 'rgba(167, 139, 250, 0.4)',
+                      bgcolor: 'rgba(124, 58, 237, 0.08)',
+                      fontSize: 11,
+                      fontWeight: 600,
+                      textTransform: 'none',
+                      py: 0.2,
+                      px: 1.2,
+                      height: 24,
+                      borderRadius: 1.5,
+                      '&:hover': {
+                        borderColor: '#a78bfa',
+                        bgcolor: 'rgba(124, 58, 237, 0.18)',
+                        color: '#ffffff',
+                      },
+                    }}
+                  >
+                    Import CSV / Excel
                   </Button>
                 </Box>
               </Box>
@@ -206,44 +234,65 @@ export function TemplateChooser({ onSelect, onBack }: Props) {
                     {importError}
                   </Alert>
                 )}
-                <Button
-                  variant="outlined"
-                  component="label"
-                  size="small"
-                  sx={{
-                    color: '#f8fafc',
-                    borderColor: 'rgba(59,130,246,0.5)',
-                    bgcolor: 'rgba(59,130,246,0.1)',
-                    textTransform: 'none',
-                    fontSize: 12,
-                    fontWeight: 600,
-                    px: 2.5,
-                    '&:hover': { borderColor: '#3b82f6', bgcolor: 'rgba(59,130,246,0.2)' },
-                  }}
-                >
-                  Browse File
-                  <input
-                    type="file"
-                    accept=".json"
-                    hidden
-                    onChange={e => {
-                      const file = e.target.files?.[0]
-                      if (!file) return
-                      setImportError(null)
-                      const reader = new FileReader()
-                      reader.onload = ev => {
-                        try {
-                          const p = JSON.parse(ev.target?.result as string) as ChecklistFile
-                          if (!p.fields || !p.items) throw new Error()
-                          onSelect(p)
-                        } catch {
-                          setImportError('Invalid template — must be a valid checklist.json')
-                        }
-                      }
-                      reader.readAsText(file)
+                <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <Button
+                    variant="outlined"
+                    component="label"
+                    size="small"
+                    sx={{
+                      color: '#f8fafc',
+                      borderColor: 'rgba(59,130,246,0.5)',
+                      bgcolor: 'rgba(59,130,246,0.1)',
+                      textTransform: 'none',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      px: 2,
+                      '&:hover': { borderColor: '#3b82f6', bgcolor: 'rgba(59,130,246,0.2)' },
                     }}
-                  />
-                </Button>
+                  >
+                    Browse JSON
+                    <input
+                      type="file"
+                      accept=".json"
+                      hidden
+                      onChange={e => {
+                        const file = e.target.files?.[0]
+                        if (!file) return
+                        setImportError(null)
+                        const reader = new FileReader()
+                        reader.onload = ev => {
+                          try {
+                            const p = JSON.parse(ev.target?.result as string) as ChecklistFile
+                            if (!p.fields || !p.items) throw new Error()
+                            onSelect(p)
+                          } catch {
+                            setImportError('Invalid template — must be a valid checklist.json')
+                          }
+                        }
+                        reader.readAsText(file)
+                      }}
+                    />
+                  </Button>
+
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => setSpreadsheetDialogOpen(true)}
+                    startIcon={<TableChartOutlinedIcon sx={{ fontSize: '15px !important' }} />}
+                    sx={{
+                      color: '#c4b5fd',
+                      borderColor: 'rgba(167, 139, 250, 0.5)',
+                      bgcolor: 'rgba(124, 58, 237, 0.1)',
+                      textTransform: 'none',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      px: 2,
+                      '&:hover': { borderColor: '#a78bfa', bgcolor: 'rgba(124, 58, 237, 0.2)' },
+                    }}
+                  >
+                    Import CSV / Excel
+                  </Button>
+                </Box>
               </Card>
             </Grid>
 
@@ -430,6 +479,14 @@ export function TemplateChooser({ onSelect, onBack }: Props) {
         <CreateTemplateDialog
           open={createTemplateOpen}
           onClose={() => setCreateTemplateOpen(false)}
+        />
+
+        {/* Spreadsheet Import Dialog */}
+        <SpreadsheetImportDialog
+          open={spreadsheetDialogOpen}
+          initialMode="template"
+          onClose={() => setSpreadsheetDialogOpen(false)}
+          onImportTemplate={onSelect}
         />
       </Box>
     </ThemeProvider>

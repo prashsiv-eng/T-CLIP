@@ -30,6 +30,9 @@ const CAP_COLORS: Record<CapabilityLevel, string> = {
   master: '#dc2626',
 }
 
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutlined'
+import { AutoSaveToggle } from './AutoSaveToggle'
+
 interface Props {
   file: ChecklistFile
   fileName?: string | null
@@ -37,6 +40,14 @@ interface Props {
   userName: string
   userRole: string
   capability: CapabilityLevel
+  autoSaveEnabled?: boolean
+  autoSaveStatus?: 'saved' | 'saving' | 'error' | 'off'
+  autoSaveTarget?: 'disk' | 'browser' | 'none'
+  lastSavedAt?: string | null
+  diskSaveError?: string | null
+  onToggleAutoSave?: () => void
+  onConnectDiskFile?: () => void
+  onSaveToDiskNow?: () => void
   onNameChange: (v: string) => void
   onRoleChange: (v: string) => void
   onSettingsOpen: () => void
@@ -47,7 +58,30 @@ interface Props {
   onNewReleaseOpen?: () => void
 }
 
-export function Header({ file, fileName, hasBeenSaved, userName, userRole, capability, onNameChange, onRoleChange, onSettingsOpen, onExport, onRestart, onAboutOpen, onHelpOpen, onNewReleaseOpen }: Props) {
+export function Header({
+  file,
+  fileName,
+  hasBeenSaved,
+  userName,
+  userRole,
+  capability,
+  autoSaveEnabled,
+  autoSaveStatus,
+  autoSaveTarget,
+  lastSavedAt,
+  diskSaveError,
+  onToggleAutoSave,
+  onConnectDiskFile,
+  onSaveToDiskNow,
+  onNameChange,
+  onRoleChange,
+  onSettingsOpen,
+  onExport,
+  onRestart,
+  onAboutOpen,
+  onHelpOpen,
+  onNewReleaseOpen,
+}: Props) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [confirmRestartOpen, setConfirmRestartOpen] = useState(false)
 
@@ -133,7 +167,40 @@ export function Header({ file, fileName, hasBeenSaved, userName, userRole, capab
             </>
           )}
 
-          {hasBeenSaved === false && (
+          {autoSaveEnabled && autoSaveStatus === 'saved' && (
+            <Tooltip
+              title={
+                autoSaveTarget === 'disk'
+                  ? `Changes automatically saved directly to ${fileName ?? 'disk'}.`
+                  : 'Changes automatically saved in browser session.'
+              }
+            >
+              <Chip
+                icon={
+                  autoSaveTarget === 'disk' ? (
+                    <CheckCircleOutlineIcon sx={{ fontSize: '13px !important', color: '#34d399 !important' }} />
+                  ) : (
+                    <SaveOutlinedIcon sx={{ fontSize: '13px !important', color: '#38bdf8 !important' }} />
+                  )
+                }
+                label={autoSaveTarget === 'disk' ? 'Saved to Disk' : 'Auto-saved'}
+                size="small"
+                sx={{
+                  bgcolor: autoSaveTarget === 'disk' ? 'rgba(16, 185, 129, 0.12)' : 'rgba(56, 189, 248, 0.12)',
+                  color: autoSaveTarget === 'disk' ? '#34d399' : '#38bdf8',
+                  border: `1px solid ${autoSaveTarget === 'disk' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(56, 189, 248, 0.3)'}`,
+                  fontSize: 10,
+                  fontWeight: 700,
+                  height: 20,
+                  letterSpacing: '0.02em',
+                  cursor: 'help',
+                  flexShrink: 0,
+                }}
+              />
+            </Tooltip>
+          )}
+
+          {!autoSaveEnabled && hasBeenSaved === false && (
             <Tooltip title="This checklist is currently in-memory. Export to keep a permanent backup on disk.">
               <Chip
                 icon={<SaveOutlinedIcon sx={{ fontSize: '13px !important', color: '#93c5fd !important' }} />}
@@ -156,7 +223,21 @@ export function Header({ file, fileName, hasBeenSaved, userName, userRole, capab
         </Box>
 
         {/* Right */}
-        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 0.5, flexShrink: 0, ml: 'auto' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1, flexShrink: 0, ml: 'auto' }}>
+          {onToggleAutoSave && (
+            <AutoSaveToggle
+              enabled={autoSaveEnabled ?? false}
+              status={autoSaveStatus ?? 'off'}
+              target={autoSaveTarget ?? 'none'}
+              fileName={fileName}
+              lastSavedAt={lastSavedAt}
+              error={diskSaveError}
+              onToggle={onToggleAutoSave}
+              onConnectDisk={onConnectDiskFile}
+              onSaveNow={onSaveToDiskNow}
+            />
+          )}
+
           <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
             <Box>
               <ButtonBase onClick={e => setAnchorEl(anchorEl ? null : e.currentTarget)}
@@ -322,9 +403,11 @@ export function Header({ file, fileName, hasBeenSaved, userName, userRole, capab
             Warning: Save current state before resetting!
           </Typography>
           <Typography sx={{ fontSize: 12, color: '#e2e8f0', lineHeight: 1.4 }}>
-            {!hasBeenSaved
+            {!hasBeenSaved && !autoSaveEnabled
               ? 'This checklist has not been exported or saved to your computer. Returning to Home now will permanently discard your current session.'
-              : 'Returning to Home will close this active checklist session. Export a backup now if you made any recent changes.'}
+              : autoSaveTarget === 'disk'
+                ? 'Returning to Home will close this active checklist session. Your changes have been auto-saved to disk.'
+                : 'Returning to Home will close this active checklist session. Export a backup now if you made any recent changes.'}
           </Typography>
         </Alert>
         <DialogContentText sx={{ color: '#94a3b8', fontSize: 13.5 }}>

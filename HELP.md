@@ -168,7 +168,7 @@ jobs:
 
 1. **Instant Search & Quick Filters:** Search for keywords (e.g. *"password"*, *"session"*) or filter down to *"Pending only"* or *"Assigned to me"*.
 2. **Category vs Spreadsheet Table View:** Switch between a clean categorized list (with category progress bars) and a compact, sortable data grid.
-3. **Smart Auto-Save:** In-progress answers are automatically auto-saved in your browser. If you accidentally close your tab or browser, T-CLIP offers to restore your unsaved session upon return.
+3. **Prominent Auto-Save Toggle & Direct Disk Sync:** A well-visible toggle in the top header continuously saves your work. In supported browsers (Chrome, Edge, Brave), T-CLIP directly writes responses and evidence back to your local file on disk without needing to manually export every time! You can switch auto-save ON or OFF anytime.
 4. **Visual Analytics Dashboard:** A donut chart and category compliance meters show you exactly which areas need attention before release day.
 5. **Built-in Security Standards:** Comes pre-loaded with:
    - **OWASP ASVS v4.0.3:** The gold standard for web application security.
@@ -211,13 +211,13 @@ jobs:
 Mark it as **N/A**! Just write a short 1-sentence note explaining why (e.g. *"This backend service has no public web UI"*). Auditors and managers appreciate clear N/A justifications much more than blank questions.
 
 ### Where is our compliance data stored?
-Strictly inside your local browser memory while reviewing, and inside `checklist.json` once you export it. T-CLIP makes zero external network requests and does not send any data to external servers.
+Strictly on your local machine: in your browser session memory, and directly in your local `checklist.json` file. T-CLIP makes zero external network requests and does not send any data to external servers.
 
 ### What if I close my browser tab accidentally?
-Don't worry. T-CLIP auto-saves your work in your browser's local memory. When you reopen the checklist, a restore banner will appear asking if you want to resume where you left off.
+Don't worry. T-CLIP automatically auto-saves your in-progress answers in local memory. When you reopen T-CLIP, a restore banner will appear asking if you want to resume where you left off.
 
 ### How do I save my changes permanently?
-Click **Export JSON** in the top navigation bar. This downloads the updated `checklist.json` file to your computer. Then commit it to Git like any other source file:
+With **Auto-save turned ON** (via the prominent toggle in the top bar), T-CLIP automatically saves your work directly to your local file on disk without downloading duplicate files! You can also click **Export JSON** anytime to download a separate backup copy to commit to Git:
 ```bash
 git add checklist.json
 git commit -m "docs(compliance): update security verification checklist"

@@ -4,7 +4,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import {
   Box, Button, Chip, Divider, Drawer, IconButton, MenuItem,
-  TextField, Tooltip, Typography,
+  Switch, TextField, Tooltip, Typography,
 } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import type { GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
@@ -25,9 +25,24 @@ interface Props {
   userCapability: CapabilityLevel; roleCapabilityMap: RoleCapabilityMap
   fileHash: string | null; onUpdateCapabilityMap: (m: RoleCapabilityMap) => void
   onClearSession: () => void; onRestart?: () => void; onClose: () => void
+  autoSaveEnabled?: boolean
+  autoSaveTarget?: 'disk' | 'browser' | 'none'
+  onToggleAutoSave?: () => void
+  onConnectDiskFile?: () => void
 }
 
-export function SettingsPanel({ roleCapabilityMap, fileHash, onUpdateCapabilityMap, onClearSession, onRestart, onClose }: Props) {
+export function SettingsPanel({
+  roleCapabilityMap,
+  fileHash,
+  onUpdateCapabilityMap,
+  onClearSession,
+  onRestart,
+  onClose,
+  autoSaveEnabled,
+  autoSaveTarget,
+  onToggleAutoSave,
+  onConnectDiskFile: _onConnectDiskFile,
+}: Props) {
   const [newPattern, setNewPattern] = useState('')
   const [newLevel, setNewLevel] = useState<CapabilityLevel>('reviewer')
   const [confirmClear, setConfirmClear] = useState(false)
@@ -132,6 +147,36 @@ export function SettingsPanel({ roleCapabilityMap, fileHash, onUpdateCapabilityM
 
           <Typography variant="h5" sx={{ color: 'text.secondary', mb: 1.5 }}>Session &amp; Workflow</Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+            {onToggleAutoSave && (
+              <Box sx={{
+                p: 1.5,
+                bgcolor: '#1e293b',
+                border: '1px solid #334155',
+                borderRadius: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+                <Box sx={{ pr: 1 }}>
+                  <Typography sx={{ fontSize: 13, fontWeight: 600, color: '#f8fafc' }}>
+                    Auto-save
+                  </Typography>
+                  <Typography sx={{ fontSize: 11.5, color: '#94a3b8' }}>
+                    {autoSaveEnabled
+                      ? autoSaveTarget === 'disk'
+                        ? 'Saving automatically directly to disk file'
+                        : 'Saving automatically in browser session'
+                      : 'Disabled — changes held in memory only'}
+                  </Typography>
+                </Box>
+                <Switch
+                  size="small"
+                  checked={autoSaveEnabled ?? false}
+                  onChange={onToggleAutoSave}
+                  slotProps={{ input: { 'aria-label': 'Toggle Auto-save' } }}
+                />
+              </Box>
+            )}
             {onRestart && (
               confirmRestart ? (
                 <Box sx={{ p: 1.5, bgcolor: '#1e293b', border: '1px solid #334155', borderRadius: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
