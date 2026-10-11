@@ -1,3 +1,4 @@
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined'
@@ -8,12 +9,13 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined'
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined'
 import {
   Alert,
   AppBar, Avatar, Box, Button, ButtonBase, Chip, ClickAwayListener,
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
-  IconButton, Paper, Popper, Toolbar, Tooltip, Typography,
+  IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Paper, Popper, Toolbar, Tooltip, Typography,
 } from '@mui/material'
 import { useState } from 'react'
 import type { CapabilityLevel, ChecklistFile } from '../../types'
@@ -52,6 +54,9 @@ interface Props {
   onRoleChange: (v: string) => void
   onSettingsOpen: () => void
   onExport?: () => void
+  onExportJSON?: () => void
+  onExportCSV?: () => void
+  onExportExcel?: () => void
   onRestart?: () => void
   onAboutOpen?: () => void
   onHelpOpen?: () => void
@@ -77,6 +82,9 @@ export function Header({
   onRoleChange,
   onSettingsOpen,
   onExport,
+  onExportJSON,
+  onExportCSV,
+  onExportExcel,
   onRestart,
   onAboutOpen,
   onHelpOpen,
@@ -84,6 +92,7 @@ export function Header({
 }: Props) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [confirmRestartOpen, setConfirmRestartOpen] = useState(false)
+  const [exportMenuAnchor, setExportMenuAnchor] = useState<HTMLElement | null>(null)
 
   return (
     <>
@@ -304,29 +313,102 @@ export function Header({
             </Tooltip>
           )}
 
-          {onExport && (
-            <Button
-              variant="outlined"
-              size="small"
-              startIcon={<FileDownloadOutlinedIcon sx={{ fontSize: 16 }} />}
-              onClick={onExport}
-              sx={{
-                color: '#f8fafc',
-                borderColor: 'rgba(255,255,255,0.2)',
-                fontSize: 12,
-                fontWeight: 600,
-                height: 32,
-                px: 1.5,
-                textTransform: 'none',
-                whiteSpace: 'nowrap',
-                '&:hover': {
-                  borderColor: '#3b82f6',
-                  bgcolor: 'rgba(59,130,246,0.1)',
-                },
-              }}
-            >
-              Export JSON
-            </Button>
+          {(onExport || onExportJSON || onExportCSV || onExportExcel) && (
+            <>
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<FileDownloadOutlinedIcon sx={{ fontSize: 16 }} />}
+                endIcon={<KeyboardArrowDownIcon sx={{ fontSize: 15 }} />}
+                onClick={e => setExportMenuAnchor(e.currentTarget)}
+                aria-label="Export options"
+                sx={{
+                  color: '#f8fafc',
+                  borderColor: 'rgba(255,255,255,0.2)',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  height: 32,
+                  px: 1.5,
+                  textTransform: 'none',
+                  whiteSpace: 'nowrap',
+                  '&:hover': {
+                    borderColor: '#3b82f6',
+                    bgcolor: 'rgba(59,130,246,0.1)',
+                  },
+                }}
+              >
+                Export
+              </Button>
+              <Menu
+                anchorEl={exportMenuAnchor}
+                open={Boolean(exportMenuAnchor)}
+                onClose={() => setExportMenuAnchor(null)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                slotProps={{
+                  paper: {
+                    sx: {
+                      bgcolor: '#1e293b',
+                      color: '#f8fafc',
+                      border: '1px solid #334155',
+                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
+                      minWidth: 230,
+                      py: 0.5,
+                    },
+                  },
+                }}
+              >
+                <MenuItem
+                  onClick={() => {
+                    setExportMenuAnchor(null)
+                    ;(onExportJSON ?? onExport)?.()
+                  }}
+                  sx={{ '&:hover': { bgcolor: 'rgba(255,255,255,0.08)' }, py: 1 }}
+                >
+                  <ListItemIcon>
+                    <FileDownloadOutlinedIcon sx={{ color: '#93c5fd', fontSize: 18 }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={<Typography sx={{ fontSize: 12.5, fontWeight: 600, color: '#f8fafc' }}>Export JSON</Typography>}
+                    secondary={<Typography sx={{ fontSize: 11, color: '#94a3b8' }}>Full checklist schema & state</Typography>}
+                  />
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    setExportMenuAnchor(null)
+                    onExportExcel?.()
+                  }}
+                  disabled={!onExportExcel}
+                  sx={{ '&:hover': { bgcolor: 'rgba(255,255,255,0.08)' }, py: 1 }}
+                >
+                  <ListItemIcon>
+                    <TableChartOutlinedIcon sx={{ color: '#34d399', fontSize: 18 }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={<Typography sx={{ fontSize: 12.5, fontWeight: 600, color: '#f8fafc' }}>Export Excel (.xlsx)</Typography>}
+                    secondary={<Typography sx={{ fontSize: 11, color: '#94a3b8' }}>Styled spreadsheet report</Typography>}
+                  />
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    setExportMenuAnchor(null)
+                    onExportCSV?.()
+                  }}
+                  disabled={!onExportCSV}
+                  sx={{ '&:hover': { bgcolor: 'rgba(255,255,255,0.08)' }, py: 1 }}
+                >
+                  <ListItemIcon>
+                    <DescriptionOutlinedIcon sx={{ color: '#fbbf24', fontSize: 18 }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={<Typography sx={{ fontSize: 12.5, fontWeight: 600, color: '#f8fafc' }}>Export CSV (.csv)</Typography>}
+                    secondary={<Typography sx={{ fontSize: 11, color: '#94a3b8' }}>Universal tabular data (Excel ready)</Typography>}
+                  />
+                </MenuItem>
+              </Menu>
+            </>
           )}
           {onHelpOpen && (
             <Tooltip title="Help & Documentation">
@@ -423,12 +505,12 @@ export function Header({
         >
           Cancel
         </Button>
-        {onExport && (
+        {(onExport || onExportJSON) && (
           <Button
             variant="outlined"
             startIcon={<FileDownloadOutlinedIcon sx={{ fontSize: 16 }} />}
             onClick={() => {
-              onExport()
+              ;(onExportJSON ?? onExport)?.()
               setConfirmRestartOpen(false)
             }}
             sx={{ borderColor: '#3b82f6', color: '#60a5fa', textTransform: 'none', fontWeight: 600 }}

@@ -1,9 +1,13 @@
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import EditNoteIcon from '@mui/icons-material/EditNote'
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined'
 import RemoveCircleOutlinedIcon from '@mui/icons-material/RemoveCircleOutlined'
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined'
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined'
 import {
   Box,
@@ -14,18 +18,24 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
   Paper,
   Slide,
   TextField,
   Typography,
 } from '@mui/material'
 import { useState } from 'react'
-import type { CapabilityLevel, ChecklistFile, ItemStatus } from '../../types'
+import type { CapabilityLevel, ChecklistFile, ItemStatus, ReviewedItem } from '../../types'
 import { canConfirm, canReviewDecision, canSetWorkStatus, STANDARD_PERSONAS } from '../../utils/capability'
+import { exportChecklistCSV, exportChecklistExcel } from '../../utils/export'
 
 interface Props {
   selectedIds: string[]
   file: ChecklistFile
+  items?: ReviewedItem[]
   userCapability: CapabilityLevel
   userName: string
   userRole: string
@@ -48,6 +58,7 @@ interface Props {
 export function BulkActionBar({
   selectedIds,
   file,
+  items,
   userCapability,
   userName,
   userRole,
@@ -71,6 +82,21 @@ export function BulkActionBar({
   const [assignDialogOpen, setAssignDialogOpen] = useState(false)
   const [assignRole, setAssignRole] = useState('')
   const [assignName, setAssignName] = useState('')
+  const [exportMenuAnchor, setExportMenuAnchor] = useState<HTMLElement | null>(null)
+
+  const handleExportSelectedCSV = () => {
+    setExportMenuAnchor(null)
+    const activeItems = (items ?? file.items).filter(i => selectedIds.includes(i.id))
+    const safeProject = file.project ? file.project.toLowerCase().replace(/[^a-z0-9_-]/g, '_') : 'checklist'
+    exportChecklistCSV(activeItems, file.fields, `${safeProject}-selected-${selectedIds.length}-items.csv`)
+  }
+
+  const handleExportSelectedExcel = async () => {
+    setExportMenuAnchor(null)
+    const activeItems = (items ?? file.items).filter(i => selectedIds.includes(i.id))
+    const safeProject = file.project ? file.project.toLowerCase().replace(/[^a-z0-9_-]/g, '_') : 'checklist'
+    await exportChecklistExcel(activeItems, file.fields, `${safeProject}-selected-${selectedIds.length}-items.xlsx`)
+  }
 
   if (selectedIds.length === 0) return null
 
@@ -304,6 +330,59 @@ export function BulkActionBar({
                 Assign Selected
               </Button>
             )}
+
+            {/* Export Selected Items */}
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<FileDownloadOutlinedIcon sx={{ fontSize: 15 }} />}
+              endIcon={<KeyboardArrowDownIcon sx={{ fontSize: 14 }} />}
+              onClick={e => setExportMenuAnchor(e.currentTarget)}
+              sx={{
+                textTransform: 'none',
+                fontSize: 12,
+                color: '#e2e8f0',
+                borderColor: 'rgba(255,255,255,0.25)',
+                minWidth: 'fit-content',
+                '&:hover': { borderColor: '#3b82f6', color: '#93c5fd', bgcolor: 'rgba(59,130,246,0.1)' },
+              }}
+            >
+              Export Selected
+            </Button>
+            <Menu
+              anchorEl={exportMenuAnchor}
+              open={Boolean(exportMenuAnchor)}
+              onClose={() => setExportMenuAnchor(null)}
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+              transformOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+              slotProps={{
+                paper: {
+                  sx: {
+                    bgcolor: '#1e293b',
+                    color: '#f8fafc',
+                    border: '1px solid #334155',
+                    minWidth: 200,
+                  },
+                },
+              }}
+            >
+              <MenuItem onClick={handleExportSelectedExcel} sx={{ py: 0.75 }}>
+                <ListItemIcon>
+                  <TableChartOutlinedIcon sx={{ color: '#34d399', fontSize: 18 }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={<Typography sx={{ fontSize: 12, fontWeight: 600, color: '#f8fafc' }}>Export Excel (.xlsx)</Typography>}
+                />
+              </MenuItem>
+              <MenuItem onClick={handleExportSelectedCSV} sx={{ py: 0.75 }}>
+                <ListItemIcon>
+                  <DescriptionOutlinedIcon sx={{ color: '#fbbf24', fontSize: 18 }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={<Typography sx={{ fontSize: 12, fontWeight: 600, color: '#f8fafc' }}>Export CSV (.csv)</Typography>}
+                />
+              </MenuItem>
+            </Menu>
           </Box>
         </Paper>
       </Slide>

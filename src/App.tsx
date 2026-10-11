@@ -24,6 +24,7 @@ import { useChecklist } from './hooks/useChecklist'
 import { useSettings } from './hooks/useSettings'
 import type { ChecklistItem, ReviewAction } from './types'
 import { meetsMinimum } from './utils/capability'
+import { exportChecklistCSV, exportChecklistExcel } from './utils/export'
 import { isItemComplete } from './utils/fields'
 import { clearSession } from './utils/session'
 import { exportChecklistFile } from './utils/template'
@@ -50,6 +51,20 @@ export default function App() {
     checklist.markSaved()
     checklist.clearSessionRestored()
     exportChecklistFile({ ...file, items: checklist.reviewedItems }, checklist.fileName ?? undefined)
+  }
+
+  const handleExportCSV = () => {
+    if (!file) return
+    const safeProject = file.project ? file.project.toLowerCase().replace(/[^a-z0-9_-]/g, '_') : 'checklist'
+    const filename = `${safeProject}-${file.version || '1.0'}.csv`
+    exportChecklistCSV(checklist.reviewedItems, file.fields, filename)
+  }
+
+  const handleExportExcel = async () => {
+    if (!file) return
+    const safeProject = file.project ? file.project.toLowerCase().replace(/[^a-z0-9_-]/g, '_') : 'checklist'
+    const filename = `${safeProject}-${file.version || '1.0'}.xlsx`
+    await exportChecklistExcel(checklist.reviewedItems, file.fields, filename)
   }
 
   // ── Phases ───────────────────────────────────────────────────────────────
@@ -134,6 +149,9 @@ export default function App() {
         onRoleChange={settings.setRole}
         onSettingsOpen={() => setSettingsOpen(true)}
         onExport={handleExport}
+        onExportJSON={handleExport}
+        onExportCSV={handleExportCSV}
+        onExportExcel={handleExportExcel}
         onRestart={checklist.reset}
         onAboutOpen={() => setAboutOpen(true)}
         onHelpOpen={() => setHelpOpen(true)}

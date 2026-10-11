@@ -1,7 +1,10 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined'
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined'
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import {
@@ -12,6 +15,10 @@ import {
   CardContent,
   Chip,
   Divider,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
   Paper,
   TextField,
   Typography,
@@ -19,7 +26,12 @@ import {
 import { useState } from 'react'
 import type { ChecklistFile, FieldSchema, ReviewedItem, SignoffRecord } from '../../types'
 import { canSignoff } from '../../utils/capability'
-import { buildAttestation, downloadJSON } from '../../utils/export'
+import {
+  buildAttestation,
+  downloadJSON,
+  exportAttestationCSV,
+  exportAttestationExcel,
+} from '../../utils/export'
 import { sha256String } from '../../utils/hash'
 
 function FieldValuesList({ fieldValues, fields }: { fieldValues: Record<string, string>; fields: FieldSchema[] }) {
@@ -59,6 +71,7 @@ export function AttestationSummary({
   )
   const [activeSignoff, setActiveSignoff] = useState<SignoffRecord | null>(file.attestation?.signoff ?? null)
   const [isSigning, setIsSigning] = useState(false)
+  const [exportMenuAnchor, setExportMenuAnchor] = useState<HTMLElement | null>(null)
 
   const pass = items.filter(i => i.status === 'pass')
   const fail = items.filter(i => i.status === 'failed' || (i.status as string) === 'fail')
@@ -105,9 +118,32 @@ export function AttestationSummary({
     }
   }
 
-  function handlePreviewExport() {
+  function handleExportJSON() {
     const attestation = buildAttestation(file, items, fileHash, activeSignoff ?? undefined)
-    downloadJSON(attestation, `${file.project.toLowerCase()}-attestation-preview.json`)
+    const suffix = activeSignoff ? `-${file.version}` : '-preview'
+    downloadJSON(attestation, `${file.project.toLowerCase()}-attestation${suffix}.json`)
+  }
+
+  function handleExportCSV() {
+    const suffix = activeSignoff ? `-${file.version}` : '-preview'
+    exportAttestationCSV(
+      file,
+      items,
+      fileHash,
+      activeSignoff ?? undefined,
+      `${file.project.toLowerCase()}-attestation${suffix}.csv`
+    )
+  }
+
+  async function handleExportExcel() {
+    const suffix = activeSignoff ? `-${file.version}` : '-preview'
+    await exportAttestationExcel(
+      file,
+      items,
+      fileHash,
+      activeSignoff ?? undefined,
+      `${file.project.toLowerCase()}-attestation${suffix}.xlsx`
+    )
   }
 
   function renderGroup(groupItems: ReviewedItem[], label: string, borderColor: string) {
@@ -164,15 +200,83 @@ export function AttestationSummary({
             Checklist Source SHA-256: {fileHash || 'Calculated in browser'}
           </Typography>
         </Box>
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<FileDownloadOutlinedIcon />}
-          onClick={handlePreviewExport}
-          sx={{ textTransform: 'none', fontSize: 12 }}
-        >
-          Export Attestation JSON
-        </Button>
+        <Box>
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<FileDownloadOutlinedIcon />}
+            endIcon={<KeyboardArrowDownIcon sx={{ fontSize: 16 }} />}
+            onClick={e => setExportMenuAnchor(e.currentTarget)}
+            sx={{ textTransform: 'none', fontSize: 12, fontWeight: 600 }}
+          >
+            Export Attestation
+          </Button>
+          <Menu
+            anchorEl={exportMenuAnchor}
+            open={Boolean(exportMenuAnchor)}
+            onClose={() => setExportMenuAnchor(null)}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            slotProps={{
+              paper: {
+                sx: {
+                  minWidth: 240,
+                  py: 0.5,
+                  borderRadius: 2,
+                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)',
+                },
+              },
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                setExportMenuAnchor(null)
+                handleExportJSON()
+              }}
+              sx={{ py: 1 }}
+            >
+              <ListItemIcon>
+                <FileDownloadOutlinedIcon sx={{ color: 'primary.main', fontSize: 18 }} />
+              </ListItemIcon>
+              <ListItemText
+                primary={<Typography sx={{ fontSize: 13, fontWeight: 600 }}>Export Attestation JSON</Typography>}
+                secondary={<Typography sx={{ fontSize: 11, color: 'text.secondary' }}>Official machine-readable JSON</Typography>}
+              />
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                setExportMenuAnchor(null)
+                handleExportExcel()
+              }}
+              sx={{ py: 1 }}
+            >
+              <ListItemIcon>
+                <TableChartOutlinedIcon sx={{ color: 'success.main', fontSize: 18 }} />
+              </ListItemIcon>
+              <ListItemText
+                primary={<Typography sx={{ fontSize: 13, fontWeight: 600 }}>Export Attestation Excel (.xlsx)</Typography>}
+                secondary={<Typography sx={{ fontSize: 11, color: 'text.secondary' }}>Multi-sheet sign-off & controls</Typography>}
+              />
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                setExportMenuAnchor(null)
+                handleExportCSV()
+              }}
+              sx={{ py: 1 }}
+            >
+              <ListItemIcon>
+                <DescriptionOutlinedIcon sx={{ color: 'warning.main', fontSize: 18 }} />
+              </ListItemIcon>
+              <ListItemText
+                primary={<Typography sx={{ fontSize: 13, fontWeight: 600 }}>Export Attestation CSV (.csv)</Typography>}
+                secondary={<Typography sx={{ fontSize: 11, color: 'text.secondary' }}>Tabular audit sheet with sign-off</Typography>}
+              />
+            </MenuItem>
+          </Menu>
+        </Box>
       </Box>
 
       {/* Warnings if unresolved or failed items */}
@@ -228,9 +332,38 @@ export function AttestationSummary({
             <Typography sx={{ fontSize: 12, color: 'text.secondary', fontStyle: 'italic', mb: 1 }}>
               "{activeSignoff.statement}"
             </Typography>
-            <Typography component="code" sx={{ fontSize: 11, color: '#059669', fontFamily: 'monospace', display: 'block', wordBreak: 'break-all' }}>
+            <Typography component="code" sx={{ fontSize: 11, color: '#059669', fontFamily: 'monospace', display: 'block', wordBreak: 'break-all', mb: 1 }}>
               SHA-256 Digest: {activeSignoff.hash}
             </Typography>
+            <Box sx={{ display: 'flex', gap: 1, mt: 1, flexWrap: 'wrap' }}>
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={<FileDownloadOutlinedIcon sx={{ fontSize: 14 }} />}
+                onClick={handleExportJSON}
+                sx={{ fontSize: 11, textTransform: 'none', borderColor: 'rgba(16, 185, 129, 0.4)', color: '#059669', bgcolor: 'rgba(16, 185, 129, 0.05)' }}
+              >
+                Download JSON
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={<TableChartOutlinedIcon sx={{ fontSize: 14 }} />}
+                onClick={handleExportExcel}
+                sx={{ fontSize: 11, textTransform: 'none', borderColor: 'rgba(16, 185, 129, 0.4)', color: '#059669', bgcolor: 'rgba(16, 185, 129, 0.05)' }}
+              >
+                Download Excel (.xlsx)
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={<DescriptionOutlinedIcon sx={{ fontSize: 14 }} />}
+                onClick={handleExportCSV}
+                sx={{ fontSize: 11, textTransform: 'none', borderColor: 'rgba(16, 185, 129, 0.4)', color: '#059669', bgcolor: 'rgba(16, 185, 129, 0.05)' }}
+              >
+                Download CSV
+              </Button>
+            </Box>
             {onNewReleaseOpen && (
               <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px dashed rgba(16, 185, 129, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }}>
                 <Box>

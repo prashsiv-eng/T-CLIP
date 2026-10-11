@@ -1,4 +1,7 @@
 import ClearIcon from '@mui/icons-material/Clear'
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
 import SearchIcon from '@mui/icons-material/Search'
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined'
@@ -12,6 +15,10 @@ import {
   IconButton,
   InputAdornment,
   LinearProgress,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -20,6 +27,7 @@ import {
 } from '@mui/material'
 import { useMemo, useState } from 'react'
 import type { CapabilityLevel, ChecklistFile, ItemStatus, ReviewAction, ReviewedItem } from '../../types'
+import { exportChecklistCSV, exportChecklistExcel } from '../../utils/export'
 import { isResolvedStatus } from '../../utils/fields'
 import { BulkActionBar } from './BulkActionBar'
 import { CategoryGroup } from './CategoryGroup'
@@ -131,6 +139,7 @@ export function ChecklistView({
   const [viewMode, setViewMode] = useState<ViewMode>('table')
   const [filters, setFilters] = useState<Filters>(DEFAULT)
   const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [filterExportAnchor, setFilterExportAnchor] = useState<HTMLElement | null>(null)
 
   const allCategories = useMemo(() => [...new Set(reviewedItems.map(i => i.category))].sort(), [reviewedItems])
   const filtered = useMemo(() => applyFilters(reviewedItems, filters, userName, userRole), [reviewedItems, filters, userName, userRole])
@@ -153,6 +162,18 @@ export function ChecklistView({
 
   function set<K extends keyof Filters>(k: K, v: Filters[K]) {
     setFilters(f => ({ ...f, [k]: v }))
+  }
+
+  const handleExportFilteredCSV = () => {
+    setFilterExportAnchor(null)
+    const safeProject = file.project ? file.project.toLowerCase().replace(/[^a-z0-9_-]/g, '_') : 'checklist'
+    exportChecklistCSV(filtered, file.fields, `${safeProject}-filtered-${filtered.length}-items.csv`)
+  }
+
+  const handleExportFilteredExcel = async () => {
+    setFilterExportAnchor(null)
+    const safeProject = file.project ? file.project.toLowerCase().replace(/[^a-z0-9_-]/g, '_') : 'checklist'
+    await exportChecklistExcel(filtered, file.fields, `${safeProject}-filtered-${filtered.length}-items.xlsx`)
   }
 
   return (
@@ -312,13 +333,57 @@ export function ChecklistView({
             />
           )}
 
+          {/* Export View */}
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<FileDownloadOutlinedIcon sx={{ fontSize: 14 }} />}
+            endIcon={<KeyboardArrowDownIcon sx={{ fontSize: 13 }} />}
+            onClick={e => setFilterExportAnchor(e.currentTarget)}
+            sx={{
+              fontSize: 11,
+              height: 30,
+              textTransform: 'none',
+              color: 'text.secondary',
+              borderColor: 'divider',
+              flexShrink: 0,
+              ml: activeCount > 0 ? 0 : 'auto',
+              '&:hover': { color: 'text.primary', borderColor: 'text.primary' },
+            }}
+          >
+            Export View ({filtered.length})
+          </Button>
+          <Menu
+            anchorEl={filterExportAnchor}
+            open={Boolean(filterExportAnchor)}
+            onClose={() => setFilterExportAnchor(null)}
+            slotProps={{ paper: { sx: { minWidth: 200 } } }}
+          >
+            <MenuItem onClick={handleExportFilteredExcel} sx={{ py: 0.75 }}>
+              <ListItemIcon>
+                <TableChartOutlinedIcon sx={{ color: 'success.main', fontSize: 17 }} />
+              </ListItemIcon>
+              <ListItemText
+                primary={<Typography sx={{ fontSize: 12 }}>Export View to Excel</Typography>}
+              />
+            </MenuItem>
+            <MenuItem onClick={handleExportFilteredCSV} sx={{ py: 0.75 }}>
+              <ListItemIcon>
+                <DescriptionOutlinedIcon sx={{ color: 'warning.main', fontSize: 17 }} />
+              </ListItemIcon>
+              <ListItemText
+                primary={<Typography sx={{ fontSize: 12 }}>Export View to CSV</Typography>}
+              />
+            </MenuItem>
+          </Menu>
+
           {/* View toggle */}
           <ToggleButtonGroup
             value={viewMode}
             exclusive
             onChange={(_, v) => v && setViewMode(v)}
             size="small"
-            sx={{ ml: activeCount > 0 ? 0 : 'auto', flexShrink: 0 }}
+            sx={{ flexShrink: 0 }}
           >
             <Tooltip title="Grouped Card View" arrow>
               <ToggleButton value="list" aria-label="Grouped Card View" sx={{ px: 1, py: 0.5 }}>
@@ -384,6 +449,7 @@ export function ChecklistView({
         <BulkActionBar
           selectedIds={selectedIds}
           file={file}
+          items={reviewedItems}
           userCapability={userCapability}
           userName={userName}
           userRole={userRole}

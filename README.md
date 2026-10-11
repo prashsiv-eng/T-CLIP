@@ -91,16 +91,22 @@ T-CLIP ships with production-ready templates for premier industry security and A
   - *Action Item Leaderboard*: Ranks team members by outstanding action items.
 - **Activity Sparkline**: Visual timeline of recent review velocity.
 
-### 5. Tamper-Evident Attestation Export
-- Blocks attestation export if any required checklist item is `pending` or missing required evidence.
-- Pre-export read-only summary highlights all `fail` items and missing fields.
-- Exports a standalone, portable `checklist-attestation.json` report containing the raw file's SHA-256 hash, full item responses, history, and timestamps for CI/CD gates and auditors.
+### 5. Multi-Format Export (JSON, Excel .xlsx, and CSV)
+- **Header Export Menu**: Export complete state at any time in multiple formats:
+  - **JSON (`.json`)**: Complete schema and session backup for Git and re-importing.
+  - **Excel (`.xlsx`)**: Formatted spreadsheet workbook with styled header rows, custom evidence fields, audit notes, and column auto-widths.
+  - **CSV (`.csv`)**: Universal tabular format with UTF-8 BOM encoding for seamless Microsoft Excel compatibility.
+- **Audit-Ready Attestation Reports**:
+  - Exports official machine-readable `checklist-attestation.json`.
+  - Multi-sheet executive workbook (`.xlsx`) containing an executive **Sign-off Summary** sheet (metrics, SHA-256 signatures, authority) and a **Verified Controls** sheet.
+  - Formatted attestation CSV with sign-off metadata header.
+- **Targeted & Filtered Exports**: Export only filtered view items from the checklist toolbar or export selected rows directly from the floating Bulk Action Bar.
 
 ### 6. Prominent Auto-Save Toggle & Direct File Synchronization
 - **Visible Auto-Save Switch**: Always visible in the sticky top header toolbar, complete with live status indicators (`Saved to Disk`, `Browser session`, `Saving…`, or `OFF`).
 - **Direct-to-Disk Saving**: Automatically syncs responses, notes, and evidence directly back to your local file on disk using the File System Access API without downloading separate export files.
 - **Resilient In-Flight Recovery**: Browser session persistence safeguards against tab closing or reloading.
-- **Instant Toggle & Export**: Flip auto-save on or off with one click; standard `Export JSON` and `Export to Disk` remain available anytime.
+- **Instant Toggle & Export**: Flip auto-save on or off with one click; standard Export options remain available anytime.
 
 ---
 
